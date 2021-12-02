@@ -40,6 +40,9 @@ services:
       DB_USER: keycloak
       DB_PASSWORD: password
       JDBC_PARAMS: useSSL=false
+      KEYCLOAK_DEFAULT_THEME: my-theme
+    ports:
+      - 8000:8080
 
   adminer :
     image: adminer
