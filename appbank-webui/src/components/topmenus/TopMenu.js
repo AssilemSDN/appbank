@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import {
   Container,
@@ -20,27 +20,29 @@ import { useKeycloak } from '@react-keycloak/web'
 import logobank from '../../images/logo-bank.png'
 
 const TopMenu = (props) => {
-    const { keycloak } = useKeycloak()
+    const { keycloak, initialized } = useKeycloak()
 
-    const handleLogout = () => {
-        props.history.push('/')
+    // delegate keycloak login handler
+    const login = useCallback(() => {
+        keycloak.login()
+    }, [keycloak])
+
+    // delegate keycloak logout handler
+    const logout = useCallback(() => {
         keycloak.logout()
-    }
-
-    const handleLogin = () => {
-        keycloak.login()  // Si nouveau client : il faut l'ajouter dans notre api
-    }
-
-    const checkAuthenticated = () => {
-        if (!keycloak.authenticated) {
-            handleLogin()
-        }
-    }
+    }, [keycloak])
 
     const getName = () => {
        return keycloak.authenticated && keycloak.tokenParsed && keycloak.tokenParsed.preferred_username
     }
 
+
+    if (initialized === false) {
+        return (
+            <>
+            </>
+        )
+    }
 
     return(
         <>
@@ -65,7 +67,7 @@ const TopMenu = (props) => {
                         <Button 
                             as={NavLink} 
                             to="/" 
-                            onClick={handleLogout}
+                            onClick={logout}
                             inverted 
                             style={{ marginLeft: '0.5em' }}
                         >
@@ -82,7 +84,7 @@ const TopMenu = (props) => {
                         <Button 
                             as={NavLink} 
                             to="/espace-client" 
-                            onClick={handleLogin}
+                            onClick={login}
                             inverted 
                             style={{ marginLeft: '0.5em' }}
                         >

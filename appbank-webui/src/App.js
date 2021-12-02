@@ -25,6 +25,7 @@ function App () {
   })
 
   const handleOnEvent = async (event, error) => {
+    console.log(event)
     if (event === 'onAuthSuccess') {
       if (keycloak.authenticated) {
 
@@ -35,8 +36,7 @@ function App () {
   return (
     <ReactKeycloakProvider
       authClient={keycloak}
-      onEvent={(event,error) => handleOnEvent(event,error)}
-    >
+      onEvent={(event,error) => handleOnEvent(event,error)}>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>

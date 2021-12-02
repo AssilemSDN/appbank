@@ -2,11 +2,13 @@ import React from 'react'
 import {
   Container,
   Button,
+  Dimmer,
   Header,
   Icon,
   Image,
   Grid,
-  Segment
+  Segment,
+  Loader
 } from 'semantic-ui-react'
 
 import { useKeycloak } from '@react-keycloak/web'
@@ -14,10 +16,23 @@ import { useKeycloak } from '@react-keycloak/web'
 import TopMenu from '../../topmenus/TopMenu'
 
 function Home () {
-    const { keycloak } = useKeycloak()
+    const { keycloak, initialized } = useKeycloak()
 
     const getName = () => {
        return keycloak.authenticated && keycloak.tokenParsed && keycloak.tokenParsed.preferred_username
+    }
+
+    console.log('Home.js', 'renderer')
+
+
+    if (initialized === false) {
+        return (
+            <>
+            <div>
+                <Loader active inline='centered' />
+            </div>
+            </>
+        )
     }
 
     return (
