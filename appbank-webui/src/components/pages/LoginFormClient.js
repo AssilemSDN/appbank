@@ -25,7 +25,6 @@ import {
 
 import TopMenu from '../topmenus/TopMenu'
 
-import AuthentificationService from '../../services/AuthentificationService';
 
 import {useRecoilState} from 'recoil'
 import {userAuthState, userFirstNameState, useridState, userLastNameState} from '../../states/State'
@@ -49,29 +48,7 @@ const LoginFormClient = () => {
         setPassword(event.target.value)
     }
 
-    const loginClicked = () => {
-        //That is just for testing 
-        // if (this.state.email==='mp@randomail.com' 
-        // && this.state.password==='motdepasse') {
-        //     this.setState({showSuccessMessage:true})
-        // }
-        //------------------
-        AuthentificationService.executeBasicAuthentificationService(email,password)
-            .then( (result) => { // COMMUNICATION AVEC API OK !!! Mtn : faut partager le state
-                const { status, data } = result
-                if (status === 200) {
-                    setUserFirstName(data.firstName)
-                    setUserLastName(data.lastName)
-                    setUserid(data.id)
-                    setUserAuth(true)
-                    //auth.setAuth({auth: true})
-                }
-                AuthentificationService.registerSuccessfulLogin(email, password)
-                
-            }).catch( () => {
-                setLoginFailed(true)
-            })
-    }
+    
         
     if (!userAuth) {
         return (
@@ -109,7 +86,7 @@ const LoginFormClient = () => {
                             value={password}
                             onChange={handleChangePassword}
                         />
-                        <Button disabled={email==='' || password===''} color='teal' fluid size='large' onClick={loginClicked}>
+                        <Button disabled={email==='' || password===''} color='teal' fluid size='large'>
                             Se connecter
                         </Button>
                         <Divider horizontal/>

@@ -15,6 +15,8 @@ import { useKeycloak } from '@react-keycloak/web'
 
 import TopMenu from '../../topmenus/TopMenu'
 
+import {appbankApi} from '../../utils/AppBankApi'
+
 function Home () {
     const { keycloak, initialized } = useKeycloak()
 
@@ -23,7 +25,6 @@ function Home () {
     }
 
     console.log('Home.js', 'renderer')
-
 
     if (initialized === false) {
         return (
@@ -99,8 +100,10 @@ function Home () {
                  Voir mes comptes
                </Header>
                <p style={{ fontSize: '1.33em' }}>
-                 Blabla
+                 Test getALlUsers : {appbankApi.getAllUsers (keycloak.token)}
+                 
                 </p>
+                
                
              </Grid.Column>
            </Grid.Row>

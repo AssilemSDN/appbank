@@ -94,6 +94,7 @@ function getAllUsers(token) {
     })
 }
 
+
 function loginApi(email, token) {
     return instance.put(`/api/users/`, email, {
         hearders: {

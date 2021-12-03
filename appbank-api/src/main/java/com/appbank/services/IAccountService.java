@@ -39,7 +39,7 @@ public interface IAccountService {
      * @param moneyToAdd : has to be >= 0
      * @return : True if the money has been removed, else false.
      */
-    boolean removeMoneyToAccount (Integer accountId, int moneyToAdd);
+    boolean removeMoneyToAccount (Integer accountId, int moneyToRemove);
     /**
      * Remove the account with the accountId.
      * @param accountId

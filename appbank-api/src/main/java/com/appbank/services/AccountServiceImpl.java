@@ -51,13 +51,13 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public boolean removeMoneyToAccount (Integer accountId, int moneyToAdd) {
+    public boolean removeMoneyToAccount (Integer accountId, int moneyToRemove) {
         Account account = accountRepository.findById(accountId).get();
         if (account == null) {
             return false;
         }
         //A rajouter : les droits de retraits...
-        account.setSolde(account.getSolde()-moneyToAdd);
+        account.setSolde(account.getSolde()-moneyToRemove);
         return true;
     }
 

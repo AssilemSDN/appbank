@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * PUT /api/users/{id} : updateUserFromId -> Update user with the id {id}
  * DELETE /api/users/{id} : deleteUserFromId -> delete the user associate with the {id}
  */
+@CrossOrigin(origins={ "http://localhost:3000"})
 @RestController
 @RequestMapping(path="/api")
 public class UserController {
