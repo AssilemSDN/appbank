@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.appbank.repositories.AccountRepository;
 
+
 /**
- * GET /api/accounts   (param : email) : get all accounts with an email
- * GET /api/accounts/{accountid}   (param: accountid) : get account with its id
- * PUT /api/accounts/{accountid}  (param: accountid, somme) : add or remove money to account
- * DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
- * POST /api/accounts  (param : email) : add an account associate with this email
+ * 1- GET /api/accounts   (param : email) : get all accounts with an email (to protect)
+ * 2- POST /api/accounts  (param : email) : add an account associate with this email (admin only)
+ * 
+ * 3- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
+ * 4- PATCH /api/accounts/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
+ * 5- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ *
+ * 6- GET /api/users : get all of users (admin only)
+ * 7- PUT /api/users (param : email)  :  Synchronize database of keycloak with our api when someone log in 
  */
-
-
 
 @RestController
 @RequestMapping(path="/api")
