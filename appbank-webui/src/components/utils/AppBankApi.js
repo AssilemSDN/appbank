@@ -19,23 +19,31 @@ instance.interceptors.response.use(response => {
 
 // -- Helper functions
 
- //authorization: keycloak.idToken() 
+ //authorization: keycloak.idToken()
+ 
+ 
 function bearerAuth(token) {
   return `Bearer ${token}`
 }
 
-export const moviesApi = {
-    getAccountsFromUserId,
+/**
+ * GET /api/accounts   (param : email) : get all accounts with an email
+ * GET /api/accounts/{accountid}   (param: accountid) : get account with its id
+ * PUT /api/accounts/{accountid}  (param: accountid, diffSolde) : add diffSolde to account
+ * DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * POST /api/accounts  (param : email) : add an account associate with this email
+ */
+export const appbankApi = {
+    getAccountsFromEmail,
     getAccountFromAccountId,
     addToAccount,
     removeToAccount,
     addAccountForUser,
-  getUserExtrasMe,
-  saveUserExtrasMe
+    getAllUsers
 }
 
-function getAccountsFromUserId(userid) {
-    return instance.get('/api/accounts')
+function getAccountsFromEmail(email) {
+    return instance.get('/api/accounts',email)
 }
 
 function getAccountFromAccountId(accountid) {
@@ -60,7 +68,7 @@ function removeToAccount(accountid, token) {
 
 //Ouvrir un nouveau compte pour l'utilisateur
 //N'est censé être accessible que depuis un compte admin
-function addAccountForUser(userid, token) {
+function addAccountForUser(email, token) {
     return instance.post(`/api/accounts/`, userid, {
         headers: {
             'Content-type': 'application/json',
@@ -80,13 +88,5 @@ function getAllUsers(token) {
     })
 }
 
-function getUserIdFromEmail (email, token) {
-    return instance.get(`/api/users/${email}`, email, {
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization': bearerAuth(token)
-        }
-    })
-}
 
 

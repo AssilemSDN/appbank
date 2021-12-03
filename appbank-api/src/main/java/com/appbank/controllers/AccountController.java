@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.appbank.repositories.AccountRepository;
 
+/**
+ * GET /api/accounts   (param : email) : get all accounts with an email
+ * GET /api/accounts/{accountid}   (param: accountid) : get account with its id
+ * PUT /api/accounts/{accountid}  (param: accountid, somme) : add or remove money to account
+ * DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * POST /api/accounts  (param : email) : add an account associate with this email
+ */
+
+
+
 @RestController
 @RequestMapping(path="/api")
 public class AccountController {
