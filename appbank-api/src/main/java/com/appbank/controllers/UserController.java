@@ -88,8 +88,6 @@ public class UserController {
     @PostMapping(path="/users")
     public @ResponseBody ResponseEntity<User> addNewUser (@RequestParam String firstName , @RequestParam String lastName, @RequestParam String email) {
         User newUser = new User();
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
         newUser.setEmail(email);
         userRepository.save(newUser);
 
@@ -112,8 +110,6 @@ public class UserController {
         Optional<User> optUser = userRepository.findById(userid)
             .map(oldUser -> {
                 oldUser.setEmail(email);
-                oldUser.setFirstName(firstName);
-                oldUser.setLastName(lastName);
                 return userRepository.save(oldUser);
             });
         return optUser.map(value -> ResponseEntity.ok().body(value))
@@ -121,8 +117,6 @@ public class UserController {
                 User newUser = new User();
                 newUser.setId(userid);
                 newUser.setEmail(email);
-                newUser.setFirstName(firstName);
-                newUser.setLastName(lastName);
                 URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(newUser.getId())

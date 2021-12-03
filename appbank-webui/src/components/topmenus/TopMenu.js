@@ -13,18 +13,26 @@ import {
   Menu
 } from 'semantic-ui-react'
 
+
 import { NavLink } from 'react-router-dom'
 
 import { useKeycloak } from '@react-keycloak/web'
 
 import logobank from '../../images/logo-bank.png'
 
+
 const TopMenu = (props) => {
+
+    /*
+     return axios.get(`${API_URL}/basicauth`,
+            { headers: { authorization: this.createBasicAuthToken(username, password) } })
+    }*/
     const { keycloak, initialized } = useKeycloak()
 
     // delegate keycloak login handler
     const login = useCallback(() => {
         keycloak.login()
+        // Communication with our API : we have to send the email. 
     }, [keycloak])
 
     // delegate keycloak logout handler
@@ -32,18 +40,12 @@ const TopMenu = (props) => {
         keycloak.logout()
     }, [keycloak])
 
-    const getName = () => {
-       return keycloak.authenticated && keycloak.tokenParsed && keycloak.tokenParsed.preferred_username
-    }
-
-
     if (initialized === false) {
         return (
             <>
             </>
         )
     }
-
     return(
         <>
         <Visibility>
@@ -66,9 +68,9 @@ const TopMenu = (props) => {
                         </Menu.Item>
                         <Button 
                             as={NavLink} 
-                            to="/" 
+                            to="/accueil" 
                             onClick={logout}
-                            inverted 
+                            
                             style={{ marginLeft: '0.5em' }}
                         >
                             Se déconnecter
@@ -85,7 +87,7 @@ const TopMenu = (props) => {
                             as={NavLink} 
                             to="/espace-client" 
                             onClick={login}
-                            inverted 
+                            inverted
                             style={{ marginLeft: '0.5em' }}
                         >
                             Se connecter

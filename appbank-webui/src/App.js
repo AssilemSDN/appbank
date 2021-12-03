@@ -11,10 +11,12 @@ import Keycloak from 'keycloak-js'
 
 import { RecoilRoot } from 'recoil'
 
+import UserAccounts from './components/pages/accounts/UserAccounts.js'
 import Home from "./components/pages/home/Home.js"
 import LoginFormAdmin from "./components/pages/LoginFormAdmin.js"
 import LoginFormClient from "./components/pages/LoginFormClient.js"
 import UserDashboard from './components/pages/UserDashboard'
+import PrivateRoute from './components/utils/PrivateRoute.js'
 
 function App () {
 
@@ -42,6 +44,7 @@ function App () {
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/accueil" element={<Home/>}/>
+            <Route path="/espace-client/comptes" element={<UserAccounts/>}/>
           </Routes>
         </BrowserRouter>
       </RecoilRoot>
