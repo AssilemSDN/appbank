@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.appbank.repositories.AccountRepository;
 
 
@@ -27,6 +29,7 @@ import com.appbank.repositories.AccountRepository;
  * 7- PUT /api/users (param : email)  :  Synchronize database of keycloak with our api when someone log in 
  */
 
+@CrossOrigin(origins={ "http://localhost:3000"})
 @RestController
 @RequestMapping(path="/api")
 public class AccountController {
