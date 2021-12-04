@@ -3,9 +3,9 @@ package com.appbank.controllers;
 import com.appbank.models.User;
 import com.appbank.services.IUserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,8 +51,9 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
-    @PutMapping(path="/synchronize/{email}")
-    public ResponseEntity<User> synchronizeDatabaseWithKeycloak (@RequestParam String email) {
+    @PutMapping(path="/synchronize")
+    public ResponseEntity<User> synchronizeDatabaseWithKeycloak (@RequestParam (value="email") String email) {
+        System.out.println(email);
         //Si le user n'est pas dans la base de donnees de appbank mais est dans keycloak
         User user = userService.getUserFromEmail(email);
         if (user==null) {

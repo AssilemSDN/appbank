@@ -27,7 +27,7 @@ function App () {
   })
 
   const handleOnEvent = async (event, error) => {
-    console.log(event)
+    // console.log(event)
     if (event === 'onAuthSuccess') {
       if (keycloak.authenticated) {
 
@@ -43,7 +43,6 @@ function App () {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/accueil" element={<Home/>}/>
             <Route path="/espace-client/comptes" element={<UserAccounts/>}/>
           </Routes>
         </BrowserRouter>

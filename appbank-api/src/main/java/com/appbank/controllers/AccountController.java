@@ -23,11 +23,11 @@ import com.appbank.services.IUserService;
 /**
 * 1- GET /api/accounts : get all accounts (admin only)
  * 
- * 2- GET /api/accounts/email/{email} : get all accounts associate with this email (to protect)
- * 3- POST /api/accounts/email/{email} : add an account associate with this email (admin only)
+ * 2- GET /api/accounts/users/{email} : get all accounts associate with this email (to protect)
+ * 3- POST /api/accounts/users/{email} : add an account associate with this email (admin only)
  * 
  * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 5- PATCH /api/accounts/deposer/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
+ * 5- PATCH /api/accounts/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
  * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
  *
  */
@@ -50,7 +50,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }    
 
-    @GetMapping(path="/email/{email}")
+    @GetMapping(path="/users/{email}")
     public ResponseEntity <List<Account>> getAccountsFromEmail (@PathVariable("email") String email) {
         Integer userid = userService.getUserFromEmail(email).getId();
         if (userid < 0) {
@@ -59,7 +59,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.getAccountsFromUserid(userid));
     }       
 
-    @PostMapping(path="/email/{email}")
+    @PostMapping(path="/users/{email}")
     public ResponseEntity<Account> addAccountFromEmail (@PathVariable("email") String email) {
         Account accountAdd = accountService.addAccountFromUserid(userService.getUserFromEmail(email).getId());   
         if (accountAdd == null) {

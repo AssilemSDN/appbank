@@ -61,12 +61,14 @@ const getAccountsFromEmail = async (email) => {
 }
 
 const addAccountFromEmail = async (email, token) => {
-    return instance.post(`/api/accounts/users/${email}`, {
+    console.log('addAccountFromEmail', 'api')
+    const {status, data } = await  instance.post(`/api/accounts/users/${email}`, {
         headers: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(token)
         }
     })
+    return data;
 }
 
 const getAccountFromAccountId = async (accountid) => {
@@ -90,21 +92,30 @@ const removeAccountFromAccountId = async (accountid, token) => {
 }
 
 const getAllUsers = async (token) => {
-    return instance.get(`/api/users/`), {
+    console.log('getAllUsers', 'api')
+    const { status, data } = await instance.get(`/api/users`, {
         headers: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(token)
         }
-    }
+    })
+    console.log(status, data)
+    return data
 }
 
 const synchronizeDatabaseWithKeycloak = async (email, token) => {
-    return instance.put(`/api/users/`, email, {
+    console.log('synchronizeDatabaseWithKeycloak', 'api')
+    const {status, data } = await instance.put(`/api/users/synchronize?email=${email}`, {
         hearders: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(token)
         }
+    }).catch(err => {
+        console.log(err)
+        return {}
     })
+    console.log(status, data)
+    return data;
 }
 
 export const appbankApi = {

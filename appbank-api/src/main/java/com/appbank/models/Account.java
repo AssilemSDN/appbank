@@ -18,7 +18,7 @@ public class Account {
      * id : primary key, numero de compte
     */
     @Id
-    private final Integer proprietaireID;
+    private Integer proprietaireID;
 
     @Id    
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,13 +26,13 @@ public class Account {
 
     private Integer solde;
 
-    public Account(Integer proprietaireID, Integer solde) {
-        this.proprietaireID = proprietaireID;
-        this.solde = solde;
-    }
-    public Account(Integer proprietaireID) {
-        this(proprietaireID, 0);
-    }
+    // public Account(Integer proprietaireID, Integer solde) {
+    //     this.proprietaireID = proprietaireID;
+    //     this.solde = solde;
+    // }
+    // public Account(Integer proprietaireID) {
+    //     this(proprietaireID, 0);
+    // }
 
     public Integer getProprietaireID() {
         return proprietaireID;
@@ -44,6 +44,10 @@ public class Account {
 
     public Integer getSolde() {
         return solde;
+    }
+
+    public void setProprietaireID(Integer id) {
+        this.proprietaireID = id;
     }
 
     public void setId(Integer id) {
