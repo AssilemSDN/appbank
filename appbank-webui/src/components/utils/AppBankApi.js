@@ -46,24 +46,8 @@ function bearerAuth(token) {
  * 8- PUT /api/users/synchronize/{email} :  Synchronize database of keycloak with our api for an user
  * 
  */
-export const appbankApi = {
-//From AccountController
-    getAllAccounts,                     //1
 
-    getAccountsFromEmail,               //2
-    addAccountFromEmail,                //3
-
-    getAccountFromAccountId,            //4 //Pas sûre d'avoir besoin de ça...
-    updateAccount,                      //5
-    removeAccountFromAccountId,         //6
-//-------------------------------------------
-//From UserController
-    getAllUsers,                        //7
-    synchronizeDatabaseWithKeycloak,    //8
-
-}
-
-function getAllAccounts(token) {
+const getAllAccounts = async (token) => {
     return instance.post(`/api/accounts/`, {
         headers: {
             'Content-type': 'application/json',
@@ -72,12 +56,12 @@ function getAllAccounts(token) {
     })   
 }
 
-function getAccountsFromEmail(email) {
+const getAccountsFromEmail = async (email) => {
     return instance.get('/api/accounts',email)
 }
 
-function addAccountFromEmail (email, token) {
-    return instance.post(`/api/accounts/`, email, {
+const addAccountFromEmail = async (email, token) => {
+    return instance.post(`/api/accounts/users/${email}`, {
         headers: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(token)
@@ -85,11 +69,11 @@ function addAccountFromEmail (email, token) {
     })
 }
 
-function getAccountFromAccountId(accountid) {
+const getAccountFromAccountId = async (accountid) => {
     return instance.get(`/api/accounts/${accountid}`)
 }
 
-function updateAccount (accountid, depotOrRetrait, token) {
+const updateAccount = async (accountid, depotOrRetrait, token) => {
     return instance.post(`/api/accounts/${accountid}`, accountid, 
     depotOrRetrait, {
     headers: {
@@ -99,13 +83,13 @@ function updateAccount (accountid, depotOrRetrait, token) {
   })
 }
 
-function removeAccountFromAccountId (accountid, token) {
+const removeAccountFromAccountId = async (accountid, token) => {
     return instance.delete(`/api/accounts/${accountid}`, {
         headers: { 'Authorization': bearerAuth(token) }
     })
 }
 
-function getAllUsers(token) {
+const getAllUsers = async (token) => {
     return instance.get(`/api/users/`), {
         headers: {
             'Content-type': 'application/json',
@@ -114,7 +98,7 @@ function getAllUsers(token) {
     }
 }
 
-function synchronizeDatabaseWithKeycloak (email, token) {
+const synchronizeDatabaseWithKeycloak = async (email, token) => {
     return instance.put(`/api/users/`, email, {
         hearders: {
             'Content-type': 'application/json',
@@ -122,6 +106,23 @@ function synchronizeDatabaseWithKeycloak (email, token) {
         }
     })
 }
+
+export const appbankApi = {
+    //From AccountController
+        getAllAccounts,                     //1
+    
+        getAccountsFromEmail,               //2
+        addAccountFromEmail,                //3
+    
+        getAccountFromAccountId,            //4 //Pas sûre d'avoir besoin de ça...
+        updateAccount,                      //5
+        removeAccountFromAccountId,         //6
+    //-------------------------------------------
+    //From UserController
+        getAllUsers,                        //7
+        synchronizeDatabaseWithKeycloak,    //8
+    
+    }
 
 
 

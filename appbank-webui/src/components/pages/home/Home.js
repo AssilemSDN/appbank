@@ -18,20 +18,22 @@ import TopMenu from '../../topmenus/TopMenu'
 import {appbankApi} from '../../utils/AppBankApi'
 
 const Home = () => {
-    const [user, setUser] = useState(false)
+    const [user, setUser] = useState(false) //User connected
     const [token, setToken ] = useState(false)
     const { keycloak, initialized } = useKeycloak()
 
     const getName = () => {
-       return keycloak.authenticated && keycloak.tokenParsed && keycloak.tokenParsed.preferred_username
+       return keycloak.authenticated && keycloak.tokenParsed && keycloak.tokenParsed.name
+    }
+    const getFirstName = () => {
+        return getName().split(" ")[0];
     }
 
     const getAllUsers = async () => {
-        console.log("Toz")
-        console.log(appbankApi.getAllUsers (token))
+        console.log(appbankApi.getAllUsers(token))
         return true
     }
-    
+
     const getUserIdFromEmail = async (email) => {
         console.log('getUserIdFromEmail', email)
         // call api, who return data
@@ -123,12 +125,21 @@ const Home = () => {
                         fontSize:'1.7em',
                     }}
                 />
-                {getName()}
+                {getFirstName()}
             </Segment>
          <Segment style={{ padding: '5em 0em' }} vertical>
          <Grid container stackable verticalAlign='middle'>
            <Grid.Row>
              <Grid.Column width={8}>
+                <Button 
+                primary 
+                size='huge'
+                onClick={getAllUsers()}
+                >
+                    Ajouter un compte pour {getFirstName()}
+                    <Icon name='right arrow' />
+                    
+                </Button>
                <Header as='h3' style={{ fontSize: '2em' }}>
                  Voir mes comptes
                </Header>
