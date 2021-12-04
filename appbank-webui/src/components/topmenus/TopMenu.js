@@ -54,7 +54,7 @@ const TopMenu = (props) => {
               size='large'
             >
                 <Container>
-                    <Menu.Item as={NavLink} exact to="/accueil" >
+                    <Menu.Item as={NavLink} exact to="/accueil">
                         Accueil
                     </Menu.Item>
                     <Menu.Item position='right'>
@@ -70,7 +70,7 @@ const TopMenu = (props) => {
                             as={NavLink} 
                             to="/accueil" 
                             onClick={logout}
-                            
+                            inverted
                             style={{ marginLeft: '0.5em' }}
                         >
                             Se déconnecter

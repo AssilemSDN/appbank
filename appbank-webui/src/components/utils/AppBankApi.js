@@ -5,15 +5,15 @@ import axios from 'axios'
 // -- Axios
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: 'http://localhost:8080',
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
 })
 
 instance.interceptors.response.use(response => {
     return response;
 }, function (error) {
-    if (error.response.status === 404) {
-        return { status: error.response.status };
-    }
     return Promise.reject(error.response);
 });
 
@@ -86,12 +86,12 @@ function removeAccountFromAccountId (accountid, token) {
 //Liste de tous les utilisateurs 
 //N'est censé être accessible que depuis un compte admin
 function getAllUsers(token) {
-    return instance.get(`/api/users/`, {
+    return instance.get(`/api/users/`), {
         headers: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(token)
         }
-    })
+    }
 }
 
 
