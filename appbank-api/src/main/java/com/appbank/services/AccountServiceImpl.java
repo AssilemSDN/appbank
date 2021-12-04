@@ -18,6 +18,11 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
+    public Iterable <Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
+
+    @Override
     public List <Account> getAccountsFromUserid (Integer userid) {
         List <Account> accounts = new ArrayList <> ();
         for (Account account : accountRepository.findAll()) {
@@ -62,11 +67,13 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void removeAccountFromAccountId (Integer accountId) {
+    public boolean removeAccountFromAccountId (Integer accountId) {
         Account account = accountRepository.findById(accountId).get();
         if (account != null) {
             accountRepository.delete(account);
+            return true;
         }
+        return false;
     }
 
 }

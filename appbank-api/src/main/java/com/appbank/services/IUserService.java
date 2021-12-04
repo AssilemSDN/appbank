@@ -1,14 +1,15 @@
 package com.appbank.services;
 
-public interface IUserService {
+import com.appbank.models.User;
 
-    /**
-     * 
-     * Userid is always positive.
-     * If the user is not found, then return -1. 
-     * @param email
-     * @return
-     */
-    Integer getUseridFromEmail(String email);
+public interface IUserService {
+ 
+    Iterable<User> getAllUsers();
+
+    User getUserFromEmail(String email);
+
+    User getUserFromUserid(Integer userid);
+
+    User addUserFromEmail(String email);
     
 }

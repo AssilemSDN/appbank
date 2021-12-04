@@ -27,35 +27,56 @@ function bearerAuth(token) {
 }
 
 /**
- * 1- GET /api/accounts   (param : email) : get all accounts with an email (to protect)
- * 2- POST /api/accounts  (param : email) : add an account associate with this email (admin only)
  * 
- * 3- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 4- PATCH /api/accounts/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
- * 5- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * From AccountController : 
+ * 
+ * 1- GET /api/accounts : get all accounts (admin only)
+ * 
+ * 2- GET /api/accounts/email/{email} : get all accounts associate with this email (to protect)
+ * 3- POST /api/accounts/email/{email} : add an account associate with this email (admin only)
+ * 
+ * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
+ * 5- PATCH /api/accounts/deposer/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
+ * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
  *
- * 6- GET /api/users : get all of users (admin only)
- * 7- PUT /api/users (param : email)  :  Synchronize database of keycloak with our api when someone log in 
+ * ----------------------------------------
+ * From UserController : 
+ * 
+ * 7- GET /api/users : get all of users (admin only)
+ * 8- PUT /api/users/synchronize/{email} :  Synchronize database of keycloak with our api for an user
+ * 
  */
 export const appbankApi = {
-    getAccountsFromEmail,       //1
-    addAccountForUser,          //2
+//From AccountController
+    getAllAccounts,                     //1
 
-    getAccountFromAccountId,    //3
-    updateAccount,              //4
-    removeAccountFromAccountId, //5
-    
-    getAllUsers,                //6
-    loginApi,                   //7
+    getAccountsFromEmail,               //2
+    addAccountFromEmail,                //3
+
+    getAccountFromAccountId,            //4 //Pas sûre d'avoir besoin de ça...
+    updateAccount,                      //5
+    removeAccountFromAccountId,         //6
+//-------------------------------------------
+//From UserController
+    getAllUsers,                        //7
+    synchronizeDatabaseWithKeycloak,    //8
+
+}
+
+function getAllAccounts(token) {
+    return instance.post(`/api/accounts/`, {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': bearerAuth(token)
+        }
+    })   
 }
 
 function getAccountsFromEmail(email) {
     return instance.get('/api/accounts',email)
 }
 
-//Ouvrir un nouveau compte pour l'utilisateur
-//N'est censé être accessible que depuis un compte admin
-function addAccountForUser(email, token) {
+function addAccountFromEmail (email, token) {
     return instance.post(`/api/accounts/`, email, {
         headers: {
             'Content-type': 'application/json',
@@ -68,8 +89,9 @@ function getAccountFromAccountId(accountid) {
     return instance.get(`/api/accounts/${accountid}`)
 }
 
-function updateAccount (accountid, depot, token) {
-    return instance.post(`/api/accounts/${accountid}`, accountid, depot, {
+function updateAccount (accountid, depotOrRetrait, token) {
+    return instance.post(`/api/accounts/${accountid}`, accountid, 
+    depotOrRetrait, {
     headers: {
         'Content-type': 'application/json',
         'Authorization': bearerAuth(token)
@@ -83,8 +105,6 @@ function removeAccountFromAccountId (accountid, token) {
     })
 }
 
-//Liste de tous les utilisateurs 
-//N'est censé être accessible que depuis un compte admin
 function getAllUsers(token) {
     return instance.get(`/api/users/`), {
         headers: {
@@ -94,8 +114,7 @@ function getAllUsers(token) {
     }
 }
 
-
-function loginApi(email, token) {
+function synchronizeDatabaseWithKeycloak (email, token) {
     return instance.put(`/api/users/`, email, {
         hearders: {
             'Content-type': 'application/json',

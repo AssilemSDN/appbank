@@ -6,6 +6,12 @@ import com.appbank.models.Account;
 
 public interface IAccountService {
     /**
+     * Get all accounts
+     * @param userid 
+     * @return
+     */
+    Iterable <Account> getAllAccounts ();
+     /**
      * Get all accounts associate to the proprietaire id.
      * @param userid 
      * @return
@@ -42,8 +48,10 @@ public interface IAccountService {
     boolean removeMoneyToAccount (Integer accountId, int moneyToRemove);
     /**
      * Remove the account with the accountId.
-     * @param accountId
+     * @param accountId 
+     * @return false if there is no account from accountid, else true.
      */
-    void removeAccountFromAccountId (Integer accountId);
+    boolean removeAccountFromAccountId (Integer accountId);
+    
 
 }

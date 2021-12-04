@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.appbank.services.IAccountService;
 import com.appbank.services.IUserService;
@@ -20,15 +21,15 @@ import com.appbank.services.IUserService;
 // A faire : sécuriser l'API
 
 /**
- * 1- GET /api/accounts   (param : email) : get all accounts
- * 2- POST /api/accounts  (param : email) : add an account associate with this email (admin only)
+* 1- GET /api/accounts : get all accounts (admin only)
  * 
- * 3- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 4- PATCH /api/accounts/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
- * 5- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * 2- GET /api/accounts/email/{email} : get all accounts associate with this email (to protect)
+ * 3- POST /api/accounts/email/{email} : add an account associate with this email (admin only)
  * 
- * 6- GET /api/accounts/users : get all accounts associate with an email
- * 
+ * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
+ * 5- PATCH /api/accounts/deposer/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
+ * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ *
  */
 
 @CrossOrigin(origins={ "http://localhost:3000"})
@@ -39,18 +40,28 @@ public class AccountController {
     private IAccountService accountService;
     private IUserService userService;
 
-    @GetMapping(path="")
-    public ResponseEntity <List<Account>> getAllAccountsFromEmail (@RequestParam String email) {
-        Integer userid = userService.getUseridFromEmail(email);
+    public AccountController(IAccountService accountService, IUserService userService) {
+        this.accountService=accountService;
+        this.userService=userService;
+    }
+
+    @GetMapping
+    public ResponseEntity <Iterable<Account>> getAllAccounts (@RequestParam String email) {
+        return ResponseEntity.ok().body(accountService.getAllAccounts());
+    }    
+
+    @GetMapping(path="/email/{email}")
+    public ResponseEntity <List<Account>> getAccountsFromEmail (@PathVariable("email") String email) {
+        Integer userid = userService.getUserFromEmail(email).getId();
         if (userid < 0) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(accountService.getAccountsFromUserid(userid));
-    }    
+    }       
 
-    @PostMapping
-    public ResponseEntity<Account> addAccountFromEmail (@RequestParam String email) {
-        Account accountAdd = accountService.addAccountFromUserid(userService.getUseridFromEmail(email));   
+    @PostMapping(path="/email/{email}")
+    public ResponseEntity<Account> addAccountFromEmail (@PathVariable("email") String email) {
+        Account accountAdd = accountService.addAccountFromUserid(userService.getUserFromEmail(email).getId());   
         if (accountAdd == null) {
             return ResponseEntity.notFound().build();
         }
@@ -75,29 +86,11 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.addMoneyToAccount(accountId, depotOrRetrait));
     }
     
+    @DeleteMapping(path="/{accountId}") 
+    public ResponseEntity<Boolean> removeAccountFromAccountId (@PathVariable Integer accountId) {
+        // True : si l'id du compte est valide et a bien ete supprime
+        return ResponseEntity.ok().body(accountService.removeAccountFromAccountId(accountId));
+    }
+
     
-    /**
-     * Avoir la liste des comptes associés à un utilisateur.
-     * Peut etre utilise pour n'importe quel utilisateur depuis un compte administrateur.
-     * Peut etre utilise pour un utilisateur depuis un compte utilisateur donne.
-     * @param proprietaireID : l'ID du client proprietaire du ou des comptes
-     * @return
-     */
-    /*@GetMapping(path="/accounts/{id}")
-    public @ResponseBody List<Account> getAccountsFromUser(@RequestParam Integer proprietaireID) {
-        List <Account> accountsFromUser = new ArrayList <>();
-        for (Account account : accountRepository.findAll()) {
-            if (account.getProprietaireID().equals(proprietaireID)) {
-                accountsFromUser.add(account);
-            }
-        }
-        return accountsFromUser;
-    }*/
-
-
-
-
-
-   
-
 }
