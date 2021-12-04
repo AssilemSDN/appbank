@@ -54,7 +54,7 @@ const TopMenu = (props) => {
               size='large'
             >
                 <Container>
-                    <Menu.Item as={NavLink} exact to="/accueil">
+                    <Menu.Item as={NavLink} exact to="/accueil" active>
                         Accueil
                     </Menu.Item>
                     <Menu.Item position='right'>

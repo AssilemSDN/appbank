@@ -3,6 +3,7 @@ package com.appbank.controllers;
 import com.appbank.models.User;
 import com.appbank.services.IUserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +30,6 @@ public class UserController {
 
     /*@Autowired
     private UserRepository userRepository;*/
-
     private IUserService userService;
 
     public UserController (IUserService userService) {

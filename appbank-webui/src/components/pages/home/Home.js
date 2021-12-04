@@ -143,6 +143,7 @@ const Home = () => {
                <Header as='h3' style={{ fontSize: '2em' }}>
                  Voir mes comptes
                </Header>
+               {appbankApi.getAllUsers(token)} <br/>
                <p style={{ fontSize: '1.33em' }}>
                    <ul>
                     {['toto', 'titi'].map((value, index) => {
