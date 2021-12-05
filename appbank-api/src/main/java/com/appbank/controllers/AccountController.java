@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity <Iterable<Account>> getAllAccounts (@RequestParam String email) {
+    public ResponseEntity <Iterable<Account>> getAllAccounts () {
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }    
 

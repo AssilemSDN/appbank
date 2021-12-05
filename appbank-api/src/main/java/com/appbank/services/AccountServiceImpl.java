@@ -35,7 +35,8 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account addAccountFromUserid (Integer userid) {
-        Account account = new Account(userid);
+        Account account = new Account();
+        account.setProprietaireID(userid);
         return accountRepository.save(account);
     }
 
