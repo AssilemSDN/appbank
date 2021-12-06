@@ -1,5 +1,8 @@
 package com.appbank.services;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.appbank.models.User;
 import com.appbank.repositories.UserRepository;
 
@@ -15,8 +18,19 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Iterable <User> getAllUsers() {
-        return userRepository.findAll();
+    public List <User> getAllUsers() {
+        Iterable <User> users = userRepository.findAll();
+        List <User> usersList = new ArrayList<>();
+        for (User user:users) {
+            System.out.println("Get all users : "+user.getIsAdmin());
+            if (!user.getIsAdmin()) {
+                usersList.add(user);
+            }
+        }
+        // List <User> ret = StreamSupport.stream(users.spliterator(), false) // Pas de parallele
+        //     .filter(user -> !user.getIsAdmin()) // On ne rend que les utilisateurs non admin
+        //     .collect(Collectors.toList());
+        return usersList;
     }
 
     @Override

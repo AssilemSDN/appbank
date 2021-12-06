@@ -21,7 +21,10 @@ const Synchronizer = () => {
 
     if (authenticated === false) { return false }
     const { email, given_name: firstName, family_name: lastName } = keycloak.idTokenParsed
-    appbankApi.synchronizeDatabaseWithKeycloak(email).then(data => {
+    const isAdmin = keycloak.hasRealmRole('appbank-admin')
+    console.log('Synchronizer', 'synchronizeDatabaseWithKeycloak()', 'isAdmin', isAdmin)
+
+    appbankApi.synchronizeDatabaseWithKeycloak(email, isAdmin).then(data => {
       if (data === false) {
         // try to do something in case of error
         return false
@@ -30,7 +33,7 @@ const Synchronizer = () => {
       setUserEmail(data.email)
       setUserFirstName(firstName)
       setUserLastName(lastName)
-      setUserIsAdmin(keycloak.hasRealmRole('appbank-admin'))
+      setUserIsAdmin(isAdmin)
       const date = new Date().toLocaleString()
       setUserLastSyncro(date)
     })

@@ -1,10 +1,11 @@
 package com.appbank.services;
 
 import com.appbank.models.User;
+import java.util.List;
 
 public interface IUserService {
  
-    Iterable<User> getAllUsers();
+    List<User> getAllUsers();
 
     User getUserFromEmail(String email);
 

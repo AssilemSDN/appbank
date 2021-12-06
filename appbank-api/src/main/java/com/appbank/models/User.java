@@ -25,6 +25,9 @@ public class User {
     @Column(name="email", unique=true)
     private String email; 
 
+    @Column(name="isAdmin")
+    private boolean isAdmin;
+
     public Integer getId() {
         return id;
     }
@@ -40,7 +43,14 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public boolean getIsAdmin () {
+        return isAdmin;
+    }
     
+    public void setIsAdmin (boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
     
 }
 

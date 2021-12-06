@@ -4,6 +4,10 @@ import { useKeycloak } from '@react-keycloak/web'
 
 import TopMenu from '../components/TopMenu'
 
+  /*
+  * L'utilisateur peut faire des virements : ils sont placés en attentes jusqu'à réponse de l'administrateur
+  * L'administrateur peut accepter ou non les virements
+  */
 const UserTransfers = () => {
   const { initialized } = useKeycloak()
 

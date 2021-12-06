@@ -133,10 +133,10 @@ const getAllUsers = async (token) => {
   }
 }
 
-const synchronizeDatabaseWithKeycloak = async (email, token) => {
+const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
   console.log('AppBankApi', 'synchronizeDatabaseWithKeycloak', email)
   try {
-    const { status, data } = await instance.put(`/api/users/synchronize?email=${email}`, {
+    const { status, data } = await instance.put(`/api/users/synchronize?email=${email}&isAdmin=${isAdmin}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)

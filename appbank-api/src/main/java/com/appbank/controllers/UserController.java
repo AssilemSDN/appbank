@@ -1,5 +1,7 @@
 package com.appbank.controllers;
 
+import java.util.List;
+
 import com.appbank.models.User;
 import com.appbank.services.IUserService;
 
@@ -43,20 +45,25 @@ public class UserController {
      * @return 200 OK + la liste des utilisateurs
      */
     @GetMapping
-    public ResponseEntity<Iterable<User>> getAllUsers(
+    public ResponseEntity<List<User>> getAllUsers(
         @RequestParam(value="page", defaultValue="1") Integer pageNumber,
         @RequestParam(required = false) String lastName) {
-        
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @PutMapping(path="/synchronize")
-    public ResponseEntity<User> synchronizeDatabaseWithKeycloak (@RequestParam (value="email") String email) {
+    public ResponseEntity<User> synchronizeDatabaseWithKeycloak (@RequestParam (value="email") String email, @RequestParam (value="isAdmin") String isAdmin) {
         //Si le user n'est pas dans la base de donnees de appbank mais est dans keycloak
+        boolean b = Boolean.parseBoolean(isAdmin);
         User user = userService.getUserFromEmail(email);
         if (user==null) {
             //Il faut le rajouter dans la bdd de appbank
             user = userService.addUserFromEmail(email);
+            user.setIsAdmin(b);
+        }
+        if (b && !user.getIsAdmin()) {
+            System.out.println("synchronize "+b);
+            user.setIsAdmin(b);
         }
         return ResponseEntity.ok().body(user); 
     }
