@@ -53,6 +53,7 @@ public class AccountServiceImpl implements IAccountService {
             return false;
         }
         account.setSolde(account.getSolde()+moneyToAdd);
+        accountRepository.save(account);
         return true;
     }
 
@@ -62,8 +63,11 @@ public class AccountServiceImpl implements IAccountService {
         if (account == null) {
             return false;
         }
-        //A rajouter : les droits de retraits...
+        if (moneyToRemove > account.getSolde() && !account.getCanBeOverdraft()) {
+            return false;
+        }
         account.setSolde(account.getSolde()-moneyToRemove);
+        accountRepository.save(account);
         return true;
     }
 
@@ -75,6 +79,16 @@ public class AccountServiceImpl implements IAccountService {
             return true;
         }
         return false;
+    }
+
+    public boolean bankTransfer (Integer accountIdSrc, Integer accountIdDst, int moneyToTransfer) {
+        //Verfier si les comptes sont bien enregistres dans la bdd
+        //A faire : la gestion des virements par l'administrateur ?
+        //Pas besoin de verifier si le nombre est positif : sera fait dans les fonctions a appeler
+        if (!removeMoneyToAccount(accountIdSrc, moneyToTransfer)) {
+            return false;
+        }
+        return addMoneyToAccount(accountIdDst, moneyToTransfer);
     }
 
 }

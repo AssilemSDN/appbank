@@ -24,6 +24,8 @@ public class Account {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    private boolean canBeOverdraft = false; //Autorisation de decouvert
+
     private int solde;
 
     public Integer getProprietaireID() {
@@ -49,6 +51,15 @@ public class Account {
     public void setSolde(int solde) {
         this.solde=solde;
     }
+
+    public boolean getCanBeOverdraft() {
+        return canBeOverdraft;
+    }
+
+    public void setCanBeOverdraft(boolean canBeOverdraft) {
+        this.canBeOverdraft=canBeOverdraft;
+    }
+
 }
 
 class AccountId implements Serializable{

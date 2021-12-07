@@ -54,16 +54,16 @@ public class UserController {
     @PutMapping(path="/synchronize")
     public ResponseEntity<User> synchronizeDatabaseWithKeycloak (@RequestParam (value="email") String email, @RequestParam (value="isAdmin") String isAdmin) {
         //Si le user n'est pas dans la base de donnees de appbank mais est dans keycloak
-        boolean b = Boolean.parseBoolean(isAdmin);
+        boolean booleanIsAdmin = Boolean.parseBoolean(isAdmin);
         User user = userService.getUserFromEmail(email);
         if (user==null) {
             //Il faut le rajouter dans la bdd de appbank
-            user = userService.addUserFromEmail(email);
-            user.setIsAdmin(b);
+            user = userService.addUserFromEmail(email,booleanIsAdmin);
         }
-        if (b && !user.getIsAdmin()) {
-            System.out.println("synchronize "+b);
-            user.setIsAdmin(b);
+        if (booleanIsAdmin && !user.getIsAdmin()) {
+            System.out.println("synchronize "+booleanIsAdmin);
+            user.setIsAdmin(booleanIsAdmin);
+            userService.saveUser(user); // n'est pas sensé en recréer un nouveau
         }
         return ResponseEntity.ok().body(user); 
     }

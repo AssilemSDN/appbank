@@ -2,6 +2,11 @@ import React, { useState, useCallback } from 'react'
 import { Menu, Button } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 import { useKeycloak } from '@react-keycloak/web'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+
+import {
+  userFirstNameState,
+} from '../states/AppState'
 
 const routes = {
   home: '/',
@@ -10,6 +15,7 @@ const routes = {
 }
 
 const TopMenu = () => {
+  const userFirstName = useRecoilValue(userFirstNameState)
   const [activeItem] = useState(window.location.pathname)
   const navigate = useNavigate()
   const { keycloak } = useKeycloak()
@@ -38,7 +44,10 @@ const TopMenu = () => {
           <Menu.Item onClick={handleOnSelectMenu} name='transfers' active={activeItem === routes.transfers}>Virements</Menu.Item>
           <Menu.Menu position='right'>
             <Menu.Item>
-              <Button onClick={handleOnLogout} color='red'>Se déconnecter</Button>
+              Bonjour, {userFirstName}
+            </Menu.Item>
+            <Menu.Item>
+              <Button onClick={handleOnLogout} color='red' inverted>Se déconnecter</Button>
             </Menu.Item>
           </Menu.Menu>
         </>}
@@ -47,7 +56,7 @@ const TopMenu = () => {
           <Menu.Menu position='right'>
             <Menu.Item>
               <Button disabled inverted color='blue' style={{ marginRight: '10px' }}>S'enregistrer</Button>
-              <Button onClick={handleOnLogin} color='blue'>Se connecter</Button>
+              <Button onClick={handleOnLogin} color='blue' inverted>Se connecter</Button>
             </Menu.Item>
           </Menu.Menu>
         </>}

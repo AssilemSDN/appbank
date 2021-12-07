@@ -11,6 +11,8 @@ public interface IUserService {
 
     User getUserFromUserid(Integer userid);
 
-    User addUserFromEmail(String email);
+    User addUserFromEmail(String email, boolean isAdmin);
+
+    User saveUser(User user);
     
 }

@@ -54,9 +54,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User addUserFromEmail (String email) {
+    public User addUserFromEmail (String email, boolean isAdmin) {
         User userToAdd = new User ();
         userToAdd.setEmail(email);
+        userToAdd.setIsAdmin(isAdmin);
         return userRepository.save(userToAdd);
+    }
+
+    @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 }

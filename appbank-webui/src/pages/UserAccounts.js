@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Card, Dropdown, Header, Container, Icon, Dimmer, Loader, Button } from 'semantic-ui-react'
+import { Card, Dropdown, Header, Container, Icon, Dimmer, Loader, Menu, Button } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue } from 'recoil'
 
@@ -79,6 +79,7 @@ const AccountsCard = () => {
   )
 }
 
+
 const UserAccounts = () => {
   const userIsAdmin = useRecoilValue(userIsAdminState)
   const { initialized } = useKeycloak()
@@ -96,6 +97,7 @@ const UserAccounts = () => {
   return (
     <Container>
       <TopMenu />
+     
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='print' />
         <Header.Content>
@@ -107,6 +109,7 @@ const UserAccounts = () => {
         <AdminListUsers />}
       {!userIsAdmin &&
         <AccountsCard />}
+        
     </Container>
   )
 }
