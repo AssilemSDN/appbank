@@ -43,6 +43,9 @@ function bearerAuth (token) {
  * 7- GET /api/users : get all of users (admin only)
  * 8- PUT /api/users/synchronize/{email} :  Synchronize database of keycloak with our api for an user
  *
+ * ----------------------------------------
+ * From BankTransferController :
+ * 9- POST /api/banktransfer : add a bank transfer that has to be validate by the admin
  */
 
 const getAllAccounts = async (token) => {
@@ -150,6 +153,10 @@ const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
   }
 }
 
+const addBankTransfer = async () => {
+
+}
+
 export const appbankApi = {
   // From AccountController
   getAllAccounts, // 1
@@ -163,6 +170,9 @@ export const appbankApi = {
   // -------------------------------------------
   // From UserController
   getAllUsers, // 7
-  synchronizeDatabaseWithKeycloak // 8
+  synchronizeDatabaseWithKeycloak, // 8
+  //--------------------------------------------
+  // From BankTransferController
+  addBankTransfer //9
 
 }

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Card, Dropdown, Header, Container, Icon, Dimmer, Loader, Menu, Button } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue } from 'recoil'
+import { useNavigate } from 'react-router-dom'
 
 import TopMenu from '../components/TopMenu'
 import {
@@ -58,12 +59,22 @@ const AdminListUsers = () => {
 const AccountsCard = () => {
   const userEmail = useRecoilValue(userEmailState)
   const userAccounts = useRecoilValue(userAccountsState)
+  //const navigate = useNavigate()
+  const [currentAccount, setCurrentAccount] = useState(false)
+
+  
+  const handleOnAccountCard = (e) => {
+    const accountid = e.currentTarget.getAttribute("accountid")
+    console.log(e)
+    //navigate(`/espace-client/comptes/test`)
+    //navigate(`/espace-client/comptes/${accountid}`)
+  }
 
   return (
     <Card.Group>
       {userAccounts.map(account => {
         return (
-          <Card color='blue' key={`accountId_${account.id}`}>
+          <Card color='blue' key={`accountId_${account.id}`} onClick={handleOnAccountCard} accountid={account.id} >
             <Card.Content>
               <Card.Header>Compte n°{account.id}</Card.Header>
               <Card.Meta>Propriétaire: {userEmail}</Card.Meta>
