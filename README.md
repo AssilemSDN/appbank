@@ -18,6 +18,13 @@ Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de 
 - `npm 6.14.15`
 - `Docker 20.10.7` 
 - `Docker-Compose 1.25.0`
+- 
+## Initialiser la BDD keycloak
+- Ouvrir le terminal et aller au dossier appbank
+- Lancer la commande : 
+```
+$node initialize.js
+```
 
 ## Lancer l'environnement
 
