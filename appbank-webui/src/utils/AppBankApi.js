@@ -196,6 +196,23 @@ const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
   }
 }
 
+const getAllBankTransfer = async (token) => {
+  console.log('AppBankApi', 'getAllBankTransfer')
+  try {
+    const { status, data } = await instance.get('/api/banktransfer', {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) { throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'getAllBankTransfer', 'error', e)
+    return false
+  }
+}
+
 export const appbankApi = {
   // From AccountController
   getAllAccounts, // 1
@@ -213,6 +230,7 @@ export const appbankApi = {
   synchronizeDatabaseWithKeycloak, // 8
   //--------------------------------------------
   // From BankTransferController
-  addBankTransfer //9
+  addBankTransfer, //9
+  getAllBankTransfer, // 10
 
 }
