@@ -21,6 +21,8 @@ import com.appbank.models.BankTransfer;
  * 1- GET /api/banktransfer : get all transfers (admin only)
  * 3- POST /api/banktransfer : add new banktransfer
  * 
+ * Get /api/banktransfer/iduser => get all banktransfer in wainting  of a user
+ * 
  * 3- DELETE /api/banktransfer/{bankTransferId} : validate or not a transfer (admin only)
  */
 
@@ -32,8 +34,9 @@ public class BankTransferController {
     private IBankTransferService bankTransferService;
     private IAccountService accountService;
 
-    public BankTransferController (IBankTransferService bankTransferService) {
+    public BankTransferController (IBankTransferService bankTransferService, IAccountService accountService) {
         this.bankTransferService=bankTransferService;
+        this.accountService=accountService;
     }
 
     @GetMapping
@@ -43,11 +46,17 @@ public class BankTransferController {
 
     @PostMapping
     public ResponseEntity <BankTransfer> addNewBankTransfer (@RequestParam Integer accountIdSrc, @RequestParam Integer accountIdDst, @RequestParam int amount) {
-        BankTransfer bankTransfer = bankTransferService.addNewBankTransfer(accountIdSrc, accountIdDst, amount);
+        BankTransfer bankTransfer = bankTransferService.addNewBankTransfer(accountService.getProprietaireId(accountIdSrc), accountIdSrc, accountIdDst, amount);
         if (bankTransfer == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(bankTransfer);
+    }
+
+    @GetMapping(path="/{userId}")
+    public ResponseEntity <Iterable<BankTransfer>> getAllBankTransfersFromUserId (@PathVariable("userId") int userId) {
+
+        return ResponseEntity.ok().body(bankTransferService.getAllBankTransfer());
     }
 
 
@@ -77,6 +86,7 @@ public class BankTransferController {
 
         return ResponseEntity.ok().body(ret);
     }
+    
 
    
 }

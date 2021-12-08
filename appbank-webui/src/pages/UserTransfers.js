@@ -42,9 +42,9 @@ const TransfersToAccept = () => {
     })
   })
 
-  const validateBankTransfer = (e) => {
-    console.log ('validateBankTranfer', e)
-    appbankApi.validateBankTransfer(e.target.bankTransferId, e.target.validate).then(data => {
+  const validateBankTransfer = (bankTransferId, validate) => {
+    console.log ('validateBankTranfer')
+    appbankApi.validateBankTransfer(bankTransferId, validate).then(data => {
       if (data === false) {
         return false
       }
@@ -65,8 +65,8 @@ const TransfersToAccept = () => {
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <Button color='black' content="Refuser" validate={false} bankTransferId={bankTransfer.id} onClick={validateBankTransfer} />
-              <Button color='teal' content="Accepter" validate={true} bankTransferId={bankTransfer.id} onClick={validateBankTransfer} />
+              <Button color='black' content="Refuser" onClick={() => validateBankTransfer(bankTransfer.id,false)} />
+              <Button color='teal' content="Accepter" onClick={() => validateBankTransfer(bankTransfer.id,true)}  />
             </Card.Content> 
           </Card>
           
@@ -75,6 +75,8 @@ const TransfersToAccept = () => {
     </Card.Group>
   )
 }
+
+
 
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
@@ -119,24 +121,20 @@ const FormTransfer = () => {
   }
   
   return (
-    <Grid>
-      <Grid.Column width={4}></Grid.Column>
-      <Grid.Column width={9}>
-        <Form>
-          <Card fluid color='blue'>
-            <Card.Content header='Envoyer depuis le compte : ' />
-            <Card.Content>
-              <Dropdown onChange={handleChangeCurrentAccount} placeholder='Sélectionner un compte' fluid selection options={accounts} />
-            </Card.Content>
-          </Card>
-          <header> Montant </header>
-          <Form.Input type='number' as='input' value={amount} onChange={(e => setAmount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
-          <header> Compte destinataire </header>
-          <Form.Input type='number' as='input' value={otherAccount} onChange={(e => setOtherAccount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input>  
-          <Button onClick={addBankTransfer} disabled={currentAccount === false && currentAmount === false} color='blue'>Ajouter</Button>
-        </Form>
-      </Grid.Column>
-  </Grid> 
+
+    <Form>
+      <Card fluid color='blue'>
+        <Card.Content header='Envoyer depuis le compte : ' />
+        <Card.Content>
+          <Dropdown onChange={handleChangeCurrentAccount} placeholder='Sélectionner un compte' fluid selection options={accounts} />
+        </Card.Content>
+      </Card>
+      <header> Montant </header>
+      <Form.Input type='number' as='input' value={amount} onChange={(e => setAmount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
+      <header> Compte destinataire </header>
+      <Form.Input type='number' as='input' value={otherAccount} onChange={(e => setOtherAccount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input>  
+      <Button onClick={addBankTransfer} disabled={currentAccount === false && currentAmount === false} color='blue'>Ajouter</Button>
+    </Form>
   )
 }
 
@@ -155,6 +153,16 @@ const UserTransfers = () => {
     })
   }, [initialized, userIsAdmin])
 
+  const getAllBankTransfersFromUserid = useCallback(() => {
+    if (initialized === true && userIsAdmin === false)
+    console.log('UserTransfers', 'getAllBankTransfersFromUserid()')
+    appbankApi.getAllBankTransfersFromUserid().then(data => {
+      console.log('UserTransfers', 'getAllBankTransfersFromUserid()', data)
+      if (data === false) { return false }
+      setBankTransfers(data)
+    })
+  }, [initialized, userIsAdmin])
+
   if (!initialized) {
     return (
       <Container>
@@ -168,6 +176,10 @@ const UserTransfers = () => {
   if (userIsAdmin === true) {
     getAllBankTransfers()
   }
+  else {
+    getAllBankTransfersFromUserid()
+  }
+
 
   return (
     <Container>
@@ -180,7 +192,14 @@ const UserTransfers = () => {
         </Header.Content>
       </Header>
       {!userIsAdmin &&
-        <FormTransfer />}
+        <Grid>
+          <Grid.Column width={4}>
+            {/*<UserListTransfers /> */}
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <FormTransfer />
+          </Grid.Column>
+        </Grid> }
       {userIsAdmin &&
         <TransfersToAccept />}
     </Container>

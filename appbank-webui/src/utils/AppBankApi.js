@@ -216,7 +216,7 @@ const getAllBankTransfers = async (token) => {
 const validateBankTransfer = async (bankTransferId, validate, token) => {
   console.log('AppBankApi', 'validateBankTransfer')
   try {
-    const { status, data } = await instance.get(`/api/banktransfer/${bankTransferId}?validate=${validate}`, {
+    const { status, data } = await instance.delete(`/api/banktransfer/${bankTransferId}?validate=${validate}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -226,6 +226,23 @@ const validateBankTransfer = async (bankTransferId, validate, token) => {
     return data
   } catch (e) {
     console.log('AppBankApi', 'validateBankTransfer', 'error', e)
+    return false
+  }
+}
+
+const getAllBankTransfersFromUserid = async (userId, token) => {
+  console.log('AppBankApi', 'getAlgetAllBankTransfersFromUseridlBankTransfers')
+  try {
+    const { status, data } = await instance.get(`/api/banktransfer/${userId}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) { throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'getAllBankTransfersFromUserid', 'error', e)
     return false
   }
 }
@@ -250,5 +267,6 @@ export const appbankApi = {
   addBankTransfer, //9
   getAllBankTransfers, // 10
   validateBankTransfer, //11
+  getAllBankTransfersFromUserid, //12
 
 }

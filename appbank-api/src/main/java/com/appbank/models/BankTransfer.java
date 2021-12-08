@@ -11,6 +11,7 @@ public class BankTransfer {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
+    private int idUserSrc;
     /**
      * accountIdSrc : The account that we will remove the money
      */
@@ -23,10 +24,19 @@ public class BankTransfer {
 
     public BankTransfer() {}
 
-    public BankTransfer (Integer accountIdSrc, Integer accountIdDst, int amount) {
+    public BankTransfer (int idUserSrc, Integer accountIdSrc, Integer accountIdDst, int amount) {
+        this.idUserSrc = idUserSrc;
         this.accountIdDst = accountIdDst;
         this.accountIdSrc = accountIdSrc;
         this.amount = amount;
+    }
+
+    public int getIdUserSrc() {
+        return idUserSrc;
+    }
+
+    public void setIdUserSrc(int idUserSrc) {
+        this.idUserSrc = idUserSrc;
     }
 
     public Integer getAccountIdSrc() {

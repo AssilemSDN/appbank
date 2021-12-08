@@ -91,4 +91,10 @@ public class AccountServiceImpl implements IAccountService {
         return addMoneyToAccount(accountIdDst, moneyToTransfer);
     }
 
+    @Override
+    public Integer getProprietaireId (Integer accountId) {
+        Account account = getAccountFromAccountId(accountId);
+        return account.getProprietaireID();
+    }
+
 }

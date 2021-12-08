@@ -52,6 +52,7 @@ public interface IAccountService {
      * @return false if there is no account from accountid, else true.
      */
     boolean removeAccountFromAccountId (Integer accountId);
+    Integer getProprietaireId (Integer accountId);
     
 
 }

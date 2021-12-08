@@ -1,6 +1,7 @@
 package com.appbank.services;
 
 import com.appbank.models.BankTransfer;
+import java.util.List;
 
 public interface IBankTransferService {
     Iterable <BankTransfer> getAllBankTransfer ();
@@ -12,5 +13,6 @@ public interface IBankTransferService {
      */
     boolean validateBankTransfer (int bankTransferId, boolean validate);
     BankTransfer getBankTransferFromId(int bankTransferId);
-    BankTransfer addNewBankTransfer (Integer accountIdSrc, Integer accountIdDst, int amount);
+    BankTransfer addNewBankTransfer (int idUserSrc, Integer accountIdSrc, Integer accountIdDst, int amount);
+    List <BankTransfer> getAllBankTransfersFromUserId (int userId);
 }
