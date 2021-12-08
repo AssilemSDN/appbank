@@ -29,6 +29,7 @@ import { appbankApi } from '../utils/AppBankApi'
 
 const TransfersToAccept = () => {
   const bankTransfers = useRecoilValue(bankTransfersState)
+  const [validate, setValidate] = useState('')
 
   const data = []
   bankTransfers.map(bankTransfer => {
@@ -41,8 +42,9 @@ const TransfersToAccept = () => {
     })
   })
 
-  const validateBankTransfer = (bankTransferId, validate) => {
-    appbankApi.validateBankTransfer(bankTransferId, validate).then(data => {
+  const validateBankTransfer = (e) => {
+    console.log ('validateBankTranfer', e)
+    appbankApi.validateBankTransfer(e.target.bankTransferId, e.target.validate).then(data => {
       if (data === false) {
         return false
       }
@@ -63,8 +65,8 @@ const TransfersToAccept = () => {
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <Button color='black' content="Refuser" onClick={validateBankTransfer} />
-              <Button color='teal' content="Accepter" onClick={validateBankTransfer} />
+              <Button color='black' content="Refuser" validate={false} bankTransferId={bankTransfer.id} onClick={validateBankTransfer} />
+              <Button color='teal' content="Accepter" validate={true} bankTransferId={bankTransfer.id} onClick={validateBankTransfer} />
             </Card.Content> 
           </Card>
           
