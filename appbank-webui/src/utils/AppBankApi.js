@@ -179,10 +179,10 @@ const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
   }
 }
 
-const addBankTransfer = async () => {
-  console.log('AppBankApi', 'withdrawalAcount', accountid)
+const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
+  console.log('AppBankApi', 'withdrawalAcount', amount)
   try {
-    const { status, data } = await instance.post(`/api/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+    const { status, data } = await instance.post(`/api/banktransfer?accountIdSrc=${accountIdSrc}&accountIdDst=${accountIdDst}&amount=${amount}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
