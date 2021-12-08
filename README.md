@@ -77,7 +77,7 @@ L'authentification se fait avec :
 - **Mot de passe** : changeme
 - **Base de données** : appbank
 
-Toutes ces données peuvent être modifiés et personnaliser dans le dossier ``appbank/docker-compose.yaml``.
+Toutes ces données peuvent être modifiés et personnaliser dans le fichier ``appbank/docker-compose.yaml``.
 
 ## Keycloak 
 La base de données de keycloak utilisé pour l'authentification est accessible depuis l'adresse  ``http://localhost:8000``.
