@@ -108,7 +108,7 @@ const getAccountFromAccountId = async (accountid) => {
 const depositAccount = async (accountid, depot, token) => {
   console.log('AppBankApi', 'depositAccount', accountid)
   try {
-    const { status, data } = await instance.post(`/api/depot?accountId=${accountid}&deposit=${depot}`, {
+    const { status, data } = await instance.post(`/api/accounts/depot?accountId=${accountid}&deposit=${depot}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -125,7 +125,7 @@ const depositAccount = async (accountid, depot, token) => {
 const withdrawalAccount = async (accountid, retrait, token) => {
   console.log('AppBankApi', 'withdrawalAcount', accountid)
   try {
-    const { status, data } = await instance.post(`/api/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+    const { status, data } = await instance.post(`/api/accounts/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)

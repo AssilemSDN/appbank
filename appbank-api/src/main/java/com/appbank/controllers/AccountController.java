@@ -85,8 +85,9 @@ public class AccountController {
     }
 
     @PostMapping(path="/depot")
-    public ResponseEntity<Boolean> depositAccount (@RequestParam Integer accountId, 
+    public ResponseEntity<Boolean> depositAccount (@RequestParam int accountId, 
     @RequestParam int deposit)  {
+        System.out.println("Yo");
         return ResponseEntity.ok().body(accountService.addMoneyToAccount(accountId, deposit));
     }
     @PostMapping(path="/retrait")

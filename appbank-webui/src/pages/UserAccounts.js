@@ -71,16 +71,17 @@ const AdminListUsers = () => {
 const DepositModal = (props) => {
   const { accountId, accountSolde } = props
   const [open, setOpen] = useState();
+  const [amount,setAmount] = useState(false)
 
-  const confirmation = useCallback(() => {
+  const confirmation = () => {
     console.log('confirmation')
-    appbankApi.depositAccount(accountId, 100).then(data => {
+    appbankApi.depositAccount(accountId, amount).then(data => {
       if (data === false) {
         return false
       }
     }) //Ajout 100 euros
     setOpen(false)
-  })[accountId]
+  }
   
   return(
   <Modal
@@ -95,7 +96,7 @@ const DepositModal = (props) => {
         <Header>Solde actuel : {accountSolde} </Header>
         <Form>
           <header>Insérer le montant à déposer</header>
-          <Form.Input type='number' as='input' min="0" step="1" ></Form.Input> 
+          <Form.Input type='number' as='input' value={amount} onChange={e => setAmount(e.target.value)} min="0" step="1" ></Form.Input> 
         </Form>
       </Modal.Description>
     </Modal.Content>
@@ -113,33 +114,51 @@ const DepositModal = (props) => {
     )
   }
 
-  // const WithdrawalModal = () => {
-  //   const [open, setOpen] = useState();    
-
-  //   return(
-  //     <Modal
-  //       onClose={() => setOpen(false)}
-  //       onOpen={() => setOpen(true)}
-  //       open={open}
-  //       trigger={<Button color='teal'>Retirer</Button>}
-  //     >
-  //       <Modal.Header>Compte n° {currentAccount}:  Retrait</Modal.Header>
-  //       <Modal.Content image>
-  //         <Modal.Description>
-  //           <Header>Solde actuel : 0</Header>
-  //           <p>
-  //           Toztozotz
-  //           </p>
-  //           <p>Is it okay to use this photo?</p>
-  //         </Modal.Description>
-  //       </Modal.Content>
-  //       <Modal.Actions>
-  //         <Button content="Annuler" color='black' onClick={() => setOpen(false)}/>
-  //         <Button content="Confirmer" labelPosition='right' icon='checkmark' onClick={() => setOpen(false)} positive />
-  //       </Modal.Actions>
-  //     </Modal>
-  //   )
-  // }
+  const WithdrawalModal = (props) => {
+    const { accountId, accountSolde } = props
+    const [open, setOpen] = useState();
+    const [amount,setAmount] = useState(false)
+  
+    const confirmation = () => {
+      console.log('confirmation')
+      appbankApi.withdrawalAccount(accountId, amount).then(data => {
+        if (data === false) {
+          return false
+        }
+      }) //Ajout 100 euros
+      setOpen(false)
+    }
+    
+    return(
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button color='teal'>Retirer</Button>}
+    >
+      <Modal.Header>Compte n°  {accountId} : Retrait</Modal.Header>
+      <Modal.Content image>
+        <Modal.Description>
+          <Header>Solde actuel : {accountSolde} </Header>
+          <Form>
+            <header>Insérer le montant à retirer</header>
+            <Form.Input type='number' as='input' value={amount} onChange={e => setAmount(e.target.value)} min="0" step="1" ></Form.Input> 
+          </Form>
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color='black' onClick={() => setOpen(false)} content="Annuler" />
+        <Button
+          content="Confirmer"
+          labelPosition='right'
+          icon='checkmark'
+          onClick={confirmation}
+          positive
+        />
+        </Modal.Actions>
+      </Modal>
+      )
+    }
 
 
 const AccountsCard = () => {
@@ -176,7 +195,7 @@ const AccountsCard = () => {
             
             <Card.Content extra>
               <DepositModal accountId={account.id} accountSolde={account.solde} />
-              {/* <WithdrawalModal accountId={account.id} /> */}
+              <WithdrawalModal accountId={account.id} /> 
             </Card.Content> 
             
 

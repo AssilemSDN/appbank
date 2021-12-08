@@ -27,7 +27,9 @@ import { appbankApi } from '../utils/AppBankApi'
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
   const [currentAccount, setCurrentAccount] = useState(false)
+  const [otherAccount, setOtherAccount] = useState(false)
   const [currentAmount, setCurrentAmount] = useState (false)
+  const [amount,setAmount] = useState(false)
 
   const accounts = []
   userAccounts.map(account => {
@@ -41,7 +43,7 @@ const FormTransfer = () => {
 
   const addBankTransfer = useCallback(() => {
     console.log('FormListAccounts', 'addBankTransfer()', currentAccount)
-    appbankApi.addBankTransfer(currentAccount).then(accounts => {
+    appbankApi.addBankTransfer(currentAccount,otherAccount,amount).then(accounts => {
       if (accounts === false) {
         // try to do something in case of error
         return false
@@ -75,9 +77,9 @@ const FormTransfer = () => {
             </Card.Content>
           </Card>
           <header> Montant </header>
-          <Form.Input type='number' as='input' min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
+          <Form.Input type='number' as='input' value={amount} onChange={(e => setAmount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
           <header> Compte destinataire </header>
-          <Form.Input type='number' as='input' min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input>  
+          <Form.Input type='number' as='input' value={otherAccount} onChange={(e => setOtherAccount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input>  
           <Button onClick={addBankTransfer} disabled={currentAccount === false && currentAmount === false} color='blue'>Ajouter</Button>
         </Form>
       </Grid.Column>

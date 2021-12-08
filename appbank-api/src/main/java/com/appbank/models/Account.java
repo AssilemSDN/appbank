@@ -1,23 +1,19 @@
 package com.appbank.models;
 
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 
 // A faire plus tard... D'abord le login administrator / user +
 // lien avec le react.
 
 @Entity // This tells Hibernate to make a table out of this class
-@IdClass (AccountId.class) // When an entity has multiple primary key fields (requiered!)
 public class Account {
     /** 
      * id : primary key, numero de compte
     */
-    @Id
     private Integer proprietaireID;
 
     @Id    
@@ -62,7 +58,3 @@ public class Account {
 
 }
 
-class AccountId implements Serializable{
-    Integer proprietaireID;
-    Integer id;
-}
