@@ -19,13 +19,6 @@ Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de 
 - `Docker 20.10.7` 
 - `Docker-Compose 1.25.0`
 
-## Initialiser la BDD keycloak
-- Ouvrir le terminal et aller au dossier appbank
-- Lancer la commande : 
-```
-$node initialize.js
-```
-
 ## Lancer l'environnement
 
 - Ouvrir le terminal et aller au dossier appbank 
@@ -34,6 +27,27 @@ $node initialize.js
 $./start.sh
 ``` 
 Ce script lancera la base de donnée de l'API Rest et celle de keycloak. 
+
+## Initialiser keycloak
+Si vous n'avez jamais utilisé ce projet, il vous faudra pour le premier lancement initaliser keycloak. Pour se faire, aller à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de voir l'interface de keycloak.
+
+Une fois la page ouverte, aller dans ``administration console``, et s'authentifier avec :
+- **Username** : admin
+- **Password** : admin
+
+Mettre le curseur sur ``master``. Il devrait apparaître l'option ``add realms``. Ajouter le realms "**appbank**", puis appuyer sur ``create``.
+
+Afin d'importer les différents rôles, un fichier realm-export.json est inclu dans le dossier appbank. Sur Keycloak, cliquer donc sur ``import`` -> ``select file`` -> puis sélectinner le fichier **realm-export.json**. Dans ``if resource exists``, appuyer sur ``skip``. Finaliser l'import en cliquant sur import. 
+
+Pour l'identity provider, aller dans ``indentity provider``, puis github. Le client secret sera à copier. 
+
+> **CLIENT SECRET : 868357bd5cd2edb17b798ea24e155a96c6045fb5**
+
+Puis, il faudra cliquer sur ``save``.
+
+La base de données de keycloak sera initialement vide. Pour tester, vous devriez au moins créer un utilisateur administrateur, et un client. Pour se faire, aller dans ``users`` puis ``create user``. Le role de l'admin sera ``appbank-admin`` et celui du client sera ``default-roles-appbank``. 
+
+Vous pouvez à tout moment modifier vos users dans l'onglet ``users``, puis en cliquant sur ``view all users``. Vous pourrez alors éditer tous vos utilisateurs déjà crées.
 
 ## Exécuter appbank avec Maven & Npm
 
