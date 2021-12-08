@@ -55,7 +55,7 @@ $./stop.sh
 ```
 - Vous pouvez vérifier que le stop s'est bien passé en lançant la commande dans ce même dossier : 
 ```
-$ docker ps -a
+$docker ps -a
 ```
 - L'affichage ne devrait afficher **aucun** container :
 ```
@@ -63,7 +63,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 - Si ce n'est pas le cas, vous pouvez toujours lancer la commande :
 ```
-docker system prune
+$docker system prune
 ``` 
 
 /!\ Cependant, la commande entraînera la **suppression des données que manipule l'API** /!\
