@@ -7,7 +7,7 @@ Il s'agit d'un projet universitaire en binôme dont le but est de fournir une AP
 
 `appbank` est constituée d'un **Spring-Boot** Rest API `appbank-api `, et d'un frontend en **ReactJS**  `appbank-webui` sécurisé avec **keycloak**. La base de donnée utilisée pour l'API backend et celle de keycloak est **MySql**. La gestion de la base de donnée de l'API peut être faite depuis **adminer**.
 
-Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucuns de ces ports ne soient utilisés.
+Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de ces ports ne soient utilisés.
 
 ## Prérequis
 
