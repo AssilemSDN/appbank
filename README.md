@@ -1,4 +1,5 @@
-**Binome** : Mélissa Perreymond & Samy Djama
+**Binome** : Mélissa Perreymond & Samy Djama <br>
+Le github de Samy : https://github.com/domtox/app_bank_projet_2021
 
 # appbank : Une application bancaire fullstack sping-boot / react / keycloak
 
