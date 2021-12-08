@@ -46,7 +46,7 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(
-        @RequestParam(value="page", defaultValue="1") Integer pageNumber,
+        @RequestParam(value="page", defaultValue="1") int pageNumber,
         @RequestParam(required = false) String lastName) {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
