@@ -21,6 +21,8 @@ public class BankTransfer {
     private Integer accountIdDst;
     private int amount;
 
+    public BankTransfer() {}
+
     public BankTransfer (Integer accountIdSrc, Integer accountIdDst, int amount) {
         this.accountIdDst = accountIdDst;
         this.accountIdSrc = accountIdSrc;

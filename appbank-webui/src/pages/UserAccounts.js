@@ -125,7 +125,7 @@ const DepositModal = (props) => {
     trigger={<Button color='black'>Déposer</Button>}
   >
     <Modal.Header>Compte n° : {accountId} Dépot</Modal.Header>
-    <Modal.Content image>
+    <Modal.Content>
       <Modal.Description>
         <Header>Solde actuel : {accountSolde} </Header>
         <Form>
@@ -221,7 +221,7 @@ const AccountsCard = () => {
               <Card.Header>Compte n°{account.id}</Card.Header>
               <Card.Meta>Propriétaire: {userEmail}</Card.Meta>
               <Card.Description>
-                <strong>Solde :</strong> ${account.solde}€<br />
+                <strong>Solde :</strong> {account.solde}€<br />
                 <strong>Autorisation de découvert :</strong> Non
               </Card.Description>
             </Card.Content>

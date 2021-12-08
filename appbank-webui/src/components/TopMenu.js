@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { Menu, Button } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 import { useKeycloak } from '@react-keycloak/web'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
 import {
   userFirstNameState,

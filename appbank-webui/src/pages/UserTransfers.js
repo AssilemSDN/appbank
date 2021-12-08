@@ -5,6 +5,7 @@ import {
   Button,
   Header, 
   Container, 
+  Modal,
   Form, 
   Grid, 
   Icon, 
@@ -12,18 +13,66 @@ import {
   Loader,
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import TopMenu from '../components/TopMenu'
 import {
   userAccountsState,
   userIsAdminState,
+  bankTransfersState,
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
   /*
   * L'utilisateur peut faire des virements : ils sont placés en attentes jusqu'à réponse de l'administrateur
   * L'administrateur peut accepter ou non les virements
   */
+
+const TransfersToAccept = () => {
+  const bankTransfers = useRecoilValue(bankTransfersState)
+
+  const data = []
+  bankTransfers.map(bankTransfer => {
+    data.push({
+      key: `bankTransferId_${bankTransfer.id}`,
+      id: bankTransfer.id,
+      src : bankTransfer.accountIdSrc,
+      dst: bankTransfer.accountIdDst,
+      amount: bankTransfer.amount,
+    })
+  })
+
+  const validateBankTransfer = (bankTransferId, validate) => {
+    appbankApi.validateBankTransfer(bankTransferId, validate).then(data => {
+      if (data === false) {
+        return false
+      }
+    })
+  }
+
+  return (
+    <Card.Group>
+      {data.map(bankTransfer => {
+        return (
+          <Card color='blue' key={`bank_transfert_${bankTransfer}`}>
+            <Card.Content>
+              <Card.Header>Transfer n°{bankTransfer.id}</Card.Header>
+              <Card.Description>
+                <strong>Compte émetteur :</strong> n°{bankTransfer.src}  <br />
+                <strong>Compte destinataire :</strong> n°{bankTransfer.dst}  <br />
+                <strong>Montant</strong> : {bankTransfer.amount}
+              </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <Button color='black' content="Refuser" onClick={validateBankTransfer} />
+              <Button color='teal' content="Accepter" onClick={validateBankTransfer} />
+            </Card.Content> 
+          </Card>
+          
+        )
+      })}
+    </Card.Group>
+  )
+}
 
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
@@ -44,12 +93,13 @@ const FormTransfer = () => {
 
   const addBankTransfer = useCallback(() => {
     console.log('FormListAccounts', 'addBankTransfer()', currentAccount)
-    appbankApi.addBankTransfer(currentAccount,otherAccount,amount).then(accounts => {
-      if (accounts === false) {
+    appbankApi.addBankTransfer(currentAccount,otherAccount,amount).then(bankTransfer => {
+      if (bankTransfer === false) {
         // try to do something in case of error
         return false
       }
-      console.log('addBankTransfer', 'addBankTransfer()', currentAccount, accounts)
+      
+      console.log('addBankTransfer', 'addBankTransfer()', currentAccount, bankTransfer)
     })
   }, [currentAccount])
 
@@ -90,8 +140,19 @@ const FormTransfer = () => {
 
 const UserTransfers = () => {
   const userIsAdmin = useRecoilValue(userIsAdminState)
+  const setBankTransfers = useSetRecoilState(bankTransfersState)
   const { initialized } = useKeycloak()
-  
+
+  const getAllBankTransfers = useCallback(() => {
+    if (initialized === true && userIsAdmin === true)
+    console.log('UserTransfers', 'getAllBankTransfer()')
+    appbankApi.getAllBankTransfers().then(data => {
+      console.log('UserTransfers', 'getAllBankTransfers()', data)
+      if (data === false) { return false }
+      setBankTransfers(data)
+    })
+  }, [initialized, userIsAdmin])
+
   if (!initialized) {
     return (
       <Container>
@@ -100,6 +161,10 @@ const UserTransfers = () => {
         </Dimmer>
       </Container>
     )
+  }
+
+  if (userIsAdmin === true) {
+    getAllBankTransfers()
   }
 
   return (
@@ -114,6 +179,8 @@ const UserTransfers = () => {
       </Header>
       {!userIsAdmin &&
         <FormTransfer />}
+      {userIsAdmin &&
+        <TransfersToAccept />}
     </Container>
   )
 }

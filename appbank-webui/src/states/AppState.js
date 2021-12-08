@@ -45,6 +45,11 @@ const adminAccountsState = atom({
   default: []
 })
 
+const bankTransfersState = atom({
+  key: 'bankTransfersState',
+  default: []
+})
+
 export {
   userIsAdminState,
   userLastSyncroState,
@@ -54,5 +59,6 @@ export {
   userFirstNameState,
   userAccountsState,
   adminUsersState,
-  adminAccountsState
+  adminAccountsState,
+  bankTransfersState,
 }
