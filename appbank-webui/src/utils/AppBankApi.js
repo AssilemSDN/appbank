@@ -125,7 +125,7 @@ const depositAccount = async (accountid, depot, token) => {
 const withdrawalAccount = async (accountid, retrait, token) => {
   console.log('AppBankApi', 'withdrawalAcount', accountid)
   try {
-    const { status, data } = await instance.post(`/api/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+    const { status, data } = await instance.post(`/api/accounts/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -180,7 +180,7 @@ const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
 }
 
 const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
-  console.log('AppBankApi', 'withdrawalAcount', amount)
+  console.log('AppBankApi', 'addBankTransfer', amount)
   try {
     const { status, data } = await instance.post(`/api/banktransfer?accountIdSrc=${accountIdSrc}&accountIdDst=${accountIdDst}&amount=${amount}`, {
       hearders: {
@@ -191,7 +191,7 @@ const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
     if (status !== 200) {throw new Error(`Status is ${status}`) }
     return data
   } catch (e) {
-    console.log('AppBankApi', 'withdrawalAccount', 'error', e)
+    console.log('AppBankApi', 'addBankTransfer', 'error', e)
     return false
   }
 }

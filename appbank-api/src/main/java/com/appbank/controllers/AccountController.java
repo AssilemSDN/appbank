@@ -91,8 +91,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.addMoneyToAccount(accountId, deposit));
     }
     @PostMapping(path="/retrait")
-    public ResponseEntity<Boolean> withdrawalAccount (@RequestParam Integer accountId, 
-    @RequestParam int withdrawal)  {
+    public ResponseEntity<Boolean> withdrawalAccount (@RequestParam int accountId, @RequestParam int withdrawal)  {
         return ResponseEntity.ok().body(accountService.removeMoneyToAccount(accountId, withdrawal));
     }
 

@@ -154,12 +154,14 @@ const DepositModal = (props) => {
     const [amount,setAmount] = useState(false)
   
     const confirmation = () => {
-      console.log('confirmation')
+      console.log('WithdrawalModal', 'confirmation')
       appbankApi.withdrawalAccount(accountId, amount).then(data => {
         if (data === false) {
           return false
         }
+        console.log('WithdrawalModal', 'confirmation', data)
       }) //Ajout 100 euros
+      
       setOpen(false)
     }
     

@@ -15,7 +15,8 @@ import {
   userEmailState,
   userFirstNameState,
   userLastNameState,
-  userAccountsState
+  userAccountsState,
+  allAccountsState
 } from '../states/AppState'
 
 const UserCard = () => {
@@ -65,6 +66,7 @@ const HomePage = () => {
   const setAdminUsersState = useSetRecoilState(adminUsersState)
   const setAdminAccountsState = useSetRecoilState(adminAccountsState)
   const setUserAccountsState = useSetRecoilState(userAccountsState)
+  const setAllAccounts = useSetRecoilState(allAccountsState)
   const userEmail = useRecoilValue(userEmailState)
   const { keycloak, initialized } = useKeycloak()
 
@@ -81,16 +83,17 @@ const HomePage = () => {
     })
   }, [keycloak, setAdminUsersState])
 
-  const getAllAccouts = useCallback(() => {
+  const getAllAccounts = useCallback(() => {
     const { authenticated = false } = keycloak
-    console.log('HomePage', 'getAllAccouts()', 'authenticated', authenticated)
+    console.log('HomePage', 'getAllAccounts()', 'authenticated', authenticated)
     appbankApi.getAllAccounts().then(data => {
       if (data === false) {
         // try to do something in case of error
         return false
       }
-      console.log('HomePage', 'getAllAccouts()', 'accounts', data.length)
+      console.log('HomePage', 'getAllAccounts()', 'accounts', data.length)
       setAdminAccountsState(data)
+      setAllAccounts(data)
     })
   }, [keycloak, setAdminAccountsState])
 
@@ -102,18 +105,19 @@ const HomePage = () => {
         // try to do something in case of error
         return false
       }
-      console.log('HomePage', 'getAllAccouts()', 'accounts', data.length)
+      console.log('HomePage', 'getAllgetAccountsFromEmailAccouts()', 'accounts', data.length)
       setUserAccountsState(data)
     })
   }, [keycloak, setUserAccountsState, userEmail])
 
   if (userIsAdmin) {
     getAllUsers()
-    getAllAccouts()
+    getAllAccounts()
   }
 
   if (!userIsAdmin && userEmail !== false) {
     getAccountsFromEmail()
+    getAllAccounts()
   }
 
   if (!initialized) {

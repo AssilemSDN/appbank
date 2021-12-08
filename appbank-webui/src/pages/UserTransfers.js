@@ -13,13 +13,14 @@ import {
   Loader,
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 
 import TopMenu from '../components/TopMenu'
 import {
   userAccountsState,
   userIsAdminState,
   bankTransfersState,
+  allAccountsState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
   /*
@@ -28,7 +29,7 @@ import { appbankApi } from '../utils/AppBankApi'
   */
 
 const TransfersToAccept = () => {
-  const bankTransfers = useRecoilValue(bankTransfersState)
+  const [bankTransfers, setBankTransfers] = useRecoilState(bankTransfersState)
   const [validate, setValidate] = useState('')
 
   const data = []
@@ -48,6 +49,12 @@ const TransfersToAccept = () => {
       if (data === false) {
         return false
       }
+      appbankApi.getAllBankTransfers().then(data => {
+        if (data === false) {
+          return false
+        }
+        setBankTransfers(data)
+      })
     })
   }
 
@@ -76,18 +83,26 @@ const TransfersToAccept = () => {
   )
 }
 
-
-
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
+  const allAccounts = useRecoilValue(allAccountsState)
   const [currentAccount, setCurrentAccount] = useState(false)
   const [otherAccount, setOtherAccount] = useState(false)
-  const [currentAmount, setCurrentAmount] = useState (false)
-  const [amount,setAmount] = useState(false)
+  const [amount, setAmount] = useState(false)
 
   const accounts = []
   userAccounts.map(account => {
     accounts.push({
+      key: `accountId_${account.id}`,
+      text: account.id,
+      value: account.id
+    })
+    return true
+  })
+
+  const accountsGlobal = []
+  allAccounts.map(account => {
+    accountsGlobal.push({
       key: `accountId_${account.id}`,
       text: account.id,
       value: account.id
@@ -105,18 +120,27 @@ const FormTransfer = () => {
       
       console.log('addBankTransfer', 'addBankTransfer()', currentAccount, bankTransfer)
     })
-  }, [currentAccount])
+  }, [currentAccount, otherAccount, amount])
 
   const handleChangeCurrentAccount = (e, accounts) => {
     console.log('FormListAccounts', 'handleChangeCurrentAccount()', accounts.value)
     setCurrentAccount(accounts.value)
   }
 
-  const handleChangeCheckAmountPositive = (event) => {
-    console.log('FormListAccounts', 'checkAmountPositive()', event.key)
+  const handleChangeOtherAccount = (e, accounts) => {
+    console.log('FormListAccounts', 'handleChangeOtherAccount()', accounts.value)
+    setOtherAccount(accounts.value)
+  }
 
-    if (event.key == '-') {
-      event.preventDefault()
+  const handlerChangeAmount = (e) => {
+    console.log('FormListAccounts', 'handlerChangeAmount()', e.target.value)
+    setAmount(e.target.value)
+  }
+
+  const handleChangeCheckAmountPositive = (e) => {
+    console.log('FormListAccounts', 'checkAmountPositive()', e.key)
+    if (e.key == '-') {
+      e.preventDefault()
     }
   }
   
@@ -130,10 +154,10 @@ const FormTransfer = () => {
         </Card.Content>
       </Card>
       <header> Montant </header>
-      <Form.Input type='number' as='input' value={amount} onChange={(e => setAmount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
+      <Form.Input type='number' value={amount} onChange={handlerChangeAmount} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
       <header> Compte destinataire </header>
-      <Form.Input type='number' as='input' value={otherAccount} onChange={(e => setOtherAccount(e.target.value))} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input>  
-      <Button onClick={addBankTransfer} disabled={currentAccount === false && currentAmount === false} color='blue'>Ajouter</Button>
+      <Dropdown onChange={handleChangeOtherAccount} placeholder='Sélectionner un compte' fluid selection options={accountsGlobal} />
+      <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false} color='blue'>Ajouter</Button>
     </Form>
   )
 }
@@ -175,10 +199,10 @@ const UserTransfers = () => {
 
   if (userIsAdmin === true) {
     getAllBankTransfers()
-  }
-  else {
-    getAllBankTransfersFromUserid()
-  }
+  } 
+  // else {
+  //   getAllBankTransfersFromUserid()
+  // }
 
 
   return (
