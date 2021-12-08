@@ -34,8 +34,10 @@ function bearerAuth (token) {
  * 3- POST /api/accounts/email/{email} : add an account associate with this email (admin only)
  *
  * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 5- PATCH /api/accounts/deposer/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
  * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * 
+ * 7  7 POST retrait
+ * 8 POST depot
  *
  * ----------------------------------------
  * From UserController :
@@ -103,14 +105,38 @@ const getAccountFromAccountId = async (accountid) => {
   return instance.get(`/api/accounts/${accountid}`)
 }
 
-const updateAccount = async (accountid, depotOrRetrait, token) => {
-  return instance.post(`/api/accounts/${accountid}`, accountid,
-    depotOrRetrait, {
-      headers: {
+const depositAccount = async (accountid, depot, token) => {
+  console.log('AppBankApi', 'depositAccount', accountid)
+  try {
+    const { status, data } = await instance.post(`/api/depot?accountId=${accountid}&deposit=${depot}`, {
+      hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
       }
     })
+    if (status !== 200) {throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'depositaccount', 'error', e)
+    return false
+  }
+}
+
+const withdrawalAccount = async (accountid, retrait, token) => {
+  console.log('AppBankApi', 'withdrawalAcount', accountid)
+  try {
+    const { status, data } = await instance.post(`/api/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) {throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'withdrawalAccount', 'error', e)
+    return false
+  }
 }
 
 const removeAccountFromAccountId = async (accountid, token) => {
@@ -154,7 +180,20 @@ const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
 }
 
 const addBankTransfer = async () => {
-
+  console.log('AppBankApi', 'withdrawalAcount', accountid)
+  try {
+    const { status, data } = await instance.post(`/api/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) {throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'withdrawalAccount', 'error', e)
+    return false
+  }
 }
 
 export const appbankApi = {
@@ -165,7 +204,8 @@ export const appbankApi = {
   addAccountFromEmail, // 3
 
   getAccountFromAccountId, // 4 //Pas sûre d'avoir besoin de ça...
-  updateAccount, // 5
+  depositAccount, // 7
+  withdrawalAccount ,
   removeAccountFromAccountId, // 6
   // -------------------------------------------
   // From UserController

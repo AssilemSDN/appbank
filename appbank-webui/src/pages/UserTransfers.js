@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react'
-import { useNavigate } from 'react-router-dom'
 import { 
   Card, 
   Dropdown, 
@@ -11,17 +10,13 @@ import {
   Icon, 
   Dimmer, 
   Loader,
-  Label, 
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue } from 'recoil'
 
 import TopMenu from '../components/TopMenu'
 import {
-  adminUsersState,
-  userIsAdminState,
   userAccountsState,
-  userEmailState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
   /*

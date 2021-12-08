@@ -6,7 +6,6 @@ import com.appbank.models.Account;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +26,10 @@ import com.appbank.services.IUserService;
  * 3- POST /api/accounts/users/{email} : add an account associate with this email (admin only)
  * 
  * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 5- PATCH /api/accounts/{accountid} (param: accountid, depot) : add depot to account (can be a retrait ?) (to protect)
  * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * 
+ * 7 POST retrait
+ * 8 POST depot
  *
  */
 
@@ -76,20 +77,22 @@ public class AccountController {
         }
         return ResponseEntity.ok().body(account);
     }
-
-    @PatchMapping(path="/{accountId}")
-    public ResponseEntity<Boolean> updateAccount (@PathVariable Integer accountId, 
-    @RequestParam int depotOrRetrait)  {
-        if (depotOrRetrait < 0) {
-            return ResponseEntity.ok().body(accountService.removeMoneyToAccount(accountId, depotOrRetrait));
-        }
-        return ResponseEntity.ok().body(accountService.addMoneyToAccount(accountId, depotOrRetrait));
-    }
     
     @DeleteMapping(path="/{accountId}") 
     public ResponseEntity<Boolean> removeAccountFromAccountId (@PathVariable Integer accountId) {
         // True : si l'id du compte est valide et a bien ete supprime
         return ResponseEntity.ok().body(accountService.removeAccountFromAccountId(accountId));
+    }
+
+    @PostMapping(path="/depot")
+    public ResponseEntity<Boolean> depositAccount (@RequestParam Integer accountId, 
+    @RequestParam int deposit)  {
+        return ResponseEntity.ok().body(accountService.addMoneyToAccount(accountId, deposit));
+    }
+    @PostMapping(path="/retrait")
+    public ResponseEntity<Boolean> withdrawalAccount (@RequestParam Integer accountId, 
+    @RequestParam int withdrawal)  {
+        return ResponseEntity.ok().body(accountService.removeMoneyToAccount(accountId, withdrawal));
     }
 
     

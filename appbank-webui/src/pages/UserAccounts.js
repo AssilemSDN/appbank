@@ -1,8 +1,18 @@
 import React, { useCallback, useState } from 'react'
-import { Card, Dropdown, Header, Container, Icon, Dimmer, Loader, Menu, Button } from 'semantic-ui-react'
+import { 
+  Card, 
+  Modal,
+  Dropdown, 
+  Header, 
+  Container, 
+  Icon, 
+  Form,
+  Dimmer, 
+  Loader, 
+  Button 
+} from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue } from 'recoil'
-import { useNavigate } from 'react-router-dom'
 
 import TopMenu from '../components/TopMenu'
 import {
@@ -12,6 +22,7 @@ import {
   userEmailState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
+import Keycloak from 'keycloak-js'
 
 const AdminListUsers = () => {
   const users = useRecoilValue(adminUsersState)
@@ -42,6 +53,7 @@ const AdminListUsers = () => {
     console.log('AdminListUsers', 'handleChangeCurrentUser()', data.value)
     setCurrentUser(data.value)
   }
+  
 
   return (
     <Card fluid color='blue'>
@@ -56,25 +68,102 @@ const AdminListUsers = () => {
   )
 }
 
+const DepositModal = (props) => {
+  const { accountId, accountSolde } = props
+  const [open, setOpen] = useState();
+
+  const confirmation = useCallback(() => {
+    console.log('confirmation')
+    appbankApi.depositAccount(accountId, 100).then(data => {
+      if (data === false) {
+        return false
+      }
+    }) //Ajout 100 euros
+    setOpen(false)
+  })[accountId]
+  
+  return(
+  <Modal
+    onClose={() => setOpen(false)}
+    onOpen={() => setOpen(true)}
+    open={open}
+    trigger={<Button color='black'>Déposer</Button>}
+  >
+    <Modal.Header>Compte n° : {accountId} Dépot</Modal.Header>
+    <Modal.Content image>
+      <Modal.Description>
+        <Header>Solde actuel : {accountSolde} </Header>
+        <Form>
+          <header>Insérer le montant à déposer</header>
+          <Form.Input type='number' as='input' min="0" step="1" ></Form.Input> 
+        </Form>
+      </Modal.Description>
+    </Modal.Content>
+    <Modal.Actions>
+      <Button color='black' onClick={() => setOpen(false)} content="Annuler" />
+      <Button
+        content="Confirmer"
+        labelPosition='right'
+        icon='checkmark'
+        onClick={confirmation}
+        positive
+      />
+      </Modal.Actions>
+    </Modal>
+    )
+  }
+
+  // const WithdrawalModal = () => {
+  //   const [open, setOpen] = useState();    
+
+  //   return(
+  //     <Modal
+  //       onClose={() => setOpen(false)}
+  //       onOpen={() => setOpen(true)}
+  //       open={open}
+  //       trigger={<Button color='teal'>Retirer</Button>}
+  //     >
+  //       <Modal.Header>Compte n° {currentAccount}:  Retrait</Modal.Header>
+  //       <Modal.Content image>
+  //         <Modal.Description>
+  //           <Header>Solde actuel : 0</Header>
+  //           <p>
+  //           Toztozotz
+  //           </p>
+  //           <p>Is it okay to use this photo?</p>
+  //         </Modal.Description>
+  //       </Modal.Content>
+  //       <Modal.Actions>
+  //         <Button content="Annuler" color='black' onClick={() => setOpen(false)}/>
+  //         <Button content="Confirmer" labelPosition='right' icon='checkmark' onClick={() => setOpen(false)} positive />
+  //       </Modal.Actions>
+  //     </Modal>
+  //   )
+  // }
+
+
 const AccountsCard = () => {
   const userEmail = useRecoilValue(userEmailState)
   const userAccounts = useRecoilValue(userAccountsState)
-  //const navigate = useNavigate()
-  const [currentAccount, setCurrentAccount] = useState(false)
+  // const [currentAccount, setCurrentAccount] = useState(false)
 
-  
-  const handleOnAccountCard = (e) => {
-    const accountid = e.currentTarget.getAttribute("accountid")
-    console.log(e)
-    //navigate(`/espace-client/comptes/test`)
-    //navigate(`/espace-client/comptes/${accountid}`)
-  }
+  const accounts = []
+  userAccounts.map(account => {
+    accounts.push({
+      key: `accountId_${account.id}`,
+      text: account.id,
+      value: account.id
+    })
+    return true
+  })
 
   return (
     <Card.Group>
+  
       {userAccounts.map(account => {
         return (
-          <Card color='blue' key={`accountId_${account.id}`} onClick={handleOnAccountCard} accountid={account.id} >
+          <Card color='blue' key={`accountId_${account.id}`}>
+
             <Card.Content>
               <Card.Header>Compte n°{account.id}</Card.Header>
               <Card.Meta>Propriétaire: {userEmail}</Card.Meta>
@@ -83,10 +172,19 @@ const AccountsCard = () => {
                 <strong>Autorisation de découvert :</strong> Non
               </Card.Description>
             </Card.Content>
+
+            
+            <Card.Content extra>
+              <DepositModal accountId={account.id} accountSolde={account.solde} />
+              {/* <WithdrawalModal accountId={account.id} /> */}
+            </Card.Content> 
+            
+
           </Card>
         )
       })}
     </Card.Group>
+    
   )
 }
 
