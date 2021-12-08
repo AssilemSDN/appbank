@@ -18,7 +18,7 @@ Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de 
 - `npm 6.14.15`
 - `Docker 20.10.7` 
 - `Docker-Compose 1.25.0`
-- 
+
 ## Initialiser la BDD keycloak
 - Ouvrir le terminal et aller au dossier appbank
 - Lancer la commande : 
@@ -97,6 +97,10 @@ L'authentification se fait depuis ``Administration Console`` avec :
 Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'accéder aux différents services, vous devez vous authentifier en tant qu'utilisateur client ou administrateur. Veuillez alors vous reporter à la base de donnée utilisateur dans keycloak, accessible depuis ``administration console``. Pour y accéder, veuillez vous authentifier, puis dans le menu latérale gauche, cliquez sur ``users``, puis ``View all users``.
 
 ## Vue utilisateur
+
+
+![project-diagram](documentation/project-diagram.png)
+
 - Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède. 
 
 - Dans l'onglet **compte**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est mis à jour (toutefois, il faut réactualiser la page pour visualiser le changement, problème sur le react). 
