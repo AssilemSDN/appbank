@@ -99,7 +99,7 @@ Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'ac
 ## Vue utilisateur
 
 
-![project-diagram](documentation/accountuser.png)
+![accountsuser](documentation/accountsuser.png)
 
 - Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède. 
 
