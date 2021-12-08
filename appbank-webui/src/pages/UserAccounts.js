@@ -17,6 +17,7 @@ import { useRecoilValue } from 'recoil'
 import TopMenu from '../components/TopMenu'
 import {
   adminUsersState,
+  adminAccountsState,
   userIsAdminState,
   userAccountsState,
   userEmailState
@@ -56,6 +57,7 @@ const AdminListUsers = () => {
   
 
   return (
+    <>
     <Card fluid color='blue'>
       <Card.Content header='Quel utilisateur choisir pour ajouter un compte ?' />
       <Card.Content>
@@ -65,6 +67,38 @@ const AdminListUsers = () => {
         <Button onClick={addAccountFromEmail} disabled={currentUser === false} color='blue'>Ajouter</Button>
       </Card.Content>
     </Card>
+    </>
+  )
+}
+
+const AdminAccountsCard = () => {
+  const allAccounts = appbankApi.getAllAccounts()
+  return (
+    <Card.Group>
+  
+      {allAccounts.map(account => {
+        return (
+          <Card color='blue' key={`accountId_${account.id}`}>
+
+            <Card.Content>
+              <Card.Header>Compte n°{account.id}</Card.Header>
+              <Card.Meta>Propriétaire: Toto</Card.Meta>
+              <Card.Description>
+                <strong>Solde :</strong> ${account.solde}€<br />
+                <strong>Autorisation de découvert :</strong> Non
+              </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <DepositModal accountId={account.id} accountSolde={account.solde} />
+              <WithdrawalModal accountId={account.id} /> 
+            </Card.Content> 
+            
+
+          </Card>
+        )
+      })}
+    </Card.Group>
+    
   )
 }
 
@@ -234,7 +268,10 @@ const UserAccounts = () => {
         </Header.Content>
       </Header>
       {userIsAdmin &&
-        <AdminListUsers />}
+        <>
+        <AdminListUsers />
+        {/*<AdminAccountsCard />*/}
+        </> }
       {!userIsAdmin &&
         <AccountsCard />}
         
