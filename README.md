@@ -59,54 +59,22 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 docker system prune
 ``` 
-Cependant, la commande entraînera la **suppression des données que manipule l'API**. 
+
+/!\ Cependant, la commande entraînera la **suppression des données que manipule l'API** /!\
+
+## Vue utilisateur
+- Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède. 
+
+- Dans l'onglet **compte**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert.
+
+- Dans l'onglet **virement**, l'utilisateur peut envoyer de l'argent depuis l'un de ses comptes vers l'un des comptes de la banque (dont les siens). Le virement est alors mis en attente et doit être validé par l'administrateur.
+
+## Vue administrateur
+- Dans son **home**, l'administrateur voit son nom, le nombre d'utilisateurs et de comptes sur la banque. L'administrateur n'a pas de compte à la banque. 
+
+- Dans l'onglet **compte**, l'administrateur peut ajouter des comptes aux utilisateurs. 
+
+- Dans l'onglet **virement**, l’administrateur a accès à la liste des virements en attente de validation. Il peut alors accepter ou refuser le virement. Après sa décision, le virement sera supprimé de la liste en attente. En cas d'**acceptation**, les soldes du compte émetteur et destinataire sont mis à jour dans la condition où l'émetteur a effectivement le droit de retirer. 
 
 
 
-
-localhost:9000  (pour adminer)
-
-Voir dans docker-compose.yaml pour les environment <br>
-MYSQL_DATABASE <br>
-MYSQL_USER <br>
-MYSQL_PASSWORD <br>
-MYSQL_ROOT_PASSWORD <br>
-Pour se connecter...
-
--------------------------
-
-Puis, il faut run tomcat tout ça :<br>
-Se placer dans /appbank-project/appbank<br>
-**$./mvnw spring-boot:run**
-
-localhost:8080
-
-Là, si on reactualise sur le localhost:9000 , on verra que les tables users administrators accounts sont crées automatiquement. A partir de là, on peut faire des requetes sur le port 8080 du localhost pour interagir avec la BDD (voir plus bas pr les requetes) 
-
----------------------------
-
-Et enfin, run le frontend :<br>
-Se placer dans /appbank-project-react<br>
-**$npm start run**
-
-localhost:3000
-
-Pour l'instant y'a aucun lien entre le front et le middle/back
-
----------------------------
-
-Requêtes faites :<br>
-Ajouter un user (client)<br>
-**$curl --location --request POST 'http://localhost:8080/api/users?email=dupontjean@randommail.com&firstName=jean&lastName=dupont'**
-Contraintes respectées : id unique + mail unique. 
-
-Lister la liste des users (clients)<br>
-**$curl -X GET http://localhost:8080/api/users**
-
-----------------------------
-
-docker compose volume => données persistantes.<br>
-Vider la bdd : ./stop.sh + docker prune 
-
-
-A faire : le reste des requetes, la partie sécurité (droit d'exécuter telle ou telle requete..), le lien entre front et back et modifier le front en fonction
