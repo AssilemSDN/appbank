@@ -65,7 +65,7 @@ docker system prune
 ## Vue utilisateur
 - Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède. 
 
-- Dans l'onglet **compte**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert.
+- Dans l'onglet **compte**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est alors mis à jour (toutefois, la page doit être réactualisé pour voir le changement, problème venant du react)
 
 - Dans l'onglet **virement**, l'utilisateur peut envoyer de l'argent depuis l'un de ses comptes vers l'un des comptes de la banque (dont les siens). Le virement est alors mis en attente et doit être validé par l'administrateur.
 
