@@ -17,6 +17,7 @@ import { useRecoilValue } from 'recoil'
 import TopMenu from '../components/TopMenu'
 import {
   userAccountsState,
+  userIsAdminState,
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
   /*
@@ -88,6 +89,7 @@ const FormTransfer = () => {
 }
 
 const UserTransfers = () => {
+  const userIsAdmin = useRecoilValue(userIsAdminState)
   const { initialized } = useKeycloak()
   
   if (!initialized) {
@@ -110,7 +112,8 @@ const UserTransfers = () => {
           <Header.Subheader>Nothing to do...</Header.Subheader>
         </Header.Content>
       </Header>
-      <FormTransfer />
+      {!userIsAdmin &&
+        <FormTransfer />}
     </Container>
   )
 }
