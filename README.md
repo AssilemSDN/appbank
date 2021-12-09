@@ -1,5 +1,5 @@
 **Binome** : Mélissa Perreymond & Samy Djama <br>
-Le github de Samy : https://github.com/domtox/app_bank_projet_2021
+Le dépot github de Samy : https://github.com/domtox/app_bank_projet_2021
 
 # appbank : Une application bancaire fullstack sping-boot / react / keycloak
 
@@ -30,25 +30,32 @@ $./start.sh
 Ce script lancera la base de donnée de l'API Rest et celle de keycloak. 
 
 ## Initialiser keycloak
-Si vous n'avez jamais utilisé ce projet, il vous faudra pour le premier lancement initaliser keycloak. Pour se faire, aller à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de voir l'interface de keycloak.
 
-Une fois la page ouverte, aller dans ``administration console``, et s'authentifier avec :
-- **Username** : admin
-- **Password** : admin
+Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. A l'avenir
 
-Mettre le curseur sur ``master``. Il devrait apparaître l'option ``add realms``. Ajouter le realms "**appbank**", puis appuyer sur ``create``.
+- L'accès à keycloak se fera à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de pouvoir voir l'interface de keycloak.
 
-Afin d'importer les différents rôles, un fichier realm-export.json est inclu dans le dossier appbank. Sur Keycloak, cliquer donc sur ``import`` -> ``select file`` -> puis sélectinner le fichier **realm-export.json**. Dans ``if resource exists``, appuyer sur ``skip``. Finaliser l'import en cliquant sur import. 
+- Une fois la page ouverte, aller dans ``administration console``, et s'authentifier avec :
+**Username** : admin
+**Password** : admin
 
-Pour l'identity provider, aller dans ``indentity provider``, puis github. Le client secret sera à copier. 
+- Mettre le curseur de la souris sur ``master``. Il devrait apparaître l'option ``add realms``. Ajouter le realms "**appbank**", puis appuyer sur ``create``.
 
+- Afin d'importer les différents rôles, un fichier **realm-export.json** est inclus dans le dossier appbank. Sur Keycloak, cliquer donc sur ``import`` -> ``select file`` -> puis sélectionner le fichier **realm-export.json**. 
+
+- Dans ``if resource exists``, mettez sur ``skip``. Finaliser l'import en cliquant sur ``import``. 
+
+**Identity provider**
+- Pour **Github** : aller dans ``indentity provider``, puis sélectionner ``github.`` Avant de cliquer sur ``save``, il faudra indiquer le client secret suivant (le code client étant déjà importé grâce au fichier **realm-export.json**) :
 > **CLIENT SECRET : 868357bd5cd2edb17b798ea24e155a96c6045fb5**
+- Puis, il faudra cliquer sur ``save``.
 
-Puis, il faudra cliquer sur ``save``.
+**Création et modification de users**
+La base de données de keycloak sera initialement vide. Pour tester les différents, vous devriez au moins créer un utilisateur administrateur, et un client. 
 
-La base de données de keycloak sera initialement vide. Pour tester, vous devriez au moins créer un utilisateur administrateur, et un client. Pour se faire, aller dans ``users`` puis ``create user``. Le role de l'admin sera ``appbank-admin`` et celui du client sera ``default-roles-appbank``. 
+- Pour se faire, aller dans ``users`` puis ``create user``. Le rôle de l'**admin** sera ``appbank-admin`` et celui du **client** sera ``default-roles-appbank``. 
 
-Vous pouvez à tout moment modifier vos users dans l'onglet ``users``, puis en cliquant sur ``view all users``. Vous pourrez alors éditer tous vos utilisateurs déjà crées.
+Vous pouvez à tout moment modifier vos users dans l'onglet ``users``, puis en cliquant sur ``view all users``. Vous pourrez alors éditer tous vos utilisateurs déjà crées, et notamment modifier leur rôle.
 
 ## Exécuter appbank avec Maven & Npm
 
@@ -110,8 +117,6 @@ L'authentification se fait depuis ``Administration Console`` avec :
 Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'accéder aux différents services, vous devez vous authentifier en tant qu'utilisateur client ou administrateur. Veuillez alors vous reporter à la base de donnée utilisateur dans keycloak, accessible depuis ``administration console``. Pour y accéder, veuillez vous authentifier, puis dans le menu latérale gauche, cliquez sur ``users``, puis ``View all users``.
 
 ## Vue utilisateur
-
-
 - Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède.
 
 ![homepageuser](documentation/homepage_user.png)
