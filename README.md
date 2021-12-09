@@ -86,9 +86,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 - Si ce n'est pas le cas, vous pouvez toujours lancer la commande :
 ```
 $docker system prune
-``` 
-
-/!\ Cependant, la commande entraînera la **suppression des données que manipule l'API** /!\
+```
 
 ## Adminer
 Adminer permet de visualiser et gérer la base de données de l'API. On y accède avec l'adresse  ``http://localhost:9000``
