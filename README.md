@@ -35,7 +35,7 @@ Il vous faudra pour le premier lancement initialiser keycloak et monter la base 
 
 - L'accès à keycloak se fera à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de pouvoir voir l'interface de keycloak.
 
-- Une fois la page ouverte, aller dans ``administration console``, et s'authentifier avec :
+- Une fois la page ouverte, aller dans ``administration console``, et s'authentifier avec : <br>
 **Username** : admin
 **Password** : admin
 
