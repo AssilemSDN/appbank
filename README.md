@@ -50,7 +50,8 @@ Il vous faudra pour le premier lancement initialiser keycloak et monter la base 
 > **CLIENT SECRET : 868357bd5cd2edb17b798ea24e155a96c6045fb5**
 - Puis, il faudra cliquer sur ``save``.
 
-**Création et modification de users** <br>
+**Création et modification de users** 
+
 La base de données de keycloak sera initialement vide. Pour tester les différents, vous devriez au moins créer un utilisateur administrateur, et un client. 
 
 - Pour se faire, aller dans ``users`` puis ``create user``. Le rôle de l'**admin** sera ``appbank-admin`` et celui du **client** sera ``default-roles-appbank``. 
