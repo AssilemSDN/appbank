@@ -35,6 +35,11 @@ const userAccountsState = atom({
   default: []
 })
 
+const userBankTransfersWaitingState = atom({
+  key: 'userBankTransfersWaiting',
+  default: 0
+})
+
 const adminUsersState = atom({
   key: 'adminUsersState',
   default: []
@@ -63,6 +68,7 @@ export {
   userLastNameState,
   userFirstNameState,
   userAccountsState,
+  userBankTransfersWaitingState,
   adminUsersState,
   adminAccountsState,
   bankTransfersState,

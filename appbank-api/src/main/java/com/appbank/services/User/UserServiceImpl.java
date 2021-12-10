@@ -1,4 +1,4 @@
-package com.appbank.services;
+package com.appbank.services.User;
 
 import java.util.List;
 import java.util.ArrayList;

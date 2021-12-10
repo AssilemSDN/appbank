@@ -1,4 +1,4 @@
-package com.appbank.services;
+package com.appbank.services.Account;
 
 import com.appbank.models.Account;
 import com.appbank.repositories.AccountRepository;
@@ -64,6 +64,7 @@ public class AccountServiceImpl implements IAccountService {
             return false;
         }
         if (moneyToRemove > account.getSolde() && !account.getCanBeOverdraft()) {
+            System.out.println("AccountService , removeMoneyToAccount "+false);
             return false;
         }
         account.setSolde(account.getSolde()-moneyToRemove);
@@ -81,20 +82,21 @@ public class AccountServiceImpl implements IAccountService {
         return false;
     }
 
-    public boolean bankTransfer (Integer accountIdSrc, Integer accountIdDst, int moneyToTransfer) {
-        //Verfier si les comptes sont bien enregistres dans la bdd
-        //A faire : la gestion des virements par l'administrateur ?
-        //Pas besoin de verifier si le nombre est positif : sera fait dans les fonctions a appeler
-        if (!removeMoneyToAccount(accountIdSrc, moneyToTransfer)) {
-            return false;
-        }
-        return addMoneyToAccount(accountIdDst, moneyToTransfer);
-    }
-
     @Override
     public Integer getProprietaireId (Integer accountId) {
         Account account = getAccountFromAccountId(accountId);
         return account.getProprietaireID();
+    }
+
+    @Override
+    public Boolean changeCanBeOverdraft(Integer accountId, boolean canBeOverdraft) {
+        Account account = getAccountFromAccountId(accountId);
+        if (account == null) {
+            return false;
+        }
+        account.setCanBeOverdraft(canBeOverdraft);
+        accountRepository.save(account);
+        return canBeOverdraft;
     }
 
 }

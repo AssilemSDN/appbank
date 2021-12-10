@@ -1,4 +1,4 @@
-package com.appbank.services;
+package com.appbank.services.BankTransfer;
 
 import com.appbank.repositories.BankTransferRepository;
 import com.appbank.models.BankTransfer;

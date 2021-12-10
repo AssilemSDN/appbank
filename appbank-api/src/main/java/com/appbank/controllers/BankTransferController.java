@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import com.appbank.services.IAccountService;
-import com.appbank.services.IBankTransferService;
+import com.appbank.services.Account.IAccountService;
+import com.appbank.services.BankTransfer.IBankTransferService;
 import com.appbank.models.BankTransfer;
+import com.appbank.models.Account;
 
 // A faire : sécuriser l'API
 
@@ -28,7 +29,7 @@ import com.appbank.models.BankTransfer;
 
 @CrossOrigin(origins={ "http://localhost:3000"})
 @RestController
-@RequestMapping(path="/api/banktransfer")
+@RequestMapping(path="/api/banktransfers")
 public class BankTransferController {
 
     private IBankTransferService bankTransferService;
@@ -74,17 +75,28 @@ public class BankTransferController {
             return ResponseEntity.notFound().build();
         }
         boolean booleanValidate = Boolean.parseBoolean(validate);
-        if (!booleanValidate) {
+        int amount = bankTransfer.getAmount();
+        int idSrc = bankTransfer.getAccountIdSrc();
+        int idDst = bankTransfer.getAccountIdDst();
+        boolean ret = bankTransferService.validateBankTransfer (bankTransferId, booleanValidate); //Suppression dans la bdd
+
+        Account accountSrc = accountService.getAccountFromAccountId(idSrc);
+        Account accountDst = accountService.getAccountFromAccountId(idDst);
+
+        if (accountSrc == null || accountDst == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!ret) {
             return ResponseEntity.ok().body(false);
         }
 
-        if (! accountService.addMoneyToAccount(bankTransfer.getAccountIdDst(), bankTransfer.getAmount())
-            ||! accountService.removeMoneyToAccount(bankTransfer.getAccountIdSrc(), bankTransfer.getAmount()) ) {
+        if (ret && accountSrc.getSolde() < amount && !accountSrc.getCanBeOverdraft()) {
             return ResponseEntity.ok().body(false);
         }
-        boolean ret =  bankTransferService.validateBankTransfer (bankTransferId, booleanValidate);
-
-        return ResponseEntity.ok().body(ret);
+        accountService.removeMoneyToAccount(idSrc, amount);
+        accountService.addMoneyToAccount(idDst, amount);
+        return ResponseEntity.ok().body(true);
     }
     
 

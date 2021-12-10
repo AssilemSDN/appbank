@@ -11,6 +11,7 @@ import {
   Icon, 
   Dimmer, 
   Loader,
+  Message,
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
@@ -19,10 +20,14 @@ import TopMenu from '../components/TopMenu'
 import {
   userAccountsState,
   userIsAdminState,
+  userBankTransfersWaitingState,
   bankTransfersState,
   allAccountsState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
+
+// Administrateur vue --------------------
+
   /*
   * L'utilisateur peut faire des virements : ils sont placés en attentes jusqu'à réponse de l'administrateur
   * L'administrateur peut accepter ou non les virements
@@ -43,6 +48,8 @@ const TransfersToAccept = () => {
     })
   })
 
+  const isEmpty = data.length===0
+
   const validateBankTransfer = (bankTransferId, validate) => {
     console.log ('validateBankTranfer')
     appbankApi.validateBankTransfer(bankTransferId, validate).then(data => {
@@ -59,12 +66,20 @@ const TransfersToAccept = () => {
   }
 
   return (
+    
     <Card.Group>
+      {isEmpty &&
+        <Container> 
+          <Message>
+            Il n'y a aucun virement à valider pour le moment. 
+          </Message>
+        </Container>
+      }
       {data.map(bankTransfer => {
         return (
-          <Card color='blue' key={`bank_transfert_${bankTransfer}`}>
+          <Card color='blue' key={`bank_transfert_${bankTransfer.id}`}>
             <Card.Content>
-              <Card.Header>Transfer n°{bankTransfer.id}</Card.Header>
+              <Card.Header>Virement n°{bankTransfer.id}</Card.Header>
               <Card.Description>
                 <strong>Compte émetteur :</strong> n°{bankTransfer.src}  <br />
                 <strong>Compte destinataire :</strong> n°{bankTransfer.dst}  <br />
@@ -83,9 +98,13 @@ const TransfersToAccept = () => {
   )
 }
 
+// Utilisateur vue --------------------
+
+
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
   const allAccounts = useRecoilValue(allAccountsState)
+  const [userBankTransfersWaiting, setUserBankTransfersWaiting] = useRecoilState (userBankTransfersWaitingState)
   const [currentAccount, setCurrentAccount] = useState(false)
   const [otherAccount, setOtherAccount] = useState(false)
   const [amount, setAmount] = useState(false)
@@ -117,7 +136,8 @@ const FormTransfer = () => {
         // try to do something in case of error
         return false
       }
-      
+      setUserBankTransfersWaiting(userBankTransfersWaiting + 1)
+      // setUserBankTransfersWaiting(appbankApi.getNbBankTransfersWaitingFromUserId(userId))
       console.log('addBankTransfer', 'addBankTransfer()', currentAccount, bankTransfer)
     })
   }, [currentAccount, otherAccount, amount])
@@ -132,14 +152,14 @@ const FormTransfer = () => {
     setOtherAccount(accounts.value)
   }
 
-  const handlerChangeAmount = (e) => {
-    console.log('FormListAccounts', 'handlerChangeAmount()', e.target.value)
+  const handleChangeAmount = (e) => {
+    console.log('FormListAccounts', 'handleChangeAmount()', e.target.value)
     setAmount(e.target.value)
   }
 
   const handleChangeCheckAmountPositive = (e) => {
     console.log('FormListAccounts', 'checkAmountPositive()', e.key)
-    if (e.key == '-') {
+    if (e.key === '-') {
       e.preventDefault()
     }
   }
@@ -147,6 +167,11 @@ const FormTransfer = () => {
   return (
 
     <Form>
+      {/*<Container>
+        <Message>
+          Nombre de virements effectués : {userBankTransfersWaiting}
+        </Message>
+      </Container>*/}
       <Card fluid color='blue'>
         <Card.Content header='Envoyer depuis le compte : ' />
         <Card.Content>
@@ -154,7 +179,7 @@ const FormTransfer = () => {
         </Card.Content>
       </Card>
       <header> Montant </header>
-      <Form.Input type='number' value={amount} onChange={handlerChangeAmount} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
+      <Form.Input type='number' value={amount} onChange={handleChangeAmount} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
       <header> Compte destinataire </header>
       <Dropdown onChange={handleChangeOtherAccount} placeholder='Sélectionner un compte' fluid selection options={accountsGlobal} />
       <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false} color='blue'>Ajouter</Button>
@@ -162,6 +187,7 @@ const FormTransfer = () => {
   )
 }
 
+// Page ------------------
 const UserTransfers = () => {
   const userIsAdmin = useRecoilValue(userIsAdminState)
   const setBankTransfers = useSetRecoilState(bankTransfersState)
@@ -211,8 +237,9 @@ const UserTransfers = () => {
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='calculator' />
         <Header.Content>
-          UserTransfers
-          <Header.Subheader>Nothing to do...</Header.Subheader>
+          Virements
+          {userIsAdmin &&
+            <Header.Subheader>Gestion des virements en attente de validation</Header.Subheader>}
         </Header.Content>
       </Header>
       {!userIsAdmin &&

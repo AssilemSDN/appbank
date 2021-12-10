@@ -25,7 +25,6 @@ function bearerAuth (token) {
 }
 
 /**
- *
  * From AccountController :
  *
  * 1- GET /api/accounts : get all accounts (admin only)
@@ -33,23 +32,32 @@ function bearerAuth (token) {
  * 2- GET /api/accounts/email/{email} : get all accounts associate with this email (to protect)
  * 3- POST /api/accounts/email/{email} : add an account associate with this email (admin only)
  *
- * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
- * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * 4- GET /api/accounts/{accountid} : get account with its id (to protect)
+ * 5- DELETE /api/accounts/{accountid} : remove an account (admin only)
+ * 6- POST /api/accounts/ (param : accountid, canBeOverdraft) : change if an account can be overdraft or not
  * 
- * 7  7 POST retrait
- * 8 POST depot
+ * 6- POST /api/accounts/retrait : (param: accountid, amount) depose money on the account
+ * 7- POST /api/accounts/depot : (param: accountid, amount) take money from the acount
  *
  * ----------------------------------------
  * From UserController :
  *
- * 7- GET /api/users : get all of users (admin only)
- * 8- PUT /api/users/synchronize/{email} :  Synchronize database of keycloak with our api for an user
+ * 8- GET /api/users : get all of users (admin only)
+ * 9- PUT /api/users/synchronize/{email} :  Synchronize database of keycloak with our api for an user
  *
  * ----------------------------------------
  * From BankTransferController :
- * 9- POST /api/banktransfer : add a bank transfer that has to be validate by the admin
+ * 
+ * 10- POST /api/banktransfers : add a bank transfer that has to be validate by the admin
+ * 11- GET /api/banktransfers
+ * 
+ * 12- DELETE /api/banktransfers/{userid} : validate or not a bank transfer from userid. This will delete the data.
+ * 13- GET /api/banktransfers/{userid} : get all transferts in waiting from userid.
+ * 
  */
 
+
+// 1
 const getAllAccounts = async (token) => {
   console.log('AppBankApi', 'getAllAccounts')
   try {
@@ -67,6 +75,7 @@ const getAllAccounts = async (token) => {
   }
 }
 
+// 2
 const getAccountsFromEmail = async (email, token) => {
   console.log('AppBankApi', 'getAccountsFromEmail', email)
   try {
@@ -84,6 +93,7 @@ const getAccountsFromEmail = async (email, token) => {
   }
 }
 
+// 3
 const addAccountFromEmail = async (email, token) => {
   console.log('AppBankApi', 'addAccountFromEmail', email)
   try {
@@ -101,10 +111,50 @@ const addAccountFromEmail = async (email, token) => {
   }
 }
 
+// 4
 const getAccountFromAccountId = async (accountid) => {
   return instance.get(`/api/accounts/${accountid}`)
 }
 
+// 5
+const removeAccountFromAccountId = async (accountid, token) => {
+  console.log('AppBankApi', 'removeAccountFromAccountId', accountid)
+  try {
+    const { status, data } = await instance.delete(`/api/accounts/${accountid}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) {throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'removeAccountFromAccountId', 'error', e)
+    return false
+  }
+}
+
+// 6
+const withdrawalAccount = async (accountid, retrait, token) => {
+  console.log('AppBankApi', 'withdrawalAcount', accountid)
+  try {
+    const { status, data } = await instance.post(`/api/accounts/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+
+    console.log('AppBankApi', 'withdrawalAcount', data)
+    if (status !== 200) {throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'withdrawalAccount', 'error', e)
+    return false
+  }
+}
+
+// 7
 const depositAccount = async (accountid, depot, token) => {
   console.log('AppBankApi', 'depositAccount', accountid)
   try {
@@ -122,10 +172,10 @@ const depositAccount = async (accountid, depot, token) => {
   }
 }
 
-const withdrawalAccount = async (accountid, retrait, token) => {
-  console.log('AppBankApi', 'withdrawalAcount', accountid)
+const changeCanBeOverdraft = async (accountid, canBeOverdraft, token) => {
+  console.log('AppBankApi', 'changeCanBeOverdraft', accountid)
   try {
-    const { status, data } = await instance.post(`/api/accounts/retrait?accountId=${accountid}&withdrawal=${retrait}`, {
+    const { status, data } = await instance.post(`/api/accounts?accountid=${accountid}&canBeOverdraft=${canBeOverdraft}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -134,17 +184,12 @@ const withdrawalAccount = async (accountid, retrait, token) => {
     if (status !== 200) {throw new Error(`Status is ${status}`) }
     return data
   } catch (e) {
-    console.log('AppBankApi', 'withdrawalAccount', 'error', e)
+    console.log('AppBankApi', 'changeCanBeOverdraft', 'error', e)
     return false
   }
 }
 
-const removeAccountFromAccountId = async (accountid, token) => {
-  return instance.delete(`/api/accounts/${accountid}`, {
-    headers: { Authorization: bearerAuth(token) }
-  })
-}
-
+// 8
 const getAllUsers = async (token) => {
   console.log('AppBankApi', 'getAllUsers')
   try {
@@ -162,6 +207,7 @@ const getAllUsers = async (token) => {
   }
 }
 
+// 9
 const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
   console.log('AppBankApi', 'synchronizeDatabaseWithKeycloak', email)
   try {
@@ -179,10 +225,11 @@ const synchronizeDatabaseWithKeycloak = async (email, isAdmin, token) => {
   }
 }
 
+// 10
 const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
   console.log('AppBankApi', 'addBankTransfer', amount)
   try {
-    const { status, data } = await instance.post(`/api/banktransfer?accountIdSrc=${accountIdSrc}&accountIdDst=${accountIdDst}&amount=${amount}`, {
+    const { status, data } = await instance.post(`/api/banktransfers?accountIdSrc=${accountIdSrc}&accountIdDst=${accountIdDst}&amount=${amount}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -196,10 +243,11 @@ const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
   }
 }
 
+// 11
 const getAllBankTransfers = async (token) => {
   console.log('AppBankApi', 'getAllBankTransfers')
   try {
-    const { status, data } = await instance.get('/api/banktransfer', {
+    const { status, data } = await instance.get('/api/banktransfers', {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -213,10 +261,11 @@ const getAllBankTransfers = async (token) => {
   }
 }
 
+// 12
 const validateBankTransfer = async (bankTransferId, validate, token) => {
   console.log('AppBankApi', 'validateBankTransfer')
   try {
-    const { status, data } = await instance.delete(`/api/banktransfer/${bankTransferId}?validate=${validate}`, {
+    const { status, data } = await instance.delete(`/api/banktransfers/${bankTransferId}?validate=${validate}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -230,10 +279,11 @@ const validateBankTransfer = async (bankTransferId, validate, token) => {
   }
 }
 
+// 13
 const getAllBankTransfersFromUserid = async (userId, token) => {
   console.log('AppBankApi', 'getAlgetAllBankTransfersFromUseridlBankTransfers')
   try {
-    const { status, data } = await instance.get(`/api/banktransfer/${userId}`, {
+    const { status, data } = await instance.get(`/api/banktransfers/${userId}`, {
       hearders: {
         'Content-type': 'application/json',
         Authorization: bearerAuth(token)
@@ -258,15 +308,16 @@ export const appbankApi = {
   depositAccount, // 7
   withdrawalAccount ,
   removeAccountFromAccountId, // 6
+  changeCanBeOverdraft,
   // -------------------------------------------
   // From UserController
   getAllUsers, // 7
   synchronizeDatabaseWithKeycloak, // 8
+
   //--------------------------------------------
   // From BankTransferController
   addBankTransfer, //9
   getAllBankTransfers, // 10
   validateBankTransfer, //11
   getAllBankTransfersFromUserid, //12
-
 }

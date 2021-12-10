@@ -6,6 +6,8 @@ import { useRecoilValue } from 'recoil'
 
 import {
   userFirstNameState,
+ // userIsAdminState,
+  // bankTransfersState
 } from '../states/AppState'
 
 const routes = {
@@ -19,6 +21,9 @@ const TopMenu = () => {
   const [activeItem] = useState(window.location.pathname)
   const navigate = useNavigate()
   const { keycloak } = useKeycloak()
+
+  // const userIsAdmin = useRecoilValue(userIsAdminState)
+  // const [bankTransfers] = useRecoilValue(bankTransfersState)
 
   const handleOnSelectMenu = (e, { name }) => {
     console.log('TopMenu', 'handleSelectMenu', name)

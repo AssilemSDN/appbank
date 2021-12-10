@@ -1,4 +1,4 @@
-package com.appbank.services;
+package com.appbank.services.User;
 
 import com.appbank.models.User;
 import java.util.List;

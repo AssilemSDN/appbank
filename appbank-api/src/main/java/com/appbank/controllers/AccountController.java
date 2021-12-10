@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import com.appbank.services.IAccountService;
-import com.appbank.services.IUserService;
+import com.appbank.services.Account.IAccountService;
+import com.appbank.services.User.IUserService;
 
 // A faire : sécuriser l'API
 
@@ -27,9 +27,10 @@ import com.appbank.services.IUserService;
  * 
  * 4- GET /api/accounts/{accountid}   (param: accountid) : get account with its id (to protect)
  * 6- DELETE /api/accounts/{accountid} (param:accountid) : remove an account (admin only)
+ * 7- POST /api/accounts/{accountid} (param : canBeOverdraft) : set account's canBeOverdraft
  * 
- * 7 POST retrait
- * 8 POST depot
+ * 7 POST /api/accounts/retrait 
+ * 8 POST /api/accounts/depot
  *
  */
 
@@ -82,6 +83,12 @@ public class AccountController {
     public ResponseEntity<Boolean> removeAccountFromAccountId (@PathVariable Integer accountId) {
         // True : si l'id du compte est valide et a bien ete supprime
         return ResponseEntity.ok().body(accountService.removeAccountFromAccountId(accountId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Boolean> changeCanBeOverdraft (@RequestParam("accountid") Integer accountid, @RequestParam String canBeOverdraft) {
+        boolean booleanCanBeOverdraft = Boolean.parseBoolean(canBeOverdraft);
+        return ResponseEntity.ok().body(accountService.changeCanBeOverdraft(accountid, booleanCanBeOverdraft));
     }
 
     @PostMapping(path="/depot")

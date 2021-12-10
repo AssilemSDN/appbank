@@ -137,9 +137,12 @@ const HomePage = () => {
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='home' />
         <Header.Content>
-          HomePage
-          <Header.Subheader>Nothing to do...</Header.Subheader>
-        </Header.Content>
+          Accueil
+          {userIsAdmin &&
+            <Header.Subheader>Administrateur</Header.Subheader>}
+          {!userIsAdmin &&
+            <Header.Subheader>Bienvenue</Header.Subheader>}
+      </Header.Content>
       </Header>
       {keycloak.authenticated &&
         <UserCard />}

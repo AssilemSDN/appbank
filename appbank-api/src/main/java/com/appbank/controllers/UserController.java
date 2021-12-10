@@ -3,7 +3,7 @@ package com.appbank.controllers;
 import java.util.List;
 
 import com.appbank.models.User;
-import com.appbank.services.IUserService;
+import com.appbank.services.User.IUserService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

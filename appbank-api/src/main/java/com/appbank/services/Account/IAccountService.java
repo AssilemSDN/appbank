@@ -1,4 +1,4 @@
-package com.appbank.services;
+package com.appbank.services.Account;
 
 import java.util.List;
 
@@ -53,6 +53,7 @@ public interface IAccountService {
      */
     boolean removeAccountFromAccountId (Integer accountId);
     Integer getProprietaireId (Integer accountId);
+    Boolean changeCanBeOverdraft(Integer accountId, boolean canBeOverdraft);
     
 
 }
