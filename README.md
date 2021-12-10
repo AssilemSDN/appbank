@@ -31,7 +31,7 @@ Ce script lancera la base de donnée de l'API Rest et celle de keycloak.
 
 ## Initialiser keycloak
 
-Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. A l'avenir
+Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. (A l'avenir : un script)
 
 - L'accès à keycloak se fera à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de pouvoir voir l'interface de keycloak.
 
