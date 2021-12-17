@@ -31,7 +31,7 @@ Ce script lancera la base de donnée de l'API Rest et celle de keycloak.
 
 ## Initialiser keycloak
 
-Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. A l'avenir
+Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. (A l'avenir : un script)
 
 - L'accès à keycloak se fera à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de pouvoir voir l'interface de keycloak.
 
@@ -120,29 +120,30 @@ Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'ac
 ## Vue utilisateur
 - Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède.
 
-![homepageuser](documentation/homepage_user.png)
+- Dans l'onglet **comptes**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est mis à jour (toutefois, il faut réactualiser la page pour visualiser le changement, problème sur le react). 
 
-- Dans l'onglet **compte**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est mis à jour (toutefois, il faut réactualiser la page pour visualiser le changement, problème sur le react). 
-
-![accountsuser](documentation/accountsuser.png)
+![userListeComptes](documentation/userListeComptes.png)
 
 - Dans l'onglet **virement**, l'utilisateur peut envoyer de l'argent depuis l'un de ses comptes vers l'un des comptes de la banque (dont les siens). Le virement est alors mis en attente et doit être validé par l'administrateur.
 
-![virement](documentation/transfersusers.png)
+![userVirements](documentation/userVirements.png)
 
 ## Vue administrateur
 - Dans son **home**, l'administrateur voit son nom, le nombre d'utilisateurs et de comptes sur la banque. L'administrateur n'a pas de compte à la banque. 
 
-![home](documentation/homepageadmin.png)
+- Dans l'onglet **comptes**, l'administrateur a accès à un dashboard où il peut avoir accès et modifier les comptes bancaires et comptes utilisateurs.
 
-- Dans l'onglet **compte**, l'administrateur peut ajouter des comptes aux utilisateurs. 
+![adminListeComptes](documentation/adminListeComptes.png)
 
-![admincomptes](documentation/admincomptes.png)
+![adminAjouterCompte](documentation/adminAjouterCompte.png)
+
+![adminListeUtilisateurs](documentation/adminListeUtilisateurs.png)
 
 - Dans l'onglet **virement**, l’administrateur a accès à la liste des virements en attente de validation. Il peut alors accepter ou refuser le virement. Après sa décision, le virement sera supprimé de la liste en attente. En cas d'**acceptation**, les soldes du compte émetteur et destinataire sont mis à jour dans la condition où l'émetteur a effectivement le droit de retirer. 
 
-![transferadmin](documentation/transfertadmin.png)
+![adminVirement1](documentation/adminVirements1.png)
 
+![adminVirement1](documentation/adminVirements2.png)
 
 
 
