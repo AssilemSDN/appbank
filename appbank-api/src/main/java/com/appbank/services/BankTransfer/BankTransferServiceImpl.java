@@ -50,9 +50,11 @@ public class BankTransferServiceImpl implements IBankTransferService {
 
     @Override
     public List <BankTransfer> getAllBankTransfersFromUserId (int userId) {
+        System.out.println("getAllBankTransfersFromUserId, userId: "+userId);
         List <BankTransfer> bankTransfers = new ArrayList <> ();
         for (BankTransfer bankTransfer : bankTransferRepository.findAll()) {
             if (bankTransfer.getIdUserSrc() == userId) {
+                System.out.println("getAllBankTransfersFromUserId, if, userId: "+userId);
                 bankTransfers.add(bankTransfer);
             }
         }

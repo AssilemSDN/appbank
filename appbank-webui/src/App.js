@@ -6,6 +6,7 @@ import Keycloak from 'keycloak-js'
 import Homepage from './pages/Homepage'
 import UserAccounts from './pages/UserAccounts'
 import UserTransfers from './pages/UserTransfers'
+import Users from './pages/Users'
 
 function RequireAuth ({ children }) {
   const { keycloak } = useKeycloak()
@@ -37,6 +38,7 @@ const App = () => {
           <Route path='/' element={<Homepage />} />
           <Route path='/espace-client/comptes' element={<RequireAuth><UserAccounts /></RequireAuth>} />
           <Route path='/espace-client/virements' element={<RequireAuth><UserTransfers /></RequireAuth>} />
+          <Route path='/espace-administrateur/utilisateurs' element={<RequireAuth><Users /></RequireAuth>} />
         </Routes>
       </BrowserRouter>
     </ReactKeycloakProvider>

@@ -16,12 +16,13 @@ import {
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 
-import TopMenu from '../components/TopMenu'
+import TopMenu from '../components/common/TopMenu'
 import {
   userAccountsState,
   userIsAdminState,
   userBankTransfersWaitingState,
   bankTransfersState,
+  userIdState,
   allAccountsState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
@@ -66,7 +67,6 @@ const TransfersToAccept = () => {
   }
 
   return (
-    
     <Card.Group>
       {isEmpty &&
         <Container> 
@@ -100,6 +100,42 @@ const TransfersToAccept = () => {
 
 // Utilisateur vue --------------------
 
+const UserListTransfers = () => {
+
+
+  const bankTransfers = []
+  userBankTransfersWaiting.map(bankTransfer => {
+    bankTransfers.push({
+      key: `bankTransferId_${bankTransfer.id}`,
+      text: bankTransfer.id,
+      value: bankTransfer.id
+    })
+    return true
+  })
+
+  console.log (userBankTransfersWaiting)
+  console.log(bankTransfers)
+
+  return (
+    <Card.Group>
+      {/*isEmpty &&
+        <Container> 
+          <Message>
+            Il n'y a aucun virement à valider pour le moment. 
+          </Message>
+        </Container>
+      */}
+      {userBankTransfersWaiting.map(bankTransfer => {
+        return (
+          <Card color='blue' key={`bank_transfert_${bankTransfer.id}`}>
+            <Card.Header>Virement n°{bankTransfer.id}</Card.Header>
+          </Card> 
+        )
+      })}
+    </Card.Group>
+  )
+
+}
 
 const FormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
@@ -189,28 +225,35 @@ const FormTransfer = () => {
 
 // Page ------------------
 const UserTransfers = () => {
+
+  const userId = useRecoilValue(userIdState)
   const userIsAdmin = useRecoilValue(userIsAdminState)
   const setBankTransfers = useSetRecoilState(bankTransfersState)
+  const [userBankTransfersWaiting, setUserBankTransfersWaiting] = useRecoilState (userBankTransfersWaitingState)
   const { initialized } = useKeycloak()
+  
 
   const getAllBankTransfers = useCallback(() => {
-    if (initialized === true && userIsAdmin === true)
-    console.log('UserTransfers', 'getAllBankTransfer()')
-    appbankApi.getAllBankTransfers().then(data => {
-      console.log('UserTransfers', 'getAllBankTransfers()', data)
-      if (data === false) { return false }
-      setBankTransfers(data)
-    })
+    if (initialized === true && userIsAdmin === true) {
+      console.log('UserTransfers', 'getAllBankTransfer()')
+      appbankApi.getAllBankTransfers().then(data => {
+        console.log('UserTransfers', 'getAllBankTransfers()', data)
+        if (data === false) { return false }
+        setBankTransfers(data)
+      })
+    }
   }, [initialized, userIsAdmin])
 
+
   const getAllBankTransfersFromUserid = useCallback(() => {
-    if (initialized === true && userIsAdmin === false)
-    console.log('UserTransfers', 'getAllBankTransfersFromUserid()')
-    appbankApi.getAllBankTransfersFromUserid().then(data => {
-      console.log('UserTransfers', 'getAllBankTransfersFromUserid()', data)
-      if (data === false) { return false }
-      setBankTransfers(data)
-    })
+    if (initialized === true && userIsAdmin === false) {
+      console.log('UserTransfers', 'getAllBankTransfersFromUserid()')
+      appbankApi.getAllBankTransfersFromUserid(userId).then(data => {
+        console.log('UserTransfers', 'getAllBankTransfersFromUserid()', data)
+        if (data === false) { return false }
+        setUserBankTransfersWaiting (data)
+      })
+    }
   }, [initialized, userIsAdmin])
 
   if (!initialized) {
@@ -226,6 +269,9 @@ const UserTransfers = () => {
   if (userIsAdmin === true) {
     getAllBankTransfers()
   } 
+  else {
+    getAllBankTransfersFromUserid(userId)
+  }
   // else {
   //   getAllBankTransfersFromUserid()
   // }
@@ -245,7 +291,7 @@ const UserTransfers = () => {
       {!userIsAdmin &&
         <Grid>
           <Grid.Column width={4}>
-            {/*<UserListTransfers /> */}
+            {<UserListTransfers />}
           </Grid.Column>
           <Grid.Column width={9}>
             <FormTransfer />

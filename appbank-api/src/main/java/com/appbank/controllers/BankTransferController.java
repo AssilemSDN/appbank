@@ -55,9 +55,8 @@ public class BankTransferController {
     }
 
     @GetMapping(path="/{userId}")
-    public ResponseEntity <Iterable<BankTransfer>> getAllBankTransfersFromUserId (@PathVariable("userId") int userId) {
-
-        return ResponseEntity.ok().body(bankTransferService.getAllBankTransfer());
+    public ResponseEntity <Iterable<BankTransfer>> getAllBankTransfersFromUserId (@PathVariable("userId") String userId) {
+        return ResponseEntity.ok().body(bankTransferService.getAllBankTransfersFromUserId(Integer.parseInt(userId)));
     }
 
 

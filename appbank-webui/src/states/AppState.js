@@ -36,8 +36,8 @@ const userAccountsState = atom({
 })
 
 const userBankTransfersWaitingState = atom({
-  key: 'userBankTransfersWaiting',
-  default: 0
+  key: 'userBankTransfersWaitingState',
+  default: []
 })
 
 const adminUsersState = atom({

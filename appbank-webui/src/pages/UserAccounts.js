@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { 
   Card, 
   Modal,
-  Dropdown, 
   Header, 
   Grid,
   Container, 
@@ -18,173 +17,22 @@ import {
 import { useKeycloak } from '@react-keycloak/web'
 import { 
   useRecoilValue,
-  useSetRecoilState,
-  useRecoilState 
+  useSetRecoilState, 
 } from 'recoil'
 
-import TopMenu from '../components/TopMenu'
+import TopMenu from '../components/common/TopMenu'
+import AdminListAccounts from '../components/useraccounts/AdminListAccounts'
+import AdminAddAccount from '../components/useraccounts/AdminAddAccount'
+import AdminRemoveAccount from '../components/useraccounts/AdminRemoveAccount'
+
 import {
   adminUsersState,
-  adminAccountsState,
   userIsAdminState,
   userAccountsState,
   userEmailState
 } from '../states/AppState'
 import { appbankApi } from '../utils/AppBankApi'
 
-
-// Admin components ----------------------------
-
-const AdminListAccounts = () => {
-  const [adminAccounts, setAdminAccounts] = useRecoilState(adminAccountsState)
-  
-  const handleChangeCanBeOverdraft = useCallback( async (accountid, canBeOverdraft) => {
-    await appbankApi.changeCanBeOverdraft(accountid, canBeOverdraft)
-    appbankApi.getAllAccounts().then(data => {
-      setAdminAccounts(data)
-    })
-  })
-
-  return (
-    <Card.Group>
-        {adminAccounts.length===0 &&
-        <Message negative>
-          Aucun compte n'a été rajouté pour le moment.
-        </Message>}
-        {adminAccounts.map(account => {
-        return (
-          <Card color='blue' key={`accountId_${account.id}`}>
-            <Card.Content>
-              <Card.Header>Compte n°{account.id}</Card.Header>
-              <Card.Meta> Client n°{account.proprietaireID}</Card.Meta>
-              <Card.Description>
-                <strong>Solde :</strong> {account.solde}€<br />
-                <strong>Autorisation de découvert :</strong> {!account.canBeOverdraft && <>Non</>} {account.canBeOverdraft && <>Oui</>}
-              </Card.Description>
-            </Card.Content>
-            {!account.canBeOverdraft && 
-              <Button content='Autoriser le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, true)}} />}
-            {account.canBeOverdraft && 
-              <Button content='Désactiver le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, false)}} />}
-          </Card>
-        )
-      })}
-    </Card.Group>
-  )
-}
-const AdminAddAccount = () => {
-  const users = useRecoilValue(adminUsersState)
-  const [adminAccounts, setAdminAccounts] = useRecoilState (adminAccountsState)
-  const [currentUser, setCurrentUser] = useState(false)
-  const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
-
-  const data = []
-  users.map(user => {
-    data.push({
-      key: `userId_${user.id}`,
-      text: `Utilisateur n°${user.id} | email: ${user.email}`,
-      value: user.email
-    })
-    return true
-  })
-
-  const addAccountFromEmail = useCallback(() => {
-    console.log('AdminListUsers', 'addAccountFromEmail()', currentUser)
-    appbankApi.addAccountFromEmail(currentUser).then(data => {
-      if (data === false) {
-        // try to do something in case of error
-        return false
-      }
-      console.log('HomePage', 'addAccountFromEmail()', currentUser, data)
-      setHasBeenSuccessful(true)
-      setCurrentUser(false)
-      setAdminAccounts()
-    })
-  }, [currentUser])
-
-  const handleChangeCurrentUser = (e, data) => {
-    console.log('AdminListUsers', 'handleChangeCurrentUser()', data.value)
-    setCurrentUser(data.value)
-    setHasBeenSuccessful(false)
-  }
-  
-  return (
-    <>
-    <Card fluid color='blue'>
-      <Card.Content header='Quel utilisateur choisir pour ajouter un compte ?' />
-      <Card.Content>
-        <Dropdown onChange={handleChangeCurrentUser} placeholder='Sélectionner un utilisateur' fluid selection options={data} />
-      </Card.Content>
-      <Card.Content extra>
-        <Button onClick={addAccountFromEmail} disabled={currentUser === false} color='blue'>Ajouter</Button>
-        {hasBeenSuccessful &&
-          <Message positive>
-            Compte ajouté avec succès ! 
-          </Message>}
-      </Card.Content>
-    </Card>
-    </>
-  )
-}
-
-const AdminRemoveAccount = () => {
-  const [adminAccounts, setAdminAccounts] = useRecoilState (adminAccountsState)
-  const [currentAccount, setCurrentAccount] = useState(false)
-  const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
-//  const [isEmpty, setIsEmpty] = useState(true)
-
-  const data = []
-  adminAccounts.map(account =>{
-    data.push({
-      key: `accountId_${account.id}`,
-      text: `Compte n°${account.id}`,
-      value: account.id
-    })
-  })
-
-  const removeAccountFromAccountId = useCallback((accountid) => {
-    appbankApi.removeAccountFromAccountId(accountid).then(data => {
-      if (data === false) {
-        // try to do something in case of error
-        return false
-      }
-      const newAdminAccounts = adminAccounts.filter((account) => account.id !== accountid);
-      setAdminAccounts(newAdminAccounts);
-      setHasBeenSuccessful(true)
-      setCurrentAccount(false)
-    })
-  }, [currentAccount])
-
-  const handleChangeCurrentAccount = (e, data) => {
-    console.log('AdminListUsers', 'handleChangeCurrentAccount()', adminAccounts)
-    setCurrentAccount(data.value)
-    setHasBeenSuccessful(false)
-  }
-  
-  return (
-    <>
-    <Card fluid color='blue'>
-      <Card.Content header='Quel compte à supprimer ?' />
-      {adminAccounts.length===0 &&
-      <Card.Content>
-        <Message negative>Aucun compte n'est enregistré pour le moment.</Message>
-      </Card.Content>}
-      {adminAccounts.length!==0 &&
-      <Card.Content>
-        <Dropdown onChange={handleChangeCurrentAccount} placeholder='Sélectionner un compte' fluid selection options={data} />
-      </Card.Content>}
-      <Card.Content extra>
-        {adminAccounts.length!==0 &&
-        <Button onClick={() => {removeAccountFromAccountId(currentAccount)}} disabled={currentAccount === false} color='blue'>Supprimer</Button>}
-        {hasBeenSuccessful &&
-          <Message positive>
-            Compte supprimé avec succès ! 
-          </Message>}
-      </Card.Content>
-    </Card>
-    </>
-  )
-}
 
 const AdminListUsers = () => {
   const users = useRecoilValue(adminUsersState)
@@ -228,8 +76,7 @@ const AdminListUsers = () => {
   )
 }
 
-
-const AdminMenu = () => {
+const AdminMenuAccounts = () => {
   const [activeItem, setActiveItem] = useState('allAccounts')
 
   const IsActiveItem  = (item) => {
@@ -260,22 +107,6 @@ const AdminMenu = () => {
               active={activeItem === 'removeAccount'}
               onClick={() => {handleItemClick('removeAccount')}}
             />
-            <Menu.Item
-              name='Liste des utilisateurs'
-              active={activeItem === 'allUsers'}
-              onClick={() => {handleItemClick('allUsers')}}
-            />
-            <Menu.Item
-              name='Ajouter un utilisateur'
-              active={activeItem === 'addUser'}
-              onClick={() => {handleItemClick('addUser')}}
-            />
-            <Menu.Item
-              name='Supprimer un utilisateur'
-              active={activeItem === 'removeUser'}
-              onClick={() => {handleItemClick('removeUser')}}
-            />
-            
           </Menu>
         </Grid.Column>
 
@@ -287,12 +118,6 @@ const AdminMenu = () => {
               <AdminAddAccount />}
             {IsActiveItem('removeAccount') &&
               <AdminRemoveAccount />}
-            {IsActiveItem('allUsers') &&
-              <AdminListUsers />}
-            {IsActiveItem('addUser') &&
-              <></>}
-            {IsActiveItem('removeUser') &&
-              <></>}
           </Segment>
         </Grid.Column>
       </Grid>
@@ -401,7 +226,7 @@ const DepositModal = (props) => {
     }
 
 
-const AccountsCard = () => {
+const UserMenuAccounts = () => {
   const userEmail = useRecoilValue(userEmailState)
   const userAccounts = useRecoilValue(userAccountsState)
 
@@ -460,10 +285,10 @@ const UserAccounts = () => {
       </Header>
       {userIsAdmin &&
         <>
-        <AdminMenu />
+        <AdminMenuAccounts />
         </> }
       {!userIsAdmin &&
-        <AccountsCard />}   
+        <UserMenuAccounts />}   
     </Container>
   )
 }
