@@ -16,7 +16,11 @@ import {
   Message
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
-import { useRecoilValue } from 'recoil'
+import { 
+  useRecoilValue,
+  useSetRecoilState,
+  useRecoilState 
+} from 'recoil'
 
 import TopMenu from '../components/TopMenu'
 import {
@@ -31,37 +35,46 @@ import { appbankApi } from '../utils/AppBankApi'
 
 // Admin components ----------------------------
 
-const AdminListUsers = () => {
-  const users = useRecoilValue(adminUsersState)
-  const [nameUser, setNameUser] = useState(false)
-  const [nbAccountsUser, setNbAccountsUser] = useState(false)
+const AdminListAccounts = () => {
+  const [adminAccounts, setAdminAccounts] = useRecoilState(adminAccountsState)
   
-  const getNameUser = (userId) => {
-    setNameUser('Toto')
-  }
-  console.log(users)
+  const handleChangeCanBeOverdraft = useCallback( async (accountid, canBeOverdraft) => {
+    await appbankApi.changeCanBeOverdraft(accountid, canBeOverdraft)
+    appbankApi.getAllAccounts().then(data => {
+      setAdminAccounts(data)
+    })
+  })
+
   return (
     <Card.Group>
-      {users.map(user => {
+        {adminAccounts.length===0 &&
+        <Message negative>
+          Aucun compte n'a été rajouté pour le moment.
+        </Message>}
+        {adminAccounts.map(account => {
         return (
-          <Card color='blue' key={`userID_${user.id}`}>
+          <Card color='blue' key={`accountId_${account.id}`}>
             <Card.Content>
-              <Card.Header>{nameUser}</Card.Header>
-              <Card.Meta>Client n°{user.id}</Card.Meta>
+              <Card.Header>Compte n°{account.id}</Card.Header>
+              <Card.Meta> Client n°{account.proprietaireID}</Card.Meta>
               <Card.Description>
-                <strong>Email :</strong> {user.email} <br />
-                <strong>Nombre de comptes :</strong> 222222
+                <strong>Solde :</strong> {account.solde}€<br />
+                <strong>Autorisation de découvert :</strong> {!account.canBeOverdraft && <>Non</>} {account.canBeOverdraft && <>Oui</>}
               </Card.Description>
             </Card.Content>
+            {!account.canBeOverdraft && 
+              <Button content='Autoriser le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, true)}} />}
+            {account.canBeOverdraft && 
+              <Button content='Désactiver le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, false)}} />}
           </Card>
         )
       })}
     </Card.Group>
   )
 }
-
 const AdminAddAccount = () => {
   const users = useRecoilValue(adminUsersState)
+  const [adminAccounts, setAdminAccounts] = useRecoilState (adminAccountsState)
   const [currentUser, setCurrentUser] = useState(false)
   const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
 
@@ -69,7 +82,7 @@ const AdminAddAccount = () => {
   users.map(user => {
     data.push({
       key: `userId_${user.id}`,
-      text: user.email,
+      text: `Utilisateur n°${user.id} | email: ${user.email}`,
       value: user.email
     })
     return true
@@ -83,8 +96,9 @@ const AdminAddAccount = () => {
         return false
       }
       console.log('HomePage', 'addAccountFromEmail()', currentUser, data)
-    setHasBeenSuccessful(true)
-    setCurrentUser(false)
+      setHasBeenSuccessful(true)
+      setCurrentUser(false)
+      setAdminAccounts()
     })
   }, [currentUser])
 
@@ -113,39 +127,107 @@ const AdminAddAccount = () => {
   )
 }
 
-const AdminListAccounts = () => {
-  const adminAccounts = useRecoilValue(adminAccountsState)
-  
-  const handleChangeCanBeOverdraft = useCallback( (accountid, canBeOverdraft) => {
-    appbankApi.changeCanBeOverdraft(accountid, canBeOverdraft)
+const AdminRemoveAccount = () => {
+  const [adminAccounts, setAdminAccounts] = useRecoilState (adminAccountsState)
+  const [currentAccount, setCurrentAccount] = useState(false)
+  const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
+//  const [isEmpty, setIsEmpty] = useState(true)
+
+  const data = []
+  adminAccounts.map(account =>{
+    data.push({
+      key: `accountId_${account.id}`,
+      text: `Compte n°${account.id}`,
+      value: account.id
+    })
   })
 
-  console.log(adminAccounts)
+  const removeAccountFromAccountId = useCallback((accountid) => {
+    appbankApi.removeAccountFromAccountId(accountid).then(data => {
+      if (data === false) {
+        // try to do something in case of error
+        return false
+      }
+      const newAdminAccounts = adminAccounts.filter((account) => account.id !== accountid);
+      setAdminAccounts(newAdminAccounts);
+      setHasBeenSuccessful(true)
+      setCurrentAccount(false)
+    })
+  }, [currentAccount])
+
+  const handleChangeCurrentAccount = (e, data) => {
+    console.log('AdminListUsers', 'handleChangeCurrentAccount()', adminAccounts)
+    setCurrentAccount(data.value)
+    setHasBeenSuccessful(false)
+  }
+  
+  return (
+    <>
+    <Card fluid color='blue'>
+      <Card.Content header='Quel compte à supprimer ?' />
+      {adminAccounts.length===0 &&
+      <Card.Content>
+        <Message negative>Aucun compte n'est enregistré pour le moment.</Message>
+      </Card.Content>}
+      {adminAccounts.length!==0 &&
+      <Card.Content>
+        <Dropdown onChange={handleChangeCurrentAccount} placeholder='Sélectionner un compte' fluid selection options={data} />
+      </Card.Content>}
+      <Card.Content extra>
+        {adminAccounts.length!==0 &&
+        <Button onClick={() => {removeAccountFromAccountId(currentAccount)}} disabled={currentAccount === false} color='blue'>Supprimer</Button>}
+        {hasBeenSuccessful &&
+          <Message positive>
+            Compte supprimé avec succès ! 
+          </Message>}
+      </Card.Content>
+    </Card>
+    </>
+  )
+}
+
+const AdminListUsers = () => {
+  const users = useRecoilValue(adminUsersState)
+  const [nameUser, setNameUser] = useState(false)
+
+  const data = []
+  users.map(user =>{
+    appbankApi.getAccountsFromEmail(user.email).then(accounts => {
+      data.push({
+        userid: user.id,
+        email: user.email,
+        nbAccounts: accounts.length
+      })
+    })
+  })
+  
+  console.log('data',data)
+  console.log(data.length)
+
   return (
     <Card.Group>
-        {adminAccounts.map(account => {
+      {data.length===0 &&
+        <Message negative>
+          Aucun utilisateur n'est inscrit pour le moment.
+        </Message>}
+      {data.map(d => {
         return (
-          <Card color='blue' key={`accountId_${account.id}`}>
+          <Card color='blue' key={`userID_${d.userid}`}>
             <Card.Content>
-              <Card.Header>Compte n°{account.id}</Card.Header>
-              <Card.Meta> Client n°{account.proprietaireID}</Card.Meta>
+              <Card.Header>{nameUser}</Card.Header>
+              <Card.Meta>Client n°{d.userid}</Card.Meta>
               <Card.Description>
-                <strong>Solde :</strong> {account.solde}€<br />
-                <strong>Autorisation de découvert :</strong> {!account.canBeOverdraft && <>Non</>} {account.canBeOverdraft && <>Oui</>}
-
+                <strong>Email :</strong> {d.email} <br />
+                <strong>Nombre de comptes :</strong>  {d.nbAccounts}
               </Card.Description>
             </Card.Content>
-            {!account.canBeOverdraft && 
-              <Button content='Autoriser le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, true)}} />}
-            {account.canBeOverdraft && 
-              <Button content='Désactiver le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, false)}} />}
           </Card>
         )
       })}
     </Card.Group>
-    
   )
 }
+
 
 const AdminMenu = () => {
   const [activeItem, setActiveItem] = useState('allAccounts')
@@ -158,7 +240,6 @@ const AdminMenu = () => {
     console.log(newActiveItem)
     setActiveItem(newActiveItem)
   }
-  
 
   return (
     <Grid>
@@ -205,7 +286,7 @@ const AdminMenu = () => {
             {IsActiveItem('addAccount') &&
               <AdminAddAccount />}
             {IsActiveItem('removeAccount') &&
-              <></>}
+              <AdminRemoveAccount />}
             {IsActiveItem('allUsers') &&
               <AdminListUsers />}
             {IsActiveItem('addUser') &&
@@ -272,13 +353,17 @@ const DepositModal = (props) => {
     const [open, setOpen] = useState();
     const [amount,setAmount] = useState(false)
     const [hasBeenSuccessful, setHasBeenSuccessful] = useState(true)
-  
+    const setUserAccounts = useSetRecoilState(userAccountsState)
+    const userEmail = useRecoilValue(userEmailState)
+
     const confirmation = () => {
       console.log('WithdrawalModal', 'confirmation')
       appbankApi.withdrawalAccount(accountId, amount).then(data => {
         console.log('WithdrawalModal', 'confirmation','data', data)
         setHasBeenSuccessful(data)
         if (data === true) {
+          setUserAccounts(appbankApi.getAccountsFromEmail(userEmail))
+          console.log('withdrawal hello')
           setOpen(false)
         }
       }) 
@@ -292,13 +377,8 @@ const DepositModal = (props) => {
     // }, [hasBeenSuccessful])
     
     return(
-    <Modal
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      trigger={<Button color='teal'>Retirer</Button>}
-    >
-      <Modal.Header>Compte n°  {accountId} : Retrait</Modal.Header>
+    <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open} trigger={<Button color='teal'>Retirer</Button>}>
+      <Modal.Header>Compte n°{accountId} : Retrait</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
           <Header>Solde actuel : {accountSolde} </Header>
@@ -314,13 +394,7 @@ const DepositModal = (props) => {
       </Modal.Content>
       <Modal.Actions>
         <Button color='black' onClick={() => setOpen(false)} content="Annuler" />
-        <Button
-          content="Confirmer"
-          labelPosition='right'
-          icon='checkmark'
-          onClick={confirmation}
-          positive
-        />
+        <Button content="Confirmer" labelPosition='right' icon='checkmark' onClick={confirmation} positive />
         </Modal.Actions>
       </Modal>
       )
@@ -331,42 +405,28 @@ const AccountsCard = () => {
   const userEmail = useRecoilValue(userEmailState)
   const userAccounts = useRecoilValue(userAccountsState)
 
-  const accounts = []
-  userAccounts.map(account => {
-    accounts.push({
-      key: `accountId_${account.id}`,
-      text: account.id,
-      value: account.id
-    })
-    return true
-  })
-
+  console.log('accounts',userAccounts)
   return (
     <Card.Group>
-  
       {userAccounts.map(account => {
         return (
           <Card color='blue' key={`accountId_${account.id}`}>
-
             <Card.Content>
               <Card.Header>Compte n°{account.id}</Card.Header>
               <Card.Meta>Propriétaire: {userEmail}</Card.Meta>
               <Card.Description>
                 <strong>Solde :</strong> {account.solde}€<br />
-                <strong>Autorisation de découvert :</strong> Non
+                <strong>Autorisation de découvert :</strong> {!account.canBeOverdraft && <>Non</>} {account.canBeOverdraft && <>Oui</>}
               </Card.Description>
             </Card.Content>
-            
             <Card.Content extra>
               <DepositModal accountId={account.id} accountSolde={account.solde} />
               <WithdrawalModal accountId={account.id} accountSolde={account.solde} /> 
             </Card.Content> 
-
           </Card>
         )
       })}
-    </Card.Group>
-    
+    </Card.Group> 
   )
 }
 
@@ -385,7 +445,6 @@ const UserAccounts = () => {
       </Container>
     )
   }
-
   return (
     <Container>
       <TopMenu />
@@ -404,8 +463,7 @@ const UserAccounts = () => {
         <AdminMenu />
         </> }
       {!userIsAdmin &&
-        <AccountsCard />}
-        
+        <AccountsCard />}   
     </Container>
   )
 }
