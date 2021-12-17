@@ -20,11 +20,12 @@ const AdminListAccounts = () => {
     })
   
     return (
+      <>
+      {adminAccounts.length===0 &&
+      <Message negative>
+        Aucun compte n'a été rajouté pour le moment.
+      </Message>}
       <Card.Group>
-          {adminAccounts.length===0 &&
-          <Message negative>
-            Aucun compte n'a été rajouté pour le moment.
-          </Message>}
           {adminAccounts.map(account => {
           return (
             <Card color='blue' key={`accountId_${account.id}`}>
@@ -37,13 +38,14 @@ const AdminListAccounts = () => {
                 </Card.Description>
               </Card.Content>
               {!account.canBeOverdraft && 
-                <Button content='Autoriser le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, true)}} />}
+                <Button color='teal' content='Autoriser le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, true)}} />}
               {account.canBeOverdraft && 
-                <Button content='Désactiver le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, false)}} />}
+                <Button color='black' content='Désactiver le découvert' onClick={() => {handleChangeCanBeOverdraft(account.id, false)}} />}
             </Card>
           )
         })}
       </Card.Group>
+      </>
     )
 }
 export default AdminListAccounts
