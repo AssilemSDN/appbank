@@ -93,10 +93,12 @@ const HomePage = () => {
         <Icon name='home' />
         <Header.Content>
           Accueil
-          {userIsAdmin &&
+          {userIsAdmin && keycloak.authenticated &&
             <Header.Subheader>Administrateur</Header.Subheader>}
-          {!userIsAdmin &&
-            <Header.Subheader>Bienvenue</Header.Subheader>}
+          {!userIsAdmin && keycloak.authenticated &&
+            <Header.Subheader>Client</Header.Subheader>}
+            {!keycloak.authenticated &&
+              <Header.Subheader>Bienvenue :)</Header.Subheader>}
       </Header.Content>
       </Header>
       {keycloak.authenticated &&

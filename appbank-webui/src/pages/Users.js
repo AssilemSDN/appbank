@@ -3,7 +3,7 @@ import { Header, Container, Icon, Dimmer, Loader } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 
 import TopMenu from '../components/common/TopMenu'
-import AdminListUsers from '../components/users/AdminListUsers'
+import AdminMenuUsers from '../components/users/AdminMenuUsers'
 
 const Users = () => {
     const { initialized } = useKeycloak()
@@ -17,6 +17,7 @@ const Users = () => {
         </Container>
       )
     }
+    
     return (
       <Container>
         <TopMenu />
@@ -27,7 +28,7 @@ const Users = () => {
             <Header.Subheader>Gestion des utilisateurs</Header.Subheader>
           </Header.Content>
         </Header>
-        <AdminListUsers />
+        <AdminMenuUsers />
       </Container>
     )
   }

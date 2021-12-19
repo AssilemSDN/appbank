@@ -28,6 +28,12 @@ public class User {
     @Column(name="isAdmin")
     private boolean isAdmin;
 
+    @Column(name="firstName")
+    private String firstName;
+
+    @Column(name="lastName")
+    private String lastName;
+
     public Integer getId() {
         return id;
     }
@@ -50,6 +56,22 @@ public class User {
     
     public void setIsAdmin (boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getFirstName () {
+        return firstName;
+    }
+
+    public void setFirstName (String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName () {
+        return lastName;
+    }
+
+    public void setLastName (String lastName) {
+        this.lastName = lastName;
     }
     
 }

@@ -27,7 +27,7 @@ const AdminAddAccount = () => {
   users.map(user => {
     data.push({
       key: `userId_${user.id}`,
-      text: `Utilisateur n°${user.id} | email: ${user.email}`,
+      text: `Client n°${user.id} | ${user.firstName} ${user.lastName}`,
       value: user.email
     })
     return true

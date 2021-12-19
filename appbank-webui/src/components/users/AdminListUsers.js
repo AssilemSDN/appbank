@@ -10,7 +10,6 @@ import {
 import {
   adminUsersState,
 } from '../../states/AppState'
-import { appbankApi } from '../../utils/AppBankApi'
 
 
 const AdminListUsers = () => {
@@ -18,19 +17,18 @@ const AdminListUsers = () => {
   //const [nameUser, setNameUser] = useState(false)
 
   const data = []
-  users.map(user =>{
-    appbankApi.getAccountsFromEmail(user.email).then(accounts => {
-      data.push({
-        userid: user.id,
-        email: user.email,
-        nbAccounts: accounts.length
-      })
+  users.map ((user) => {
+    data.push({
+      userfirstName: user.firstName,
+      userlastName: user.lastName,
+      userid: user.id,
+      email: user.email,
     })
   })
-  
+
+
   console.log('data',data)
   console.log(data.length)
-
   return (
     <Card.Group>
       {data.length===0 &&
@@ -43,9 +41,10 @@ const AdminListUsers = () => {
             <Card.Content>
               {/*<Card.Header>{nameUser}</Card.Header>*/}
               <Card.Meta>Client n°{d.userid}</Card.Meta>
+              <Card.Meta>{d.userfirstName} {d.userlastName}</Card.Meta>
               <Card.Description>
                 <strong>Email :</strong> {d.email} <br />
-                <strong>Nombre de comptes :</strong>  {d.nbAccounts}
+                <strong>Nombre de comptes bancaires :</strong> ...
               </Card.Description>
             </Card.Content>
           </Card>

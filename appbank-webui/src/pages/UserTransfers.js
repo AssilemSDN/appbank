@@ -5,13 +5,14 @@ import {
   Button,
   Header, 
   Container, 
-  Modal,
+  Divider,
   Form, 
   Grid, 
   Icon, 
   Dimmer, 
   Loader,
   Message,
+  Segment,
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
@@ -34,9 +35,8 @@ import { appbankApi } from '../utils/AppBankApi'
   * L'administrateur peut accepter ou non les virements
   */
 
-const TransfersToAccept = () => {
+const AdminTransfersToAccept = () => {
   const [bankTransfers, setBankTransfers] = useRecoilState(bankTransfersState)
-  const [validate, setValidate] = useState('')
 
   const data = []
   bankTransfers.map(bankTransfer => {
@@ -48,8 +48,6 @@ const TransfersToAccept = () => {
       amount: bankTransfer.amount,
     })
   })
-
-  const isEmpty = data.length===0
 
   const validateBankTransfer = (bankTransferId, validate) => {
     console.log ('validateBankTranfer')
@@ -68,7 +66,7 @@ const TransfersToAccept = () => {
 
   return (
     <Card.Group>
-      {isEmpty &&
+      {data.length === 0 &&
         <Container> 
           <Message>
             Il n'y a aucun virement à valider pour le moment. 
@@ -101,14 +99,14 @@ const TransfersToAccept = () => {
 // Utilisateur vue --------------------
 
 const UserListTransfers = () => {
-
+  const userBankTransfersWaiting = useRecoilValue(userBankTransfersWaitingState)
 
   const bankTransfers = []
   userBankTransfersWaiting.map(bankTransfer => {
     bankTransfers.push({
       key: `bankTransferId_${bankTransfer.id}`,
       text: bankTransfer.id,
-      value: bankTransfer.id
+      value: bankTransfer.amount,
     })
     return true
   })
@@ -117,27 +115,34 @@ const UserListTransfers = () => {
   console.log(bankTransfers)
 
   return (
-    <Card.Group>
-      {/*isEmpty &&
-        <Container> 
-          <Message>
-            Il n'y a aucun virement à valider pour le moment. 
-          </Message>
-        </Container>
-      */}
-      {userBankTransfersWaiting.map(bankTransfer => {
+    <Container>     
+      <Header>
+        Virements en attente de validation 
+      </Header>
+      {bankTransfers.length === 0 &&
+        <Message>
+          Il n'y a aucun virement en attente de validation pour le moment. 
+        </Message>
+      }
+      {bankTransfers.map(bankTransfer => {
         return (
-          <Card color='blue' key={`bank_transfert_${bankTransfer.id}`}>
-            <Card.Header>Virement n°{bankTransfer.id}</Card.Header>
-          </Card> 
+          <Segment>
+            <Header as='h3'>Virement n°{bankTransfer.text}</Header>
+            <Container>
+              <strong>Montant: </strong>{bankTransfer.value} <br />
+
+            </Container>
+            <Divider />
+            <Button color='black' content="Annuler mon virement" disabled />
+          </Segment>
         )
       })}
-    </Card.Group>
+    </Container>
   )
 
 }
 
-const FormTransfer = () => {
+const UserFormTransfer = () => {
   const userAccounts = useRecoilValue(userAccountsState)
   const allAccounts = useRecoilValue(allAccountsState)
   const [userBankTransfersWaiting, setUserBankTransfersWaiting] = useRecoilState (userBankTransfersWaitingState)
@@ -178,14 +183,15 @@ const FormTransfer = () => {
     })
   }, [currentAccount, otherAccount, amount])
 
-  const handleChangeCurrentAccount = (e, accounts) => {
-    console.log('FormListAccounts', 'handleChangeCurrentAccount()', accounts.value)
-    setCurrentAccount(accounts.value)
+  const handleChangeCurrentAccount = (e, account) => {
+    console.log('FormListAccounts', 'handleChangeCurrentAccount()', account.value)
+    setCurrentAccount(account.value)
   }
 
-  const handleChangeOtherAccount = (e, accounts) => {
-    console.log('FormListAccounts', 'handleChangeOtherAccount()', accounts.value)
-    setOtherAccount(accounts.value)
+  const handleChangeOtherAccount = (e, account) => {
+
+    console.log('FormListAccounts', 'handleChangeOtherAccount()', account.value)
+    setOtherAccount(account.value)
   }
 
   const handleChangeAmount = (e) => {
@@ -203,11 +209,6 @@ const FormTransfer = () => {
   return (
 
     <Form>
-      {/*<Container>
-        <Message>
-          Nombre de virements effectués : {userBankTransfersWaiting}
-        </Message>
-      </Container>*/}
       <Card fluid color='blue'>
         <Card.Content header='Envoyer depuis le compte : ' />
         <Card.Content>
@@ -218,6 +219,7 @@ const FormTransfer = () => {
       <Form.Input type='number' value={amount} onChange={handleChangeAmount} min="0" step="1" onKeyDown={handleChangeCheckAmountPositive}  ></Form.Input> 
       <header> Compte destinataire </header>
       <Dropdown onChange={handleChangeOtherAccount} placeholder='Sélectionner un compte' fluid selection options={accountsGlobal} />
+      <Divider />
       <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false} color='blue'>Ajouter</Button>
     </Form>
   )
@@ -229,7 +231,7 @@ const UserTransfers = () => {
   const userId = useRecoilValue(userIdState)
   const userIsAdmin = useRecoilValue(userIsAdminState)
   const setBankTransfers = useSetRecoilState(bankTransfersState)
-  const [userBankTransfersWaiting, setUserBankTransfersWaiting] = useRecoilState (userBankTransfersWaitingState)
+  const setUserBankTransfersWaiting = useSetRecoilState (userBankTransfersWaitingState)
   const { initialized } = useKeycloak()
   
 
@@ -272,10 +274,6 @@ const UserTransfers = () => {
   else {
     getAllBankTransfersFromUserid(userId)
   }
-  // else {
-  //   getAllBankTransfersFromUserid()
-  // }
-
 
   return (
     <Container>
@@ -289,16 +287,16 @@ const UserTransfers = () => {
         </Header.Content>
       </Header>
       {!userIsAdmin &&
-        <Grid>
-          <Grid.Column width={4}>
-            {<UserListTransfers />}
+        <Grid columns={2} padded='vertically'>
+          <Grid.Column>
+            <UserFormTransfer />
           </Grid.Column>
-          <Grid.Column width={9}>
-            <FormTransfer />
+          <Grid.Column>
+            <UserListTransfers />
           </Grid.Column>
         </Grid> }
       {userIsAdmin &&
-        <TransfersToAccept />}
+        <AdminTransfersToAccept />}
     </Container>
   )
 }

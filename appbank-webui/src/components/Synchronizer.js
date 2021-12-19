@@ -24,16 +24,17 @@ const Synchronizer = () => {
     const isAdmin = keycloak.hasRealmRole('appbank-admin')
     console.log('Synchronizer', 'synchronizeDatabaseWithKeycloak()', 'isAdmin', isAdmin)
 
-    appbankApi.synchronizeDatabaseWithKeycloak(email, isAdmin).then(data => {
+    appbankApi.synchronizeDatabaseWithKeycloak(email, isAdmin, firstName, lastName).then(data => {
       if (data === false) {
         // try to do something in case of error
         return false
       }
+      console.log(data)
       setUserId(data.id)
       setUserEmail(data.email)
-      setUserFirstName(firstName)
-      setUserLastName(lastName)
-      setUserIsAdmin(isAdmin)
+      setUserFirstName(data.firstName)
+      setUserLastName(data.lastName)
+      setUserIsAdmin(data.isAdmin)
       const date = new Date().toLocaleString()
       setUserLastSyncro(date)
     })
