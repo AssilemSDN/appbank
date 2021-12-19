@@ -8,7 +8,7 @@ import {
 import AdminListUsers from './AdminListUsers'
 
 const AdminMenuUsers = () => {
-    const [activeItem, setActiveItem] = useState('allAccounts')
+    const [activeItem, setActiveItem] = useState('allUsers')
   
     const IsActiveItem  = (item) => {
       return activeItem === item
