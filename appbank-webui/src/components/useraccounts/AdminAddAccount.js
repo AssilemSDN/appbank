@@ -7,7 +7,8 @@ import {
 } from 'semantic-ui-react'
 import { 
   useRecoilValue,
-  useRecoilState 
+  useRecoilState, 
+  useSetRecoilState
 } from 'recoil'
 
 import {
@@ -19,7 +20,7 @@ import { appbankApi } from '../../utils/AppBankApi'
 
 const AdminAddAccount = () => {
   const users = useRecoilValue(adminUsersState)
-  const [adminAccounts, setAdminAccounts] = useRecoilState (adminAccountsState)
+  const setAdminAccounts = useSetRecoilState (adminAccountsState)
   const [currentUser, setCurrentUser] = useState(false)
   const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
 
@@ -43,7 +44,14 @@ const AdminAddAccount = () => {
       console.log('HomePage', 'addAccountFromEmail()', currentUser, data)
       setHasBeenSuccessful(true)
       setCurrentUser(false)
-      setAdminAccounts()
+      appbankApi.getAllAccounts().then(data => {
+        if (data === false) {
+          // try to do something in case of error
+          return false
+        }
+        console.log('HomePage', 'getAllAccounts()', 'accounts', data.length)
+        setAdminAccounts(data)
+      })
     })
   }, [currentUser])
 

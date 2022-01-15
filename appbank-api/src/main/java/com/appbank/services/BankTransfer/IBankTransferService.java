@@ -11,7 +11,7 @@ public interface IBankTransferService {
      * @param validate
      * @return validate
      */
-    boolean validateBankTransfer (int bankTransferId, boolean validate);
+    boolean deleteBankTransfer (int bankTransferId, boolean validate);
     BankTransfer getBankTransferFromId(int bankTransferId);
     BankTransfer addNewBankTransfer (int idUserSrc, Integer accountIdSrc, Integer accountIdDst, int amount);
     List <BankTransfer> getAllBankTransfersFromUserId (int userId);

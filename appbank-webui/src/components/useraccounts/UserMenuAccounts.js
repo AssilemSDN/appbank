@@ -7,7 +7,7 @@ import {
   Form,
   Message,
 } from 'semantic-ui-react'
-import { useRecoilValue, useSetRecoilState} from 'recoil'
+import { useRecoilValue, useSetRecoilState, useRecoilState} from 'recoil'
 
 import {
   userAccountsState,
@@ -21,6 +21,8 @@ const DepositModal = (props) => {
     const { accountId, accountSolde } = props
     const [open, setOpen] = useState();
     const [amount,setAmount] = useState(false)
+    const setUserAccounts = useSetRecoilState(userAccountsState)
+    const userEmail = useRecoilValue(userEmailState)
 
     const confirmation = () => {
         console.log('confirmation')
@@ -28,6 +30,14 @@ const DepositModal = (props) => {
             if (data === false) {
                 return false
             }
+            appbankApi.getAccountsFromEmail(userEmail).then(data => {
+                if (data === false) {
+                    // try to do something in case of error
+                    return false
+                }
+                console.log('HomePage', 'getAllgetAccountsFromEmailAccouts()', 'accounts', data.length)
+                setUserAccounts(data)
+            })
         }) 
         setOpen(false)
     }
@@ -67,7 +77,14 @@ const WithdrawalModal = (props) => {
         console.log('WithdrawalModal', 'confirmation','data', data)
         setHasBeenSuccessful(data)
         if (data === true) {
-            setUserAccounts(appbankApi.getAccountsFromEmail(userEmail))
+            appbankApi.getAccountsFromEmail(userEmail).then(data => {
+                if (data === false) {
+                    // try to do something in case of error
+                    return false
+                }
+                console.log('HomePage', 'getAllgetAccountsFromEmailAccouts()', 'accounts', data.length)
+                setUserAccounts(data)
+            })
             console.log('withdrawal hello')
             setOpen(false)
         }

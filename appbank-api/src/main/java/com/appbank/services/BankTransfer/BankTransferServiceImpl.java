@@ -23,7 +23,7 @@ public class BankTransferServiceImpl implements IBankTransferService {
     }
 
     @Override
-    public boolean validateBankTransfer (int bankTransferId, boolean validate) {
+    public boolean deleteBankTransfer (int bankTransferId, boolean validate) {
         System.out.println("BankService validateBankTransfer");
         bankTransferRepository.delete(getBankTransferFromId(bankTransferId));
         return validate;

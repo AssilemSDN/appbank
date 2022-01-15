@@ -18,9 +18,9 @@ import {
 
 const HomePage = () => {
   const userIsAdmin = useRecoilValue(userIsAdminState)
-  const setAdminUsersState = useSetRecoilState(adminUsersState)
-  const setAdminAccountsState = useSetRecoilState(adminAccountsState)
-  const setUserAccountsState = useSetRecoilState(userAccountsState)
+  const setAdminUsers = useSetRecoilState(adminUsersState)
+  const setAdminAccounts = useSetRecoilState(adminAccountsState)
+  const setUserAccounts = useSetRecoilState(userAccountsState)
   const setAllAccounts = useSetRecoilState(allAccountsState)
   const userEmail = useRecoilValue(userEmailState)
   const { keycloak, initialized } = useKeycloak()
@@ -34,9 +34,9 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllUsers()', 'users', data.length)
-      setAdminUsersState(data)
+      setAdminUsers(data)
     })
-  }, [keycloak, setAdminUsersState])
+  }, [keycloak, setAdminUsers])
 
   const getAllAccounts = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -47,10 +47,10 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllAccounts()', 'accounts', data.length)
-      setAdminAccountsState(data)
+      setAdminAccounts(data)
       setAllAccounts(data)
     })
-  }, [keycloak, setAdminAccountsState])
+  }, [keycloak, setAdminAccounts])
 
   const getAccountsFromEmail = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -61,9 +61,9 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllgetAccountsFromEmailAccouts()', 'accounts', data.length)
-      setUserAccountsState(data)
+      setUserAccounts(data)
     })
-  }, [keycloak, setUserAccountsState, userEmail])
+  }, [keycloak, setUserAccounts, userEmail])
 
   if (userIsAdmin) {
     getAllUsers()

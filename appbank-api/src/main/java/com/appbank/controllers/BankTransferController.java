@@ -16,17 +16,6 @@ import com.appbank.services.BankTransfer.IBankTransferService;
 import com.appbank.models.BankTransfer;
 import com.appbank.models.Account;
 
-// A faire : sécuriser l'API
-
-/**
- * 1- GET /api/banktransfer : get all transfers (admin only)
- * 3- POST /api/banktransfer : add new banktransfer
- * 
- * Get /api/banktransfer/iduser => get all banktransfer in wainting  of a user
- * 
- * 3- DELETE /api/banktransfer/{bankTransferId} : validate or not a transfer (admin only)
- */
-
 @CrossOrigin(origins={ "http://localhost:3000"})
 @RestController
 @RequestMapping(path="/api/banktransfers")
@@ -46,7 +35,19 @@ public class BankTransferController {
     }
 
     @PostMapping
-    public ResponseEntity <BankTransfer> addNewBankTransfer (@RequestParam Integer accountIdSrc, @RequestParam Integer accountIdDst, @RequestParam int amount) {
+    public ResponseEntity <BankTransfer> addNewBankTransfer (@RequestParam int accountIdSrc, @RequestParam int accountIdDst, @RequestParam int amount) {
+        
+        Account accountSrc = accountService.getAccountFromAccountId(accountIdSrc);
+        Account accountDst = accountService.getAccountFromAccountId(accountIdDst);
+
+        if (accountSrc == null || accountDst == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (accountSrc.getSolde() < amount && ! accountSrc.getCanBeOverdraft()) {
+            return ResponseEntity.ok().body(null);
+        }
+
         BankTransfer bankTransfer = bankTransferService.addNewBankTransfer(accountService.getProprietaireId(accountIdSrc), accountIdSrc, accountIdDst, amount);
         if (bankTransfer == null) {
             return ResponseEntity.notFound().build();
@@ -54,11 +55,22 @@ public class BankTransferController {
         return ResponseEntity.ok().body(bankTransfer);
     }
 
+    @DeleteMapping (path="/user/{userId}")
+    public ResponseEntity <Boolean> deleteBankTransfer (@PathVariable("userId") String userId, @RequestParam String bankTransferId) {
+        // Verifier si le user a les droits pour le supprimer
+        System.out.println("BankTransfer " + bankTransferId);
+        BankTransfer bankTransfer = bankTransferService.getBankTransferFromId(Integer.parseInt(bankTransferId));
+        if (bankTransfer != null && Integer.parseInt(userId) == bankTransfer.getIdUserSrc()) {
+            bankTransferService.deleteBankTransfer (Integer.parseInt(bankTransferId), false);
+            return ResponseEntity.ok().body(true);
+        }
+        return ResponseEntity.ok().body(false);
+    }
+
     @GetMapping(path="/{userId}")
     public ResponseEntity <Iterable<BankTransfer>> getAllBankTransfersFromUserId (@PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(bankTransferService.getAllBankTransfersFromUserId(Integer.parseInt(userId)));
     }
-
 
     /**
      * * If validate==true => apply the changes on the accounts.
@@ -68,8 +80,8 @@ public class BankTransferController {
      * @return true if the tranfer is a success.Z
      */
     @DeleteMapping(path="/{bankTransferId}")
-    public ResponseEntity<Boolean> validateBankTransfer (@PathVariable("bankTransferId") int bankTransferId, @RequestParam String validate) {
-        BankTransfer bankTransfer = bankTransferService.getBankTransferFromId (bankTransferId);   
+    public ResponseEntity<Boolean> validateBankTransfer (@PathVariable("bankTransferId") String bankTransferId, @RequestParam String validate) {
+        BankTransfer bankTransfer = bankTransferService.getBankTransferFromId (Integer.parseInt(bankTransferId));   
         if (bankTransfer == null) {
             return ResponseEntity.notFound().build();
         }
@@ -77,7 +89,7 @@ public class BankTransferController {
         int amount = bankTransfer.getAmount();
         int idSrc = bankTransfer.getAccountIdSrc();
         int idDst = bankTransfer.getAccountIdDst();
-        boolean ret = bankTransferService.validateBankTransfer (bankTransferId, booleanValidate); //Suppression dans la bdd
+        boolean ret = bankTransferService.deleteBankTransfer (Integer.parseInt(bankTransferId), booleanValidate); //Suppression dans la bdd
 
         Account accountSrc = accountService.getAccountFromAccountId(idSrc);
         Account accountDst = accountService.getAccountFromAccountId(idDst);
@@ -96,8 +108,5 @@ public class BankTransferController {
         accountService.removeMoneyToAccount(idSrc, amount);
         accountService.addMoneyToAccount(idDst, amount);
         return ResponseEntity.ok().body(true);
-    }
-    
-
-   
+    }   
 }

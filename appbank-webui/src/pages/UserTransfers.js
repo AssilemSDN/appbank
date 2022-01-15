@@ -99,7 +99,9 @@ const AdminTransfersToAccept = () => {
 // Utilisateur vue --------------------
 
 const UserListTransfers = () => {
-  const userBankTransfersWaiting = useRecoilValue(userBankTransfersWaitingState)
+  const [userBankTransfersWaiting, setUserBankTransfersWaiting] = useRecoilState(userBankTransfersWaitingState)
+  const [bankTransferIdToDelete, setBankTransfersToDelete] = useState(-1)
+  const userId = useRecoilValue(userIdState)
 
   const bankTransfers = []
   userBankTransfersWaiting.map(bankTransfer => {
@@ -113,6 +115,24 @@ const UserListTransfers = () => {
 
   console.log (userBankTransfersWaiting)
   console.log(bankTransfers)
+
+  const deleteBankTransfer = useCallback(() => {
+    console.log('UserListTransfers', 'deleteBankTransfer()', bankTransferIdToDelete)
+    appbankApi.deleteBankTransfer(userId,bankTransferIdToDelete).then(bankTransfer => {
+      if (bankTransfer === false) {
+        // try to do something in case of error
+        return false
+      }
+      appbankApi.getAllBankTransfersFromUserid(userId).then (data => {
+        setUserBankTransfersWaiting(data)
+      })
+    })
+  }, [bankTransferIdToDelete, userId, setUserBankTransfersWaiting, userBankTransfersWaiting])
+
+  const handleChangeBankToDelete = (e, bankTransferId) => {
+    setBankTransfersToDelete(bankTransferId.options)
+    deleteBankTransfer()
+  }
 
   return (
     <Container>     
@@ -130,10 +150,9 @@ const UserListTransfers = () => {
             <Header as='h3'>Virement n°{bankTransfer.text}</Header>
             <Container>
               <strong>Montant: </strong>{bankTransfer.value} <br />
-
             </Container>
             <Divider />
-            <Button color='black' content="Annuler mon virement" disabled />
+            <Button onClick={handleChangeBankToDelete} color='black' content="Annuler mon virement" options={bankTransfer.text} />
           </Segment>
         )
       })}
@@ -149,6 +168,9 @@ const UserFormTransfer = () => {
   const [currentAccount, setCurrentAccount] = useState(false)
   const [otherAccount, setOtherAccount] = useState(false)
   const [amount, setAmount] = useState(false)
+  const [isOk, setIsOk] = useState(true)
+
+  const userId = useRecoilValue(userIdState)
 
   const accounts = []
   userAccounts.map(account => {
@@ -172,13 +194,16 @@ const UserFormTransfer = () => {
 
   const addBankTransfer = useCallback(() => {
     console.log('FormListAccounts', 'addBankTransfer()', currentAccount)
+    setIsOk(true)
     appbankApi.addBankTransfer(currentAccount,otherAccount,amount).then(bankTransfer => {
-      if (bankTransfer === false) {
-        // try to do something in case of error
+      if (bankTransfer === false || bankTransfer === null) {
+        console.log("FormListAccounts", "addBankTransfer()", bankTransfer)
+        setIsOk(false)
         return false
       }
-      setUserBankTransfersWaiting(userBankTransfersWaiting + 1)
-      // setUserBankTransfersWaiting(appbankApi.getNbBankTransfersWaitingFromUserId(userId))
+      appbankApi.getAllBankTransfersFromUserid(userId).then(data => {
+        setUserBankTransfersWaiting(data)
+      })
       console.log('addBankTransfer', 'addBankTransfer()', currentAccount, bankTransfer)
     })
   }, [currentAccount, otherAccount, amount])
@@ -220,7 +245,12 @@ const UserFormTransfer = () => {
       <header> Compte destinataire </header>
       <Dropdown onChange={handleChangeOtherAccount} placeholder='Sélectionner un compte' fluid selection options={accountsGlobal} />
       <Divider />
-      <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false} color='blue'>Ajouter</Button>
+      <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false || otherAccount === currentAccount} color='blue'>Ajouter</Button>
+      {!isOk &&
+      <Message negative> 
+        Oups, il semblerait que vous n'ayez pas ni les fonds nécessaires ni le droit pour effectuer ce virement depuis le compte {currentAccount}.
+      </Message>
+      }
     </Form>
   )
 }

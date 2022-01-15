@@ -297,6 +297,23 @@ const getAllBankTransfersFromUserid = async (userId, token) => {
   }
 }
 
+const deleteBankTransfer = async (userId, bankTransferId, token) => {
+  console.log('AppBankApi', 'deleteBankTransfer')
+  try {
+    const { status, data } = await instance.delete(`/api/banktransfers/user/${userId}?bankTransferId=${bankTransferId}`, {
+      hearders: {
+        'Content-type': 'application/json',
+        Authorization: bearerAuth(token)
+      }
+    })
+    if (status !== 200) { throw new Error(`Status is ${status}`) }
+    return data
+  } catch (e) {
+    console.log('AppBankApi', 'deleteBankTransfer', 'error', e)
+    return false
+  }
+}
+
 export const appbankApi = {
   // From AccountController
   getAllAccounts, // 1
@@ -320,4 +337,5 @@ export const appbankApi = {
   getAllBankTransfers, // 10
   validateBankTransfer, //11
   getAllBankTransfersFromUserid, //12
+  deleteBankTransfer, //
 }
