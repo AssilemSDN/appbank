@@ -7,7 +7,6 @@ import {
 } from 'semantic-ui-react'
 import { 
   useRecoilValue,
-  useRecoilState, 
   useSetRecoilState
 } from 'recoil'
 
@@ -53,7 +52,7 @@ const AdminAddAccount = () => {
         setAdminAccounts(data)
       })
     })
-  }, [currentUser])
+  }, [currentUser, setAdminAccounts])
 
   const handleChangeCurrentUser = (e, data) => {
     console.log('AdminListUsers', 'handleChangeCurrentUser()', data.value)

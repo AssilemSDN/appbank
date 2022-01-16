@@ -50,7 +50,7 @@ const HomePage = () => {
       setAdminAccounts(data)
       setAllAccounts(data)
     })
-  }, [keycloak, setAdminAccounts])
+  }, [keycloak, setAdminAccounts, setAllAccounts])
 
   const getAccountsFromEmail = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -103,6 +103,7 @@ const HomePage = () => {
       </Header>
       {keycloak.authenticated &&
         <UserCard />}
+
     </Container>
   )
 }

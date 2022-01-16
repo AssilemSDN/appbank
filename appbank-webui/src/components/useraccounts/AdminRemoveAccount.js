@@ -20,7 +20,7 @@ const AdminRemoveAccount = () => {
     const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
   
     const data = []
-    adminAccounts.map(account =>{
+    adminAccounts.foreach(account =>{
       data.push({
         key: `accountId_${account.id}`,
         text: `Compte n°${account.id}`,
@@ -39,7 +39,7 @@ const AdminRemoveAccount = () => {
         setHasBeenSuccessful(true)
         setCurrentAccount(false)
       })
-    }, [currentAccount])
+    }, [adminAccounts, setAdminAccounts, setHasBeenSuccessful, setCurrentAccount])
   
     const handleChangeCurrentAccount = (e, data) => {
       console.log('AdminListUsers', 'handleChangeCurrentAccount()', adminAccounts)

@@ -17,7 +17,7 @@ const AdminListAccounts = () => {
       appbankApi.getAllAccounts().then(data => {
         setAdminAccounts(data)
       })
-    })
+    }, [setAdminAccounts]) 
   
     return (
       <>

@@ -13,7 +13,8 @@ const routes = {
   home: '/',
   accounts: '/espace-client/comptes',
   transfers: '/espace-client/virements',
-  users: '/espace-administrateur/utilisateurs'
+  users: '/espace-administrateur/utilisateurs',
+  converter: '/convertisseur-devises'
 }
 
 const TopMenu = () => {
@@ -46,6 +47,7 @@ const TopMenu = () => {
           {userIsAdmin && <Menu.Item onClick={handleOnSelectMenu} name='users' active={activeItem === routes.users}>Utilisateurs</Menu.Item>}
           <Menu.Item onClick={handleOnSelectMenu} name='accounts' active={activeItem === routes.accounts}>Comptes</Menu.Item>
           <Menu.Item onClick={handleOnSelectMenu} name='transfers' active={activeItem === routes.transfers}>Virements</Menu.Item>
+          <Menu.Item onClick={handleOnSelectMenu} name='converter' active={activeItem === routes.converter}>Convertisseur de devises</Menu.Item>
           <Menu.Menu position='right'>
             <Menu.Item>
               Bonjour, {userFirstName}

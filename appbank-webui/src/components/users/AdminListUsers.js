@@ -17,7 +17,7 @@ const AdminListUsers = () => {
   //const [nameUser, setNameUser] = useState(false)
 
   const data = []
-  users.map ((user) => {
+  users.foreach ((user) => {
     data.push({
       userfirstName: user.firstName,
       userlastName: user.lastName,
