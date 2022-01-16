@@ -15,7 +15,7 @@ const AdminTransfersToAccept = () => {
     const [bankTransfers, setBankTransfers] = useRecoilState(bankTransfersState)
   
     const data = []
-    bankTransfers.foreach(bankTransfer => {
+    bankTransfers.map(bankTransfer => {
       data.push({
         key: `bankTransferId_${bankTransfer.id}`,
         id: bankTransfer.id,
@@ -23,6 +23,7 @@ const AdminTransfersToAccept = () => {
         dst: bankTransfer.accountIdDst,
         amount: bankTransfer.amount,
       })
+      return true
     })
   
     const validateBankTransfer = (bankTransferId, validate) => {

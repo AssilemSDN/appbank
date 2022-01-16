@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import {
   Button,
   Container, 
@@ -38,7 +38,7 @@ const UserListTransfers = () => {
                 })
             })
         }
-    }, [bankTransferIdToDelete])
+    }, [bankTransferIdToDelete, setUserBankTransfersWaiting, userId])
 
     return (
         <Container>     

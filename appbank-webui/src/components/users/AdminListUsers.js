@@ -16,34 +16,23 @@ const AdminListUsers = () => {
   const users = useRecoilValue(adminUsersState)
   //const [nameUser, setNameUser] = useState(false)
 
-  const data = []
-  users.foreach ((user) => {
-    data.push({
-      userfirstName: user.firstName,
-      userlastName: user.lastName,
-      userid: user.id,
-      email: user.email,
-    })
-  })
-
-
-  console.log('data',data)
-  console.log(data.length)
+  console.log('data',users)
+  console.log(users.length)
   return (
     <Card.Group>
-      {data.length===0 &&
+      {users.length===0 &&
         <Message negative>
           Aucun utilisateur n'est inscrit pour le moment.
         </Message>}
-      {data.map(d => {
+      {users.map(u => {
         return (
-          <Card color='blue' key={`userID_${d.userid}`}>
+          <Card color='blue' key={`userID_${u.id}`}>
             <Card.Content>
               {/*<Card.Header>{nameUser}</Card.Header>*/}
-              <Card.Meta>Client n°{d.userid}</Card.Meta>
-              <Card.Meta>{d.userfirstName} {d.userlastName}</Card.Meta>
+              <Card.Meta>Client n°{u.id}</Card.Meta>
+              <Card.Meta>{u.firstName} {u.lastName}</Card.Meta>
               <Card.Description>
-                <strong>Email :</strong> {d.email} <br />
+                <strong>Email :</strong> {u.email} <br />
                 <strong>Nombre de comptes bancaires :</strong> ...
               </Card.Description>
             </Card.Content>

@@ -20,12 +20,13 @@ const AdminRemoveAccount = () => {
     const [hasBeenSuccessful, setHasBeenSuccessful] = useState (false)
   
     const data = []
-    adminAccounts.foreach(account =>{
+    adminAccounts.map(account =>{
       data.push({
         key: `accountId_${account.id}`,
         text: `Compte n°${account.id}`,
         value: account.id
       })
+      return true
     })
   
     const removeAccountFromAccountId = useCallback((accountid) => {
