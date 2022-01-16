@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {
   Button,
   Container, 
@@ -21,23 +21,24 @@ const UserListTransfers = () => {
     const [bankTransferIdToDelete, setBankTransfersToDelete] = useState(-1)
     const userId = useRecoilValue(userIdState)
 
-    const deleteBankTransfer = useCallback(() => {
-        console.log('UserListTransfers', 'deleteBankTransfer()', bankTransferIdToDelete)
-        appbankApi.deleteBankTransfer(userId,bankTransferIdToDelete).then(bankTransfer => {
-            if (bankTransfer === false) {
-                // try to do something in case of error
-                return false
-            }
-            appbankApi.getAllBankTransfersFromUserid(userId).then (data => {
-                setUserBankTransfersWaiting(data)
+    useEffect(() => {
+        console.log('bankTransferIdToDelete=', bankTransferIdToDelete)
+        if (bankTransferIdToDelete !== -1) {
+            console.log('deleteBankTransfer()', bankTransferIdToDelete, userId,bankTransferIdToDelete)
+            appbankApi.deleteBankTransfer(userId,bankTransferIdToDelete).then(bankTransfer => {
+                console.log('bankTransfer', bankTransfer)
+                if (bankTransfer === false) {
+                    // try to do something in case of error
+                    return false
+                }
+                setBankTransfersToDelete(-1)
+                appbankApi.getAllBankTransfersFromUserid(userId).then (data => {
+                    console.log('data', data)
+                    setUserBankTransfersWaiting(data)
+                })
             })
-        })
-    }, [bankTransferIdToDelete, userId, setUserBankTransfersWaiting])
-
-    const handleChangeBankToDelete = (e, bankTransferId) => {
-        setBankTransfersToDelete(bankTransferId.options)
-        deleteBankTransfer()
-    }
+        }
+    }, [bankTransferIdToDelete])
 
     return (
         <Container>     
@@ -50,14 +51,15 @@ const UserListTransfers = () => {
             </Message>
         }
         {userBankTransfersWaiting.map(bankTransfer => {
+            console.log(bankTransfer)
             return (
-            <Segment>
+            <Segment key={bankTransfer.id}>
                 <Header as='h3'>Virement n°{bankTransfer.id}</Header>
                 <Container>
-                <strong>Montant: </strong>{bankTransfer.value} <br />
+                <strong>Montant: </strong>{bankTransfer.amount} <br />
                 </Container>
                 <Divider />
-                <Button onClick={handleChangeBankToDelete} color='black' content="Annuler mon virement" options={bankTransfer.id} />
+                <Button loading={bankTransferIdToDelete === -1 ? false : true} onClick={() => setBankTransfersToDelete(bankTransfer.id)} color='black' content="Annuler mon virement" />
             </Segment>
             )
         })}

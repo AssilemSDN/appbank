@@ -89,12 +89,12 @@ const CurrencyConverter = () => {
         <Dropdown onChange={handleChangeSecondCurrency} placeholder='EN' fluid selection options={currencies} value={toCurrency}/>
         <Divider />
         <Button onClick={handleConverter}>Convertir</Button>
-        {amount !== false &&
-          <Message>Valeur : ${ret}</Message>
+        {amount !== false && ret !== false &&
+          <Message>Valeur : {ret}</Message>
         }
       </Form>
     </Container>
-  );
+  ); 
 };
    
 
