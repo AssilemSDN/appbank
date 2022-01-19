@@ -97,11 +97,11 @@ const HomePage = () => {
 
   return (
     <>
-    <Container className='Page' style={{padding: "15px"}} >
+    <Container className='Page' style={{padding: "15px", 'min-height': '65vh'}} >
       <Synchronizer />
       <TopMenu />
       {!keycloak.authenticated &&
-      <Container className='Content' style={{'min-height':'48vh'}}>
+      <Container className='Image'>
         <Image src='/assets/images/home.jpg' fluid />
       </Container>}
       {keycloak.authenticated &&

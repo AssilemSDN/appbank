@@ -11,16 +11,14 @@ const Footer = () => {
       <>
       <Segment className='Footer1' inverted vertical style={{ margin: '5em 0em 0em', padding: '2em 0em' , position: 'relative', width: '100%'}}>
         <Container textAlign='center'>
-            <Icon name='facebook' /> 
-            <Icon name='instagram' />
-            <Icon name='linkedin' /> 
-            <Icon name='twitter' /> <br /> 
+            <Icon link size='large' name='facebook' /> 
+            <Icon link size='large' name='instagram' />
+            <Icon link size='large' name='linkedin' /> 
+            <Icon link size='large' name='twitter' /> <br /> 
             <List className='listFooter1' horizontal inverted divided link size='small'>
-           
                 <List.Item as='a' href='#'> 
                     <h4>Ma banque</h4>
                 </List.Item>
-            
                 <List.Item as='a' href='#'>
                     <h4>Ouvrir un compte</h4>
                 </List.Item>
@@ -72,9 +70,6 @@ const Footer = () => {
             </List.Item>
             <List.Item as='a' href='#'>
                 Accessibilité numérique
-            </List.Item>
-            <List.Item as='a' href='#'>
-                Israel
             </List.Item>
             </List>
         </Container>

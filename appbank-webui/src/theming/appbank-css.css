@@ -73,6 +73,12 @@ body {
 .ui.container.Page {
     background-color: var(--background-page);
 }
+.ui.block.header {
+    background: var(--background-header);
+    color: var(--color-header);
+    border: var(--color-border-header);
+}
+
 .ui.black.button, .ui.black.buttons .button {
     background-color: var(--background-button2)
 }

@@ -33,12 +33,20 @@
     --background-footer3: white;
     --color-footer3: rgb(32, 32, 32);
     --color-footer3-border: rgba(32, 32, 32, 0.2);
-
-    /* Fond */
+/*------------ */
+/* FOND */
     --background: white;
-    /* Page */
+/* PAGE */
     --background-page: #ffffff;
-    /* Boutons */
+/*------ Headers */
+    --background-header: #ffffff;
+    --color-header: black;
+    --color-border-header: none;
+    /*1px solid #d4d4d5*/
+/*-------------- Subheaders */
+    --color-subheader: #828282;
+
+/*------ Boutons */
     --background-button1: rgb(1, 0, 53, 0.8);
     --background-button1-hover:#010035;
     --background-button2: rgb(227, 17, 34);

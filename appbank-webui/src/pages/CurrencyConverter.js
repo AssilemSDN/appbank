@@ -85,7 +85,7 @@ const CurrencyConverter = () => {
 
   return (
     <>
-    <Container className='Page' style={{padding: "15px"}} >
+    <Container className='Page' style={{padding: "15px", 'min-height': '65vh'}} >
       <TopMenu />
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='money' />
