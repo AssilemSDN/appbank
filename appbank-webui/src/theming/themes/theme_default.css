@@ -1,0 +1,13 @@
+:root {
+    --background-menu: #0f2573;
+    /* --color-menu: #ffffff;
+    --background-login: #ffffff;
+    --color-login: #ffffff;
+    --background-unloggin:#ffffff;
+    --color-unloggin: #ffffff; */
+    --background-button1: rgb(15, 37, 115, 0.8);
+    --background-button1-hover:#0f2573;
+    --background-button2: rgb(252, 80, 65, 0.8);
+    --background-button2-hover: #fc5041;
+    --background: white;
+}

@@ -1,0 +1,46 @@
+:root {
+/* TOPMENU */
+/*------ General */
+    --background-menu: white;
+    --color-menu: #202020;
+    --color-menu-hover: #e31122;
+    --logo-size: 15em;
+/*------ Unlogin */
+    --background-unlogin: #e31122;
+    --color-border-unlogin: #e31122;
+    --color-unlogin: white;
+    --background-unlogin-hover: white;
+    --color-border-unlogin-hover: #e31122;
+    --color-unlogin-hover: #e31122;
+/*------ Login */
+    --background-login: #e31122;
+    --color-border-login: #e31122;
+    --color-login: white;
+    --background-login-hover: white;
+    --color-border-login-hover: #e31122;
+    --color-login-hover: #e31122;
+/*------------ */
+/* FOOTER */
+/*------ Footer1 */
+    --background-footer1: #333;
+    --color-footer1: rgb(255, 255, 255);
+    --color-footer1-border: rgba(255, 255, 255, 0.2);
+/*------ Footer2 */
+    --background-footer2: rgb(0, 0, 0);
+    --color-footer2: white;
+    --color-footer2-border: rgba(255, 255, 255, 0.2);
+/*------ Footer3 */
+    --background-footer3: white;
+    --color-footer3: rgb(32, 32, 32);
+    --color-footer3-border: rgba(32, 32, 32, 0.2);
+
+    /* Fond */
+    --background: white;
+    /* Page */
+    --background-page: #ffffff;
+    /* Boutons */
+    --background-button1: rgb(1, 0, 53, 0.8);
+    --background-button1-hover:#010035;
+    --background-button2: rgb(227, 17, 34);
+    --background-button2-hover: rgba(227, 17, 34, 0.8);
+}

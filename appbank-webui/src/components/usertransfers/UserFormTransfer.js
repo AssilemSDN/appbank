@@ -101,7 +101,7 @@ const UserFormTransfer = () => {
         <header> Compte destinataire </header>
         <Dropdown onChange={handleChangeOtherAccount} placeholder='Sélectionner un compte' fluid selection options={accountsGlobal} />
         <Divider />
-        <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false || otherAccount === currentAccount} color='blue'>Ajouter</Button>
+        <Button onClick={addBankTransfer} disabled={currentAccount === false || amount === false || otherAccount === false || otherAccount === currentAccount} color='teal'>Ajouter</Button>
         {!isOk &&
         <Message negative> 
           Oups, il semblerait que vous n'ayez pas ni les fonds nécessaires ni le droit pour effectuer ce virement depuis le compte {currentAccount}.

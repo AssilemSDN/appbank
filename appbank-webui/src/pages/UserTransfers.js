@@ -11,6 +11,7 @@ import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import TopMenu from '../components/common/TopMenu'
+import Footer from '../components/common/Footer'
 import {
   userIsAdminState,
   userBankTransfersWaitingState,
@@ -22,6 +23,7 @@ import { appbankApi } from '../utils/AppBankApi'
 import AdminTransfersToAccept from '../components/usertransfers/AdminTransfersToAccept'
 import UserListTransfers from '../components/usertransfers/UserListTransfers'
 import UserFormTransfer from '../components/usertransfers/UserFormTransfer'
+
 
 const UserTransfers = () => {
 
@@ -73,7 +75,8 @@ const UserTransfers = () => {
   }
 
   return (
-    <Container>
+    <>
+    <Container className='Page' style={{padding: "15px"}} >
       <TopMenu />
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='calculator' />
@@ -95,6 +98,8 @@ const UserTransfers = () => {
       {userIsAdmin &&
         <AdminTransfersToAccept />}
     </Container>
+    <Footer />
+    </>
   )
 }
 

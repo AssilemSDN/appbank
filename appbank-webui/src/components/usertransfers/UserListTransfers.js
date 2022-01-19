@@ -38,6 +38,7 @@ const UserListTransfers = () => {
                 })
             })
         }
+        console.log(userBankTransfersWaiting)
     }, [bankTransferIdToDelete, setUserBankTransfersWaiting, userId])
 
     return (
@@ -56,6 +57,8 @@ const UserListTransfers = () => {
             <Segment key={bankTransfer.id}>
                 <Header as='h3'>Virement n°{bankTransfer.id}</Header>
                 <Container>
+                <strong>Compte émetteur: </strong>{bankTransfer.accountIdSrc} <br />
+                <strong>Compte récepteur: </strong>{bankTransfer.accountIdDst} <br />
                 <strong>Montant: </strong>{bankTransfer.amount} <br />
                 </Container>
                 <Divider />

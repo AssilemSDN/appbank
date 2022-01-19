@@ -4,6 +4,7 @@ import { useKeycloak } from '@react-keycloak/web'
 
 import TopMenu from '../components/common/TopMenu'
 import AdminMenuUsers from '../components/users/AdminMenuUsers'
+import Footer from '../components/common/Footer'
 
 const Users = () => {
     const { initialized } = useKeycloak()
@@ -19,7 +20,8 @@ const Users = () => {
     }
     
     return (
-      <Container>
+      <>
+      <Container className='Page' style={{padding: "15px"}} >
         <TopMenu />
         <Header as='h1' block style={{ marginTop: '100px' }}>
           <Icon name='print' />
@@ -30,6 +32,8 @@ const Users = () => {
         </Header>
         <AdminMenuUsers />
       </Container>
+      <Footer />
+      </>
     )
   }
   

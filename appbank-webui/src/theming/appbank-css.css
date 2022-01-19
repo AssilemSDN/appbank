@@ -1,0 +1,89 @@
+/*
+-- All about the top menu
+*/
+.ui.inverted.menu {
+    background: var(--background-menu);
+}
+.ui.inverted.menu {
+    background: var(--background-menu);
+}
+.ui.inverted.menu .item ,  .ui.inverted.menu .item>a:not(.ui) , .ui.inverted.menu .item.hello {
+    color: var(--color-menu)!important;
+}
+.ui.inverted.menu .item:hover , .ui.inverted.menu .active.item, .ui.inverted.menu .active.item:hover {
+    color: var(--color-menu-hover)!important;
+}
+.ui.inverted.menu .item.hello:hover {
+    color: var(--color-menu) !important;
+}
+.ui.menu .item>img:not(.ui) {
+    width: var(--logo-size);
+}
+.ui.inverted.red.button, .ui.inverted.red.buttons .button {
+    background-color: var(--background-unlogin);
+    box-shadow: 0 0 0 2px var(--color-border-unlogin) inset!important;
+    color: var(--color-unlogin);
+}
+.ui.inverted.red.button:hover {
+    background-color: var(--background-unlogin-hover);
+    box-shadow: 0 0 0 2px var(--color-border-unlogin-hover) inset!important;
+    color: var(--color-unlogin-hover);
+}
+.ui.inverted.blue.button, .ui.inverted.red.buttons .button {
+    background-color: var(--background-unlogin);
+    box-shadow: 0 0 0 2px var(--color-border-unlogin) inset!important;
+    color: var(--color-unlogin);
+}
+.ui.inverted.blue.button:hover {
+    background-color: var(--background-unlogin-hover);
+    box-shadow: 0 0 0 2px var(--color-border-unlogin-hover) inset!important;
+    color: var(--color-unlogin-hover);
+}
+/* Footer */
+.ui.inverted.vertical.segment.Footer1 {
+    background: var(--background-footer1);
+    color: var(--color-footer1);
+}
+.ui.small.divided.horizontal.inverted.link.list.listFooter1 a.item {
+    color: var(--color-footer1);
+    border-color: var(--color-footer1-border)
+}
+.ui.inverted.vertical.segment.Footer2 {
+    background: var(--background-footer2);
+    color: var(--color-footer2);
+}
+.ui.small.divided.horizontal.inverted.link.list.listFooter2 a.item {
+    color: var(--color-footer2);
+    border-color: var(--color-footer2-border)
+}
+.ui.inverted.vertical.segment.Footer3 {
+    background: var(--background-footer3);
+    color: var(--color-footer3);
+}
+.ui.small.divided.horizontal.inverted.link.list.listFooter3 a.item {
+    color: var(--color-footer3);
+    border-color: var(--color-footer3-border)
+    
+}
+
+/* Page */
+body {
+    background: var(--background);
+}
+.ui.container.Page {
+    background-color: var(--background-page);
+}
+.ui.black.button, .ui.black.buttons .button {
+    background-color: var(--background-button2)
+}
+.ui.black.button:hover {
+    background: var(--background-button2-hover); 
+}
+
+.ui.teal.button, .ui.teal.buttons .button {
+    background-color: var(--background-button1);
+}
+
+.ui.teal.button:hover {
+    background-color: var(--background-button1-hover);
+}

@@ -8,10 +8,12 @@ import {
     Dropdown,
     Divider,
     Button,
+    Segment,
     Message
 
 } from 'semantic-ui-react'
 import TopMenu from "../components/common/TopMenu"
+import Footer from "../components/common/Footer";
 
 const CurrencyConverter = () => {
   const [fromCurrency, setFromCurrency] = useState("PHP_EUR")
@@ -23,18 +25,28 @@ const CurrencyConverter = () => {
     {
       text: 'Euro',
       icon: 'eur',
+      image: '/assets/images/logo-union-europeenne.jpg',
       value: 'PHP_EUR',
     },
     {
       text: 'Dollar',
       icon: 'dollar',
+      image: '/assets/images/logo-usa.jpg',
       value: 'PHP_USD',
     },
     {
-      text: 'Livre sterling',
+      text: 'Livre',
       icon: 'pound',
+      image: '/assets/images/logo-gb.jpg',
       value: 'PHP_GBP',
     },
+    {
+      text: 'Shekel',
+      icon: 'shekel sign',
+      image: '/assets/images/logo-israel.jpg',
+      value: 'PHP_ILS'
+  
+    }
   ];
 
   const handleChangeFirstCurrency = (e, {value}) => {
@@ -72,7 +84,8 @@ const CurrencyConverter = () => {
   };
 
   return (
-    <Container>
+    <>
+    <Container className='Page' style={{padding: "15px"}} >
       <TopMenu />
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='money' />
@@ -80,6 +93,8 @@ const CurrencyConverter = () => {
           Convertisseur de devise
         </Header.Content>
       </Header>
+
+      <Segment compact>
       <Form>
         <header>Montant</header>
         <Form.Input type='number' as='input' placeholder='Insérer un montant' value={amount} onChange={e => setAmount(e.target.value)}></Form.Input> 
@@ -88,14 +103,16 @@ const CurrencyConverter = () => {
         <header>En</header>
         <Dropdown onChange={handleChangeSecondCurrency} placeholder='EN' fluid selection options={currencies} value={toCurrency}/>
         <Divider />
-        <Button onClick={handleConverter}>Convertir</Button>
+        <Button onClick={handleConverter} disabled={fromCurrency === toCurrency || amount === false || amount === '' || fromCurrency === false || toCurrency === false} color='teal'>Convertir</Button>
         {amount !== false && ret !== false &&
           <Message>Valeur : {ret}</Message>
         }
       </Form>
+      </Segment>
     </Container>
+    <Footer />
+    </>
   ); 
 };
    
-
 export default CurrencyConverter

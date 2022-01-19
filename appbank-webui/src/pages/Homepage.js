@@ -1,5 +1,13 @@
 import React, { useCallback } from 'react'
-import { Header, Container, Icon, Dimmer, Loader } from 'semantic-ui-react'
+import { 
+  Image, 
+  Header, 
+  Container, 
+  Icon, 
+  Dimmer, 
+  Loader, 
+  Grid
+} from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
@@ -16,11 +24,13 @@ import {
   allAccountsState
 } from '../states/AppState'
 
+import Footer from '../components/common/Footer'
+
 const HomePage = () => {
   const userIsAdmin = useRecoilValue(userIsAdminState)
-  const setAdminUsers = useSetRecoilState(adminUsersState)
-  const setAdminAccounts = useSetRecoilState(adminAccountsState)
-  const setUserAccounts = useSetRecoilState(userAccountsState)
+  const setAdminUsersState = useSetRecoilState(adminUsersState)
+  const setAdminAccountsState = useSetRecoilState(adminAccountsState)
+  const setUserAccountsState = useSetRecoilState(userAccountsState)
   const setAllAccounts = useSetRecoilState(allAccountsState)
   const userEmail = useRecoilValue(userEmailState)
   const { keycloak, initialized } = useKeycloak()
@@ -34,9 +44,9 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllUsers()', 'users', data.length)
-      setAdminUsers(data)
+      setAdminUsersState(data)
     })
-  }, [keycloak, setAdminUsers])
+  }, [keycloak, setAdminUsersState])
 
   const getAllAccounts = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -47,10 +57,10 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllAccounts()', 'accounts', data.length)
-      setAdminAccounts(data)
+      setAdminAccountsState(data)
       setAllAccounts(data)
     })
-  }, [keycloak, setAdminAccounts, setAllAccounts])
+  }, [keycloak, setAdminAccountsState])
 
   const getAccountsFromEmail = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -61,9 +71,9 @@ const HomePage = () => {
         return false
       }
       console.log('HomePage', 'getAllgetAccountsFromEmailAccouts()', 'accounts', data.length)
-      setUserAccounts(data)
+      setUserAccountsState(data)
     })
-  }, [keycloak, setUserAccounts, userEmail])
+  }, [keycloak, setUserAccountsState, userEmail])
 
   if (userIsAdmin) {
     getAllUsers()
@@ -86,25 +96,30 @@ const HomePage = () => {
   }
 
   return (
-    <Container>
+    <>
+    <Container className='Page' style={{padding: "15px"}} >
       <Synchronizer />
       <TopMenu />
+      {!keycloak.authenticated &&
+      <Container className='Content' style={{'min-height':'48vh'}}>
+        <Image src='/assets/images/home.jpg' fluid />
+      </Container>}
+      {keycloak.authenticated &&
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='home' />
         <Header.Content>
           Accueil
-          {userIsAdmin && keycloak.authenticated &&
+          {userIsAdmin &&
             <Header.Subheader>Administrateur</Header.Subheader>}
-          {!userIsAdmin && keycloak.authenticated &&
+          {!userIsAdmin &&
             <Header.Subheader>Client</Header.Subheader>}
-            {!keycloak.authenticated &&
-              <Header.Subheader>Bienvenue :)</Header.Subheader>}
       </Header.Content>
-      </Header>
+      </Header>}
       {keycloak.authenticated &&
         <UserCard />}
-
     </Container>
+    <Footer />
+  </> 
   )
 }
 

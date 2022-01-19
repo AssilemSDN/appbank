@@ -12,6 +12,7 @@ import {
 } from 'recoil'
 
 import TopMenu from '../components/common/TopMenu'
+import Footer from '../components/common/Footer'
 import AdminMenuAccounts from '../components/useraccounts/AdminMenuAccounts'
 import UserMenuAccounts from '../components/useraccounts/UserMenuAccounts'
 import {
@@ -33,7 +34,8 @@ const UserAccounts = () => {
     )
   }
   return (
-    <Container>
+    <>
+    <Container className='Page' style={{padding: "15px"}} >
       <TopMenu />
       <Header as='h1' block style={{ marginTop: '100px' }}>
         <Icon name='print' />
@@ -50,6 +52,8 @@ const UserAccounts = () => {
       {!userIsAdmin &&
         <UserMenuAccounts />}   
     </Container>
+    <Footer />
+    </>
   )
 }
 

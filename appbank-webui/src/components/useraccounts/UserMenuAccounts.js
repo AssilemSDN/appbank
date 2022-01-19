@@ -64,7 +64,7 @@ const DepositModal = (props) => {
 }
   
 const WithdrawalModal = (props) => {
-    const { accountId, accountSolde } = props
+    const { accountId, accountSolde, canBeOverdraft } = props
     const [open, setOpen] = useState();
     const [amount,setAmount] = useState(false)
     const [hasBeenSuccessful, setHasBeenSuccessful] = useState(true)
@@ -91,7 +91,7 @@ const WithdrawalModal = (props) => {
     })}
 
     return(
-        <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open} trigger={<Button color='teal'>Retirer</Button>}>
+        <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open} trigger={<Button color='teal' disabled={accountSolde===0 && !canBeOverdraft}>Retirer</Button>}>
             <Modal.Header>Compte n°{accountId} : Retrait</Modal.Header>
             <Modal.Content image>
                 <Modal.Description>
@@ -131,8 +131,8 @@ const UserMenuAccounts = () => {
                 </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                <DepositModal accountId={account.id} accountSolde={account.solde} />
-                <WithdrawalModal accountId={account.id} accountSolde={account.solde} /> 
+                <DepositModal accountId={account.id} accountSolde={account.solde} canBeOverdraft={account.canBeOverdraft} />
+                <WithdrawalModal accountId={account.id} accountSolde={account.solde} canBeOverdraft={account.canBeOverdraft} /> 
                 </Card.Content> 
             </Card>
             )
