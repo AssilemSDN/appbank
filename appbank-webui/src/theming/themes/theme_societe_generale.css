@@ -24,14 +24,17 @@
 /*------ Footer1 */
     --background-footer1: #333;
     --color-footer1: rgb(255, 255, 255);
+    --color-footer1-hover: #da666f;
     --color-footer1-border: rgba(255, 255, 255, 0.2);
 /*------ Footer2 */
     --background-footer2: rgb(0, 0, 0);
     --color-footer2: white;
+    --color-footer2-hover: #da666f;
     --color-footer2-border: rgba(255, 255, 255, 0.2);
 /*------ Footer3 */
     --background-footer3: white;
     --color-footer3: rgb(32, 32, 32);
+    --color-footer3-hover: #e31122;
     --color-footer3-border: rgba(32, 32, 32, 0.2);
 /*------------ */
 /* FOND */

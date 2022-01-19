@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Menu, Button, Segment, Icon } from 'semantic-ui-react'
+import { Menu, Button, Image, Icon } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue } from 'recoil'
@@ -7,15 +7,8 @@ import { useRecoilValue } from 'recoil'
 import {
   userFirstNameState,
   userIsAdminState,
+  logoState,
 } from '../../states/AppState'
-
-//Theme to use
-//import '../../theming/themes/theme_blue.css'
-import '../../theming/themes/theme_societe_generale.css'
-//Need if use a personify theme
-import '../../theming/appbank-css.css'
-
-const logo = 'logo-societe-generale.png'
 
 const routes = {
   home: '/',
@@ -26,6 +19,7 @@ const routes = {
 }
 
 const TopMenu = () => {
+  const logo = useRecoilValue(logoState)
   const userFirstName = useRecoilValue(userFirstNameState)
   const userIsAdmin = useRecoilValue(userIsAdminState)
   const [activeItem] = useState(window.location.pathname)
@@ -51,7 +45,7 @@ const TopMenu = () => {
   return (
     <Menu inverted borderless fixed='top' >
       <Menu.Item> 
-        <img id="image" src={`/assets/images/${logo}`} />
+        <Image src={`/assets/images/${logo}`}/>
       </Menu.Item>
       {keycloak.authenticated &&
         <Menu.Item onClick={handleOnSelectMenu} name='home' active={activeItem === routes.home}>Accueil</Menu.Item>

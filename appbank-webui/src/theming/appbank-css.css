@@ -16,9 +16,10 @@
 .ui.inverted.menu .item.hello:hover {
     color: var(--color-menu) !important;
 }
-.ui.menu .item>img:not(.ui) {
+img.ui.image {
     width: var(--logo-size);
 }
+
 .ui.inverted.red.button, .ui.inverted.red.buttons .button {
     background-color: var(--background-unlogin);
     box-shadow: 0 0 0 2px var(--color-border-unlogin) inset!important;
@@ -48,6 +49,9 @@
     color: var(--color-footer1);
     border-color: var(--color-footer1-border)
 }
+.ui.small.divided.horizontal.inverted.link.list.listFooter1 a.item.item:hover {
+    color: var(--color-footer1-hover);
+}
 .ui.inverted.vertical.segment.Footer2 {
     background: var(--background-footer2);
     color: var(--color-footer2);
@@ -56,6 +60,9 @@
     color: var(--color-footer2);
     border-color: var(--color-footer2-border)
 }
+.ui.small.divided.horizontal.inverted.link.list.listFooter2 a.item.item:hover {
+    color: var(--color-footer2-hover);
+}
 .ui.inverted.vertical.segment.Footer3 {
     background: var(--background-footer3);
     color: var(--color-footer3);
@@ -63,7 +70,9 @@
 .ui.small.divided.horizontal.inverted.link.list.listFooter3 a.item {
     color: var(--color-footer3);
     border-color: var(--color-footer3-border)
-    
+}
+.ui.small.divided.horizontal.inverted.link.list.listFooter3 a.item.item:hover {
+    color: var(--color-footer3-hover);
 }
 
 /* Page */
