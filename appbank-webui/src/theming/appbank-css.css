@@ -98,6 +98,12 @@ body {
 .ui.teal.button, .ui.teal.buttons .button {
     background-color: var(--background-button1);
 }
+.ui.teal.button:active {
+    background-color: var(--background-button1);
+}
+.ui.teal.button:focus {
+    background-color: var(--background-button1);
+}
 
 .ui.teal.button:hover {
     background-color: var(--background-button1-hover);

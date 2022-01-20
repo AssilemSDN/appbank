@@ -2,6 +2,7 @@ import { atom } from 'recoil'
 
 // The personify theme : 
 import '../theming/themes/theme_societe_generale.css'
+// import '../theming/themes/theme_example_variability.css'
 // import '../theming/themes/theme_default.css'
 // Needed if you use a personify theme :
 import '../theming/appbank-css.css'
