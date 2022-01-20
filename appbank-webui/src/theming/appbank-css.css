@@ -16,7 +16,7 @@
 .ui.inverted.menu .item.hello:hover {
     color: var(--color-menu) !important;
 }
-img.ui.image {
+img.ui.mini.image {
     width: var(--logo-size);
 }
 

@@ -45,7 +45,7 @@ const TopMenu = () => {
   return (
     <Menu inverted borderless fixed='top' >
       <Menu.Item> 
-        <Image src={`/assets/images/${logo}`}/>
+        <Image src={`/assets/images/${logo}`} size='mini' />
       </Menu.Item>
       <Menu.Item onClick={handleOnSelectMenu} name='home' active={activeItem === routes.home}>Accueil</Menu.Item>
       {keycloak.authenticated && userIsAdmin && 
