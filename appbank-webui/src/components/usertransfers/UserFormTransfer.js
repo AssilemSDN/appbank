@@ -55,6 +55,7 @@ const UserFormTransfer = () => {
         if (bankTransfer === false || bankTransfer === null) {
           console.log("FormListAccounts", "addBankTransfer()", bankTransfer)
           setIsOk(false)
+          console.log(isOk)
           return false
         }
         appbankApi.getAllBankTransfersFromUserid(userId).then(data => {

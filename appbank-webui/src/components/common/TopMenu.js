@@ -47,9 +47,7 @@ const TopMenu = () => {
       <Menu.Item> 
         <Image src={`/assets/images/${logo}`}/>
       </Menu.Item>
-      {keycloak.authenticated &&
-        <Menu.Item onClick={handleOnSelectMenu} name='home' active={activeItem === routes.home}>Accueil</Menu.Item>
-      }
+      <Menu.Item onClick={handleOnSelectMenu} name='home' active={activeItem === routes.home}>Accueil</Menu.Item>
       {keycloak.authenticated && userIsAdmin && 
         <Menu.Item onClick={handleOnSelectMenu} name='users' active={activeItem === routes.users}>Utilisateurs</Menu.Item>}
       {keycloak.authenticated &&

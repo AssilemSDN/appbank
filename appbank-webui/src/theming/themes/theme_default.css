@@ -3,15 +3,15 @@
 /*------ General */
     --background-menu: #0f2573;
     --color-menu: #f8f8f8;
-    --color-menu-hover: #e31122;
+    --color-menu-hover: #f8f8f8;
     --logo-size: 2em;
 /*------ Unlogin */
-    --background-unlogin: #e31122;
-    --color-border-unlogin: #e31122;
+    --background-unlogin: #fc5041;
+    --color-border-unlogin: #fc5041;
     --color-unlogin: white;
     --background-unlogin-hover: white;
-    --color-border-unlogin-hover: #e31122;
-    --color-unlogin-hover: #e31122;
+    --color-border-unlogin-hover: #fc5041;
+    --color-unlogin-hover: #fc5041;
 /*------ Login */
     --background-login: #e31122;
     --color-border-login: #e31122;
@@ -22,30 +22,29 @@
 /*------------ */
 /* FOOTER */
 /*------ Footer1 */
-    --background-footer1: #333;
+    --background-footer1: #202122;
     --color-footer1: rgb(255, 255, 255);
-    --color-footer1-hover: #da666f;
-    --color-footer1-border: rgba(255, 255, 255, 0.2);
+    --color-footer1-hover: #fc5041;
+    --color-footer1-border: #202122;
 /*------ Footer2 */
-    --background-footer2: rgb(0, 0, 0);
-    --color-footer2: white;
-    --color-footer2-hover: #da666f;
+    --background-footer2:#202122;
+    --color-footer2: #657785;
+    --color-footer2-hover: #98a8b4;
     --color-footer2-border: rgba(255, 255, 255, 0.2);
 /*------ Footer3 */
-    --background-footer3: white;
-    --color-footer3: rgb(32, 32, 32);
-    --color-footer3-hover: #e31122;
-    --color-footer3-border: rgba(32, 32, 32, 0.2);
+    --background-footer3: #363738;
+    --color-footer3: #979797;
+    --color-footer3-hover: #d1d1d1;
+    --color-footer3-border: #979797;
 /*------------ */
 /* FOND */
     --background: white;
 /* PAGE */
     --background-page: #ffffff;
 /*------ Headers */
-    --background-header: #ffffff;
+    --background-header: #f4f4f4;
     --color-header: black;
     --color-border-header: none;
-    /*1px solid #d4d4d5*/
 /*-------------- Subheaders */
     --color-subheader: #828282;
 
