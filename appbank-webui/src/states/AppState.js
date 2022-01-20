@@ -1,15 +1,15 @@
 import { atom } from 'recoil'
 
 // The personify theme : 
-// import '../theming/themes/theme_societe_generale.css'
-import '../theming/themes/theme_default.css'
+import '../theming/themes/theme_societe_generale.css'
+// import '../theming/themes/theme_default.css'
 // Needed if you use a personify theme :
 import '../theming/appbank-css.css'
 
 const logoState = atom({
   key: 'logoState',
-  // default: 'logo-societe-generale.png'
-  default: 'logo-bank.png'
+  default: 'logo-societe-generale.png'
+  //default: 'logo-bank.png'
 })
 
 const userIsAdminState = atom({
