@@ -31,7 +31,7 @@ Ce script lancera la base de donnée de l'API Rest et celle de keycloak.
 
 ## Initialiser keycloak
 
-Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données. (A l'avenir : un script)
+Il vous faudra pour le premier lancement initialiser keycloak et monter la base de données.
 
 - L'accès à keycloak se fera à l'adresse ``http://localhost:8000``. Si vous venez de lancer le script start.sh, il se peut que vous devez attendre quelques secondes avant de pouvoir voir l'interface de keycloak.
 
@@ -46,9 +46,14 @@ Il vous faudra pour le premier lancement initialiser keycloak et monter la base 
 - Dans ``if resource exists``, mettez sur ``skip``. Finaliser l'import en cliquant sur ``import``. 
 
 **Identity provider**
-- Pour **Github** : aller dans ``indentity provider``, puis sélectionner ``github.`` Avant de cliquer sur ``save``, il faudra indiquer le client secret suivant (le code client étant déjà importé grâce au fichier **realm-export.json**) :
+De nombreux sites intègrent à leur login la possibilité de s'inscrire et se connecter en utilisant les informations de connexion existantes d'un réseau social. Keycloak intègre également cette possibilité. Pour rajouter un réseau social à partir duquel se connecter, il faut aller dans ``identity provider``, puis ``add provider``. Vous aurez la liste des réseaux sociaux que gèrent keycloak.
+
+Exemple pour **Github** :
+- Pour **Github** : sélectionner dans la liste ``github``. Avant de cliquer sur ``save``, il faudra indiquer le client secret suivant (le code client étant déjà importé grâce au fichier **realm-export.json**) :
 > **CLIENT SECRET : 868357bd5cd2edb17b798ea24e155a96c6045fb5**
 - Puis, il faudra cliquer sur ``save``.
+
+Il est tout à fait possible d'intégrer de nouveaux providers avec la même manipualtion, en récupérant au préalable le client id et le client secret via l'api du réseau social en question.
 
 **Création et modification de users** 
 
