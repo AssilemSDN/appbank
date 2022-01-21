@@ -48,6 +48,14 @@ const TopMenu = () => {
         <Image src={`/assets/images/${logo}`} size='mini' />
       </Menu.Item>
       <Menu.Item onClick={handleOnSelectMenu} name='home' active={activeItem === routes.home}>Accueil</Menu.Item>
+      {!keycloak.authenticated &&
+      <>
+      <Menu.Item>Epargner</Menu.Item>
+      <Menu.Item>Emprunter</Menu.Item>
+      <Menu.Item>Assurer</Menu.Item>
+      <Menu.Item>Trouver une agence</Menu.Item>
+      <Menu.Item>Banque à distance</Menu.Item> </>}
+      
       {keycloak.authenticated && userIsAdmin && 
         <Menu.Item onClick={handleOnSelectMenu} name='users' active={activeItem === routes.users}>Utilisateurs</Menu.Item>}
       {keycloak.authenticated &&

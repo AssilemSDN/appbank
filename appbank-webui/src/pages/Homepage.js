@@ -101,8 +101,10 @@ const HomePage = () => {
       <Synchronizer />
       <TopMenu />
       {!keycloak.authenticated &&
+      <Container className='toz'>
       <Container className='Image'>
         <Image src='/assets/images/home.jpg' fluid />
+      </Container>
       </Container>}
       {keycloak.authenticated &&
       <Header as='h1' block style={{ marginTop: '100px' }}>

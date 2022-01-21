@@ -13,6 +13,18 @@ const logoState = atom({
   //default: 'logo-bank.png'
 })
 
+const iconState = atom({
+  key: 'iconState',
+  default: 'icon-societe-generale.ico'
+  //default: 'logo-bank.png'
+})
+
+const nomState = atom({
+  key: 'nomState',
+  default: 'AppBank'
+  //default: 'logo-bank.png'
+})
+
 const userIsAdminState = atom({
   key: 'userIsAdminState',
   default: false
