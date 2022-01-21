@@ -43,6 +43,7 @@ const DepositModal = (props) => {
     }
 
     return(
+    <>
     <Modal
         onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open} trigger={<Button color='black'>Déposer</Button>}>
         <Modal.Header>Compte n° : {accountId} Dépot</Modal.Header>
@@ -60,6 +61,7 @@ const DepositModal = (props) => {
             <Button content="Confirmer" labelPosition='right' icon='checkmark' onClick={confirmation} positive/>
         </Modal.Actions>
     </Modal>
+    </>
     )
 }
   
