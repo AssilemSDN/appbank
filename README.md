@@ -125,10 +125,29 @@ L'authentification se fait depuis ``Administration Console`` avec :
 ## Interface utilisateur
 Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'accéder aux différents services, vous devez vous authentifier en tant qu'utilisateur client ou administrateur. Veuillez alors vous reporter à la base de donnée utilisateur dans keycloak, accessible depuis ``administration console``. Pour y accéder, veuillez vous authentifier, puis dans le menu latérale gauche, cliquez sur ``users``, puis ``View all users``.
 
-## Vue utilisateur
-- Dans son **home**, l'utilisateur voit son nom, son adresse mail, et le nombre de comptes qu'il possède.
+## Vue commune à chaque type d'utilisateur
+-Chaque utilisateur peut accéder au service d'authentification de keycloak en cliquant sur ``se connecter``.
+-Une fois connecté, l'utilisateur peut accéder au service de conversion de devises. 
+[!convertisseur-de-devise](documentation/convertisseur-de-devise)
+Les taux de changes sont récupérés via des requêtes au ``Currency Converter API`` (https://www.currencyconverterapi.com/). 
 
-- Dans l'onglet **comptes**, l'utilisateur peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est mis à jour (toutefois, il faut réactualiser la page pour visualiser le changement, problème sur le react). 
+** Ajout et retrait de money dans le convertisseur de devises**
+
+La liste des moneys disponibles peuvent être récupérer via => https://free.currconv.com/api/v7/currencies?apiKey=d6a00977ad323a7dc798 <br>
+L'ajout et le retrait de moneys sont simples. Il suffit de rajouter ou retirer des élements du tableaux **currencies** dans ``appbank-webui/pages/CurrencyConverter.js``. La value de l'élement est ``PHP_`` suivi du code de monnaie internationale.
+
+```
+text: 'Dollar US',
+icon: 'dollar',
+image: '/assets/images/logo-usa.jpg',
+value: 'PHP_USD',
+ ```
+ 
+
+## Vue client
+- Dans son **home**, le client voit son nom, son adresse mail, et le nombre de comptes qu'il possède.
+
+- Dans l'onglet **comptes**, le client peut retirer et déposer de l'argent sur ses comptes. Les retraits ne sont un succès que s'il a le droit de retirer, i.e. qu'il ne retire pas plus d'argent qu'il n'en ai, à moins que l'administrateur lui ait autorisé sur son compte d'être à découvert. Le solde est mis à jour.
 
 ![userListeComptes](documentation/userListeComptes.png)
 
