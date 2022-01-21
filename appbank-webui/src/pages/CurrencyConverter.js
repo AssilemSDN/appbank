@@ -23,16 +23,22 @@ const CurrencyConverter = () => {
    
   const currencies = [
     {
+      text: 'Dollar US',
+      icon: 'dollar',
+      image: '/assets/images/logo-usa.jpg',
+      value: 'PHP_USD',
+    },
+    {
+      text: 'Dollar CAD',
+      icon: 'dollar',
+      image: '/assets/images/logo-canada.png',
+      value: 'PHP_CAD',
+    },
+    {
       text: 'Euro',
       icon: 'eur',
       image: '/assets/images/logo-union-europeenne.jpg',
       value: 'PHP_EUR',
-    },
-    {
-      text: 'Dollar',
-      icon: 'dollar',
-      image: '/assets/images/logo-usa.jpg',
-      value: 'PHP_USD',
     },
     {
       text: 'Livre',
@@ -45,8 +51,25 @@ const CurrencyConverter = () => {
       icon: 'shekel sign',
       image: '/assets/images/logo-israel.jpg',
       value: 'PHP_ILS'
-  
-    }
+    },
+    {
+      text: 'Won sud',
+      icon: 'won',
+      image: '/assets/images/logo-coree-du-sud.png',
+      value: 'PHP_KRW',
+    },
+    {
+      text: 'Won nord',
+      icon: 'won',
+      image: '/assets/images/logo-coree-nord.png',
+      value: 'PHP_KPW',
+    },
+    {
+      text: 'Yen',
+      icon: 'yen',
+      image: '/assets/images/logo-japon.png',
+      value: 'PHP_JPY',
+    },
   ];
 
   const handleChangeFirstCurrency = (e, {value}) => {
