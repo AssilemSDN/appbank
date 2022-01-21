@@ -54,7 +54,7 @@ const UserListTransfers = () => {
         {userBankTransfersWaiting.map(bankTransfer => {
             console.log(bankTransfer)
             return (
-            <Segment key={bankTransfer.id}>
+            <Segment className='virement' key={bankTransfer.id}>
                 <Header as='h3'>Virement n°{bankTransfer.id}</Header>
                 <Container>
                 <strong>Compte émetteur: </strong>{bankTransfer.accountIdSrc} <br />

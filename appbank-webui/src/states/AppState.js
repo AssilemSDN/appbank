@@ -1,29 +1,32 @@
 import { atom } from 'recoil'
 
 // The personify theme : 
-import '../theming/themes/theme_societe_generale.css'
-// import '../theming/themes/theme_example_variability.css'
-// import '../theming/themes/theme_default.css'
+import '../theming/themes/theme_bnp.css'
+
 // Needed if you use a personify theme :
 import '../theming/appbank-css.css'
 
+// States theming ---------
 const logoState = atom({
   key: 'logoState',
-  default: 'logo-societe-generale.png'
+  default: 'logo-bnp.jpg'
+  //default: 'logo-smc.png'
+  //default: 'logo-societe-generale.png'
   //default: 'logo-bank.png'
 })
+const nomState = atom({
+  key: 'nomState',
+  default: 'SimpleApp'
+})
 
+/*
 const iconState = atom({
   key: 'iconState',
   default: 'icon-societe-generale.ico'
-  //default: 'logo-bank.png'
 })
+*/
 
-const nomState = atom({
-  key: 'nomState',
-  default: 'AppBank'
-  //default: 'logo-bank.png'
-})
+// ---------------------
 
 const userIsAdminState = atom({
   key: 'userIsAdminState',
@@ -98,5 +101,6 @@ export {
   adminUsersState,
   adminAccountsState,
   bankTransfersState,
-  allAccountsState
+  allAccountsState,
+  nomState
 }

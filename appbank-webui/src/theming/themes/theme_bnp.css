@@ -1,0 +1,61 @@
+:root {
+    /* TOPMENU */
+    /*------ General */
+        --background-menu: white;
+        --color-menu: #373737;
+        --color-menu-hover: #00915a    ;
+        --logo-size: 15em;
+    /*------ Unlogin */
+        --background-unlogin: #00915a;
+        --color-border-unlogin: #00915a;
+        --color-unlogin: white;
+        --background-unlogin-hover: white;
+        --color-border-unlogin-hover: #28c3a9;
+        --color-unlogin-hover: #28c3a9;
+    /*------ Login */
+        --background-login: #00915a;
+        --color-border-login: #00915a;
+        --color-login: white;
+        --background-login-hover: white;
+        --color-border-login-hover: #28c3a9;
+        --color-login-hover: #28c3a9;
+    /*------------ */
+    /* FOOTER */
+    /*------ Footer1 */
+        --background-footer1: #373737;
+        --color-footer1: #c8c8c8;
+        --color-footer1-hover: white;
+        --color-footer1-border: rgba(255, 255, 255, 0.2);
+    /*------ Footer2 */
+        --background-footer2: #373737;
+        --color-footer2: #c8c8c8;
+        --color-footer2-hover: white;
+        --color-footer2-border: rgba(255, 255, 255, 0.2);
+    /*------ Footer3 */
+        --background-footer3: #373737;
+        --color-footer3: #c8c8c8;
+        --color-footer3-hover: white;
+        --color-footer3-border: rgba(32, 32, 32, 0.2);
+    /*------------ */
+    /* FOND */
+        --background: white;
+    /* PAGE */
+        --background-page: #ffffff;
+    /*------ Headers */
+        --background-header: #00915a;
+        --color-header: #ffffff;
+        --color-border-header: none;
+        /*1px solid #d4d4d5*/
+    /*-------------- Subheaders */
+        --color-subheader: #ffffff;
+    /*------ Texte */
+        --color-text: #4a4a4a;
+        --background-segment-virement: #98f0d3;
+        
+        
+    /*------ Boutons */
+        --background-button1: #28c3a9;
+        --background-button1-hover:#00915a;
+        --background-button2: #00915a;
+        --background-button2-hover: #28c3a9;
+    }

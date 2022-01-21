@@ -1,0 +1,61 @@
+:root {
+    /* TOPMENU */
+    /*------ General */
+        --background-menu: white;
+        --color-menu: #033e64;
+        --color-menu-hover: #bb0f3a    ;
+        --logo-size: 20em;
+    /*------ Unlogin */
+        --background-unlogin: #bb0f3a;
+        --color-border-unlogin: #bb0f3a;
+        --color-unlogin: white;
+        --background-unlogin-hover: white;
+        --color-border-unlogin-hover: #bb0f3a;
+        --color-unlogin-hover: #bb0f3a;
+    /*------ Login */
+        --background-login: #bb0f3a;
+        --color-border-login: #bb0f3a;
+        --color-login: white;
+        --background-login-hover: white;
+        --color-border-login-hover: #bb0f3a;
+        --color-login-hover: #bb0f3a;
+    /*------------ */
+    /* FOOTER */
+    /*------ Footer1 */
+        --background-footer1: #033e64;
+        --color-footer1: white;
+        --color-footer1-hover: white;
+        --color-footer1-border: rgba(255, 255, 255, 0.2);
+    /*------ Footer2 */
+        --background-footer2: #033e64;
+        --color-footer2: white;
+        --color-footer2-hover: white;
+        --color-footer2-border: rgba(255, 255, 255, 0.2);
+    /*------ Footer3 */
+        --background-footer3: #033e64;
+        --color-footer3: white;
+        --color-footer3-hover: white;
+        --color-footer3-border: rgba(32, 32, 32, 0.2);
+    /*------------ */
+    /* FOND */
+        --background: white;
+    /* PAGE */
+        --background-page: #ffffff;
+    /*------ Headers */
+        --background-header: #ffffff;
+        --color-header: #033e64;
+        --color-border-header: none;
+        /*1px solid #d4d4d5*/
+    /*-------------- Subheaders */
+        --color-subheader: #828282;
+    /*------ Texte */
+        --color-text: #4a4a4a;
+        --background-segment-virement: white;
+
+        
+    /*------ Boutons */
+        --background-button1: #008ed5;
+        --background-button1-hover:#033e64;
+        --background-button2: #bb0f3a;
+        --background-button2-hover: #033e64;
+    }

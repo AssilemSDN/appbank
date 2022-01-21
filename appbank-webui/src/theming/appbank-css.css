@@ -87,6 +87,27 @@ body {
     color: var(--color-header);
     border: var(--color-border-header);
 }
+.ui.header {
+    color: var(--color-text);
+}
+.ui.header .sub.header {
+    color: var(--color-subheader);
+}
+.ui.card>.content>.header:not(.ui), .ui.cards>.card>.content>.header:not(.ui) {
+    color: var(--color-text);
+}
+header {
+    color: var(--color-text);
+}
+p {
+    color: var(--color-text);
+}
+b, strong {
+    color: var(--color-text);
+}
+.ui.segment.virement {
+    background: var(--background-segment-virement);
+}
 
 .ui.black.button, .ui.black.buttons .button {
     background-color: var(--background-button2)

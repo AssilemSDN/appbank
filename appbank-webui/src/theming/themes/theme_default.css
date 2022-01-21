@@ -47,6 +47,10 @@
     --color-border-header: none;
 /*-------------- Subheaders */
     --color-subheader: #828282;
+    /*------ Texte */
+    --color-text: #050505;
+    --background-segment-virement: white;
+
 
 /*------ Boutons */
     --background-button1: rgb(15, 37, 115, 0.8);

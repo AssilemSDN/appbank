@@ -30,7 +30,7 @@
         --background-footer2:#4994df;
         --color-footer2: #657785;
         --color-footer2-hover: #98a8b4;
-        --color-footer2-border: rgba(255, 255, 255, 0.2);
+        --color-footer2-border: rgba(255, 13, 13, 0.2);
     /*------ Footer3 */
         --background-footer3: #0affa1;
         --color-footer3: #e79595;
@@ -47,7 +47,10 @@
         --color-border-header: none;
     /*-------------- Subheaders */
         --color-subheader: #971717;
-    
+        --background-segment-virement: white;
+
+    /*------ Texte */
+        --color-text: #db1414;
     /*------ Boutons */
         --background-button1: rgba(255, 15, 183, 0.8);
         --background-button1-hover:#0f2573;

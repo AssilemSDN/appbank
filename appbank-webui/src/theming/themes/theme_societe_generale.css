@@ -48,6 +48,9 @@
     /*1px solid #d4d4d5*/
 /*-------------- Subheaders */
     --color-subheader: #828282;
+/*------ Texte */
+    --color-text: black;
+    --background-segment-virement: white;
 
 /*------ Boutons */
     --background-button1: rgb(1, 0, 53, 0.8);
