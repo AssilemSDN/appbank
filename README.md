@@ -126,9 +126,12 @@ L'authentification se fait depuis ``Administration Console`` avec :
 Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'accéder aux différents services, vous devez vous authentifier en tant qu'utilisateur client ou administrateur. Veuillez alors vous reporter à la base de donnée utilisateur dans keycloak, accessible depuis ``administration console``. Pour y accéder, veuillez vous authentifier, puis dans le menu latérale gauche, cliquez sur ``users``, puis ``View all users``.
 
 ## Vue commune à chaque type d'utilisateur
--Chaque utilisateur peut accéder au service d'authentification de keycloak en cliquant sur ``se connecter``.
--Une fois connecté, l'utilisateur peut accéder au service de conversion de devises. 
+
+- Chaque utilisateur peut accéder au service d'authentification de keycloak en cliquant sur ``se connecter``.
+- Une fois connecté, l'utilisateur peut accéder au service de conversion de devises. 
+- 
 [!convertisseur-de-devise](documentation/convertisseur-de-devise)
+
 Les taux de changes sont récupérés via des requêtes au ``Currency Converter API`` (https://www.currencyconverterapi.com/). 
 
 ** Ajout et retrait de money dans le convertisseur de devises**
