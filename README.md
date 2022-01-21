@@ -129,8 +129,8 @@ Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'ac
 
 - Chaque utilisateur peut accéder au service d'authentification de keycloak en cliquant sur ``se connecter``.
 - Une fois connecté, l'utilisateur peut accéder au service de conversion de devises. 
-- 
-[!convertisseur-de-devise](documentation/convertisseur-de-devise)
+
+[!convertisseur-de-devise](documentation/convertisseur-de-devise.png)
 
 Les taux de changes sont récupérés via des requêtes au ``Currency Converter API`` (https://www.currencyconverterapi.com/). 
 
