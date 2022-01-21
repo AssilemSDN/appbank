@@ -46,6 +46,7 @@ Il vous faudra pour le premier lancement initialiser keycloak et monter la base 
 - Dans ``if resource exists``, mettez sur ``skip``. Finaliser l'import en cliquant sur ``import``. 
 
 **Identity provider**
+
 De nombreux sites intègrent à leur login la possibilité de s'inscrire et se connecter en utilisant les informations de connexion existantes d'un réseau social. Keycloak intègre également cette possibilité. Pour rajouter un réseau social à partir duquel se connecter, il faut aller dans ``identity provider``, puis ``add provider``. Vous aurez la liste des réseaux sociaux que gèrent keycloak.
 
 ![keycloak-add-provider](documentation/keycloak-add-provider.png)
