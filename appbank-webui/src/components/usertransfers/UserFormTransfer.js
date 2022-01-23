@@ -52,7 +52,7 @@ const UserFormTransfer = () => {
       console.log('FormListAccounts', 'addBankTransfer()', currentAccount)
       setIsOk(true)
       appbankApi.addBankTransfer(currentAccount,otherAccount,amount).then(bankTransfer => {
-        if (bankTransfer === false || bankTransfer === null) {
+        if (bankTransfer === false) {
           console.log("FormListAccounts", "addBankTransfer()", bankTransfer)
           setIsOk(false)
           console.log(isOk)

@@ -35,7 +35,7 @@ public class BankTransferController {
     }
 
     @PostMapping
-    public ResponseEntity <BankTransfer> addNewBankTransfer (@RequestParam int accountIdSrc, @RequestParam int accountIdDst, @RequestParam int amount) {
+    public ResponseEntity <Boolean> addNewBankTransfer (@RequestParam int accountIdSrc, @RequestParam int accountIdDst, @RequestParam int amount) {
         
         Account accountSrc = accountService.getAccountFromAccountId(accountIdSrc);
         Account accountDst = accountService.getAccountFromAccountId(accountIdDst);
@@ -45,14 +45,14 @@ public class BankTransferController {
         }
 
         if (accountSrc.getSolde() < amount && ! accountSrc.getCanBeOverdraft()) {
-            return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok().body(false);
         }
 
         BankTransfer bankTransfer = bankTransferService.addNewBankTransfer(accountService.getProprietaireId(accountIdSrc), accountIdSrc, accountIdDst, amount);
         if (bankTransfer == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(bankTransfer);
+        return ResponseEntity.ok().body(true);
     }
 
     @DeleteMapping (path="/user/{userId}")

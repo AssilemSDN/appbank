@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 
 // The personify theme : 
-import '../theming/themes/theme_bnp.css'
+import '../theming/themes/theme_credit_agricole.css'
 
 // Needed if you use a personify theme :
 import '../theming/appbank-css.css'
@@ -9,11 +9,14 @@ import '../theming/appbank-css.css'
 // States theming ---------
 const logoState = atom({
   key: 'logoState',
-  default: 'logo-bnp.jpg'
+  //default: 'logo-banque-postale.jpeg'
+  default: 'ca-logo.png'
+  //default: 'logo-bnp.jpg'
   //default: 'logo-smc.png'
   //default: 'logo-societe-generale.png'
   //default: 'logo-bank.png'
 })
+
 const nomState = atom({
   key: 'nomState',
   default: 'SimpleApp'

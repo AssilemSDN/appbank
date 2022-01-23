@@ -104,6 +104,7 @@ const addAccountFromEmail = async (email, token) => {
       }
     })
     if (status !== 200) { throw new Error(`Status is ${status}`) }
+    console.log("addAccountFromEmail",data);
     return data
   } catch (e) {
     console.log('AppBankApi', 'addAccountFromEmail', 'error', e)
@@ -236,6 +237,7 @@ const addBankTransfer = async (accountIdSrc, accountIdDst, amount, token) => {
       }
     })
     if (status !== 200) {throw new Error(`Status is ${status}`) }
+    console.log('AppBankApi', 'addBankTransfer',data)
     return data
   } catch (e) {
     console.log('AppBankApi', 'addBankTransfer', 'error', e)

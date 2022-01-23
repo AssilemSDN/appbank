@@ -1,0 +1,60 @@
+:root {
+    /* TOPMENU */
+    /*------ General */
+        --background-menu: white;
+        --color-menu: #373737;
+        --color-menu-hover: #17479e;
+        --logo-size: 5em;
+    /*------ Unlogin */
+        --background-unlogin: #17479e;
+        --color-border-unlogin: #17479e;
+        --color-unlogin: white;
+        --background-unlogin-hover: white;
+        --color-border-unlogin-hover: #1e3561;
+        --color-unlogin-hover: #1e3561;
+    /*------ Login */
+        --background-login: #17479e;
+        --color-border-login: #17479e;
+        --color-login: white;
+        --background-login-hover: white;
+        --color-border-login-hover: #1e3561;
+        --color-login-hover: #1e3561;
+    /*------------ */
+    /* FOOTER */
+    /*------ Footer1 */
+        --background-footer1: #f3f6fa;
+        --color-footer1: #17479e;
+        --color-footer1-hover: #506997;
+        --color-footer1-border: rgba(0, 0, 0, 0.2);
+    /*------ Footer2 */
+        --background-footer2: white;
+        --color-footer2: #888888;
+        --color-footer2-hover: rgb(100, 100, 100);
+        --color-footer2-border: rgba(0, 0, 0, 0.2);
+    /*------ Footer3 */
+        --background-footer3: white;
+        --color-footer3: #888888;
+        --color-footer3-hover: rgb(100, 100, 100);
+        --color-footer3-border: rgba(32, 32, 32, 0.2);
+    /*------------ */
+    /* FOND */
+        --background: white;
+    /* PAGE */
+        --background-page: #ffffff;
+    /*------ Headers */
+        --background-header: #ffffff;
+        --color-header: #17479e;
+        --color-border-header: none;
+        /*1px solid #d4d4d5*/
+    /*-------------- Subheaders */
+        --color-subheader: #ffffff;
+    /*------ Texte */
+        --color-text: #4a4a4a;
+        --background-segment-virement: #f3f6fa;
+    
+    /*------ Boutons */
+        --background-button1: #17479e;
+        --background-button1-hover:#506997;
+        --background-button2: #0c2b77;
+        --background-button2-hover: #1e3561;
+    }
