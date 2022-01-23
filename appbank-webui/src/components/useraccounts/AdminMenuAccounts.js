@@ -46,7 +46,7 @@ const AdminMenuAccounts = () => {
           <Grid.Column stretched width={12}>
             <Segment>
               {IsActiveItem('allAccounts') &&
-                <AdminListAccounts />}
+                <AdminListAccounts />}P
               {IsActiveItem('addAccount') &&
                 <AdminAddAccount />}
               {IsActiveItem('removeAccount') &&

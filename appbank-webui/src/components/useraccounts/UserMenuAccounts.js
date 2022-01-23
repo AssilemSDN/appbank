@@ -93,6 +93,7 @@ const WithdrawalModal = (props) => {
     })}
 
     return(
+        <>
         <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open} trigger={<Button color='teal' disabled={accountSolde===0 && !canBeOverdraft}>Retirer</Button>}>
             <Modal.Header>Compte n°{accountId} : Retrait</Modal.Header>
             <Modal.Content image>
@@ -113,6 +114,7 @@ const WithdrawalModal = (props) => {
                 <Button content="Confirmer" labelPosition='right' icon='checkmark' onClick={confirmation} positive />
             </Modal.Actions>
         </Modal>
+        </>
     )
 }
 
