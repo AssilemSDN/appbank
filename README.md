@@ -3,12 +3,17 @@ Le dépot github de Samy : https://github.com/domtox/app_bank_projet_2021
 
 # appbank : Une application bancaire fullstack sping-boot / react / keycloak
 
+![mockup-themes](documentation/PBLTJD1.png)
 
 Il s'agit d'un projet universitaire en binôme dont le but est de fournir une API back d'application bancaire à un frontend. 
 
 `appbank` est constituée d'un **Spring-Boot** Rest API `appbank-api `, et d'un frontend en **ReactJS**  `appbank-webui` sécurisé avec **keycloak**. La base de donnée utilisée pour l'API backend et celle de keycloak est **MySql**. La gestion de la base de donnée de l'API peut être faite depuis **adminer**.
 
-Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de ces ports ne soient utilisés.
+![schem ](documentation/schema.png)
+
+
+(PS : La version avec l'intégration de [Mobioos](https://forge.mobioos.ai/) ne sera pas disponible sur le git) <br>
+(PPS : La sécurisation de l'API est en cours de construction puisqu'elle n'est pas le sujet du projet...)
 
 ## Prérequis
 
@@ -21,6 +26,8 @@ Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de 
 - `Docker-Compose 1.25.0`
 
 ## Lancer l'environnement
+
+Les ports utilisés sont : 8000, 8080, 9000 et 3000. Veuillez à ce qu'aucun de ces ports ne soient déjà utilisés avant de lancer les différents services. 
 
 - Ouvrir le terminal et aller au dossier appbank 
 - Lancer le script de démarrage  :
@@ -60,11 +67,11 @@ Il est tout à fait possible d'intégrer de nouveaux providers avec la même man
 
 **Création et modification de users** 
 
-La base de données de keycloak sera initialement vide. Pour tester les différents, vous devriez au moins créer un utilisateur administrateur, et un client. 
+La base de données de keycloak sera initialement vide. Pour tester les différentes fonctionnalités, vous devriez au moins créer un utilisateur administrateur, et un client. 
 
 - Pour se faire, aller dans ``users`` puis ``create user``. Le rôle de l'**admin** sera ``appbank-admin`` et celui du **client** sera ``default-roles-appbank``. 
 
-Vous pouvez à tout moment modifier vos users dans l'onglet ``users``, puis en cliquant sur ``view all users``. Vous pourrez alors éditer tous vos utilisateurs déjà crées, et notamment modifier leur rôle.
+Vous pouvez à tout moment modifier vos users dans l'onglet ``users``, puis en cliquant sur ``view all users``. Vous pourrez alors éditer tous vos utilisateurs déjà crées, et notamment modifier leur rôle en cliquant sur ``edit`` puis sur ``available roles``.
 
 ## Exécuter appbank avec Maven & Npm
 
@@ -134,7 +141,7 @@ Le site web est accessible depuis l'adresse ``http.//localhost:3000``. Afin d'ac
 
 Les taux de changes sont récupérés via des requêtes au ``Currency Converter API`` (https://www.currencyconverterapi.com/). 
 
-** Ajout et retrait de money dans le convertisseur de devises**
+**Ajout et retrait de money dans le convertisseur de devises**
 
 La liste des moneys disponibles peuvent être récupérer via => https://free.currconv.com/api/v7/currencies?apiKey=d6a00977ad323a7dc798 <br>
 L'ajout et le retrait de moneys sont simples. Il suffit de rajouter ou retirer des élements du tableaux **currencies** dans ``appbank-webui/pages/CurrencyConverter.js``. La value de l'élement est ``PHP_`` suivi du code de monnaie internationale.
@@ -146,7 +153,6 @@ image: '/assets/images/logo-usa.jpg',
 value: 'PHP_USD',
  ```
  
-
 ## Vue client
 - Dans son **home**, le client voit son nom, son adresse mail, et le nombre de comptes qu'il possède.
 
