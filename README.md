@@ -28,7 +28,7 @@ Chaque utilisateur a accès au système d'authentification. Une fois connecté, 
 
 ![fđ](documentation/schema_2.png)
 
-Une fois authentifié, l'utilisateur est soit un client soit un administration. Le client peut déposer de l'argent sur ses comptes, et en retirer si sa situation financière le permet (i.e. que son solde soit assez élevé ou qu'il ait le droit d'être à découvert). Il peut également effectuer des virements, là aussi si sa situation financière le permet. Une fois le virement effectué, il est mis en attente de validation. 
+Une fois authentifié, l'utilisateur est soit un client soit un administration. Le client peut déposer de l'argent sur ses comptes, et en retirer si sa situation financière le permet (i.e. que son solde soit assez élevé ou qu'il ait le droit d'être à découvert). Il peut également effectuer des virements, là aussi si sa situation financière le permet. Une fois le virement effectué, il est mis en attente de validation. Le client peut annuler des virements en attente de validation.
 
 **Administrateur**
 
