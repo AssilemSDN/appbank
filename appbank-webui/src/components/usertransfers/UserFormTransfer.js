@@ -63,7 +63,7 @@ const UserFormTransfer = () => {
         })
         console.log('addBankTransfer', 'addBankTransfer()', currentAccount, bankTransfer)
       })
-    }, [currentAccount, otherAccount, amount, userId, setUserBankTransfersWaiting])
+    }, [currentAccount, otherAccount, amount, userId, setUserBankTransfersWaiting, isOk])
   
     const handleChangeCurrentAccount = (e, account) => {
       console.log('FormListAccounts', 'handleChangeCurrentAccount()', account.value)

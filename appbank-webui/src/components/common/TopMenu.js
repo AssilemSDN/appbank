@@ -8,6 +8,8 @@ import {
   userFirstNameState,
   userIsAdminState,
   logoState,
+  nomState,
+  iconState
 } from '../../states/AppState'
 
 const routes = {
@@ -19,6 +21,13 @@ const routes = {
 }
 
 const TopMenu = () => {
+  const title = useRecoilValue(nomState)
+  const icon = useRecoilValue(iconState)
+  window.document.title = title
+  const favicon = window.document.getElementById("favicon")
+  favicon.setAttribute("href", `/${icon}`)
+  console.log(favicon)
+
   const logo = useRecoilValue(logoState)
   const userFirstName = useRecoilValue(userFirstNameState)
   const userIsAdmin = useRecoilValue(userIsAdminState)

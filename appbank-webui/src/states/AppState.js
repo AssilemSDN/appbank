@@ -17,9 +17,14 @@ const logoState = atom({
   //default: 'logo-bank.png'
 })
 
+const iconState = atom ({
+  key: 'iconState',
+  default: 'ca-icon.ico'
+})
+
 const nomState = atom({
   key: 'nomState',
-  default: 'SimpleApp'
+  default: 'Crédit Agricole'
 })
 
 /*
@@ -105,5 +110,6 @@ export {
   adminAccountsState,
   bankTransfersState,
   allAccountsState,
-  nomState
+  nomState,
+  iconState
 }

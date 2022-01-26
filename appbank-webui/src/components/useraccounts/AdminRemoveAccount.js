@@ -49,6 +49,7 @@ const AdminRemoveAccount = () => {
     }
     
     return (
+      <>
         <Card fluid color='blue'>
             <Card.Content header='Quel compte à supprimer ?' />
             {adminAccounts.length===0 &&
@@ -68,6 +69,7 @@ const AdminRemoveAccount = () => {
                 </Message>}
             </Card.Content>
         </Card>
+      </>
     )
 }
 export default AdminRemoveAccount

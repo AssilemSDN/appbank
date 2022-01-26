@@ -39,7 +39,7 @@ const UserListTransfers = () => {
             })
         }
         console.log(userBankTransfersWaiting)
-    }, [bankTransferIdToDelete, setUserBankTransfersWaiting, userId])
+    }, [bankTransferIdToDelete, setUserBankTransfersWaiting, userId, userBankTransfersWaiting])
 
     return (
         <Container>     

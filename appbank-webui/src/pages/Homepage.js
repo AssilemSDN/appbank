@@ -6,7 +6,6 @@ import {
   Icon, 
   Dimmer, 
   Loader, 
-  Grid
 } from 'semantic-ui-react'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -60,7 +59,7 @@ const HomePage = () => {
       setAdminAccountsState(data)
       setAllAccounts(data)
     })
-  }, [keycloak, setAdminAccountsState])
+  }, [keycloak, setAdminAccountsState, setAllAccounts])
 
   const getAccountsFromEmail = useCallback(() => {
     const { authenticated = false } = keycloak
@@ -97,7 +96,7 @@ const HomePage = () => {
 
   return (
     <>
-    <Container className='Page' style={{padding: "15px", 'min-height': '65vh'}} >
+    <Container className='Page' style={{padding: "15px", 'minHeight': '65vh'}} >
       <Synchronizer />
       <TopMenu />
       {!keycloak.authenticated &&
