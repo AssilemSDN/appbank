@@ -9,16 +9,32 @@ Il s'agit d'un projet universitaire en binôme dont le but est de fournir une AP
 
 `appbank` est constituée d'un **Spring-Boot** Rest API `appbank-api `, et d'un frontend en **ReactJS**  `appbank-webui` sécurisé avec **keycloak**. La base de donnée utilisée pour l'API backend et celle de keycloak est **MySql**. La gestion de la base de donnée de l'API peut être faite depuis **adminer**.
 
-(PS : La version avec l'intégration de [Mobioos](https://forge.mobioos.ai/) ne sera pas disponible sur le git) <br>
+(PS : La version avec l'intégration de [Mobioos](https://forge.mobioos.ai/) ne sera pas disponible sur ce dépôt) <br>
 (PPS : La sécurisation de l'API est en cours de construction puisqu'elle n'est pas le sujet du projet...)
 
 ## Présentation du projet 
 
 ![schem ](documentation/schema.png)
 
-Le projet est un site web bancaire contenant des fonctionnalités utilisateurs et administrateurs. 
+Le projet est un site web bancaire contenant des fonctionnalités clients et administrateurs.
 
+**Utilisateur**
 
+![sfdsf](documentation/schema_1.png)
+
+Chaque utilisateur a accès au système d'authentification. Une fois connecté, chaque utilisateur peut convertir des devises. 
+
+**Client**
+
+![fđ](documentation/schema_2.png)
+
+Une fois authentifié, l'utilisateur est soit un client soit un administration. Le client peut déposer de l'argent sur ses comptes, et en retirer si sa situation financière le permet (i.e. que son solde soit assez élevé ou qu'il ait le droit d'être à découvert). Il peut également effectuer des virements, là aussi si sa situation financière le permet. Une fois le virement effectué, il est mis en attente de validation. Le client peut annuler des virements en attente de validation.
+
+**Administrateur**
+
+![fdđ](documentation/schema_3.png)
+
+L'administrateur peut ouvrir ou supprimer des comptes bancaires. Il peut également autoriser ou non le découvert sur n'importe lequel des comptes. L'administrateur a accès aux virements en attente de validation. Il peut ou non valider les virements. En cas de validation, le montant est versé du compte émetteur du virement vers le compte récepteur. 
 
 
 ## Prérequis
