@@ -9,8 +9,7 @@ Il s'agit d'un projet universitaire en binôme dont le but est de fournir une AP
 
 `appbank` est constituée d'un **Spring-Boot** Rest API `appbank-api `, et d'un frontend en **ReactJS**  `appbank-webui` sécurisé avec **keycloak**. La base de donnée utilisée pour l'API backend et celle de keycloak est **MySql**. La gestion de la base de donnée de l'API peut être faite depuis **adminer**.
 
-(PS : La version avec l'intégration de [Mobioos](https://forge.mobioos.ai/) ne sera pas disponible sur ce dépôt) <br>
-(PPS : La sécurisation de l'API est en cours de construction puisqu'elle n'est pas le sujet du projet...)
+(PS : La sécurisation de l'API est en cours de construction puisqu'elle n'est pas le sujet du projet...)
 
 ## Présentation du projet 
 
